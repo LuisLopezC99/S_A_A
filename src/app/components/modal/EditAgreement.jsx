@@ -4,13 +4,12 @@ import Swal from 'sweetalert2';
 import { FormEvent } from 'react'
 import { putData, getRequest } from '@/app/requests/getRequests';
 
-function EditAgreement({ isModalOpen, handleModalState, agreementData }) {
-
+function EditAgreement({ isModalOpen, handleModalState, agreementData, session_role = "" }) {
   const [oficio, setOficio] = useState("");
   const [id, setId] = useState(agreementData.id)
   const [topic, setTopic] = useState(agreementData.topic)
   const [description, setDescription] = useState(agreementData.description)
-  const [assignedTo, setAssignedTo] = useState(agreementData.assignedTo)
+  const [assignedTo, setAssignedTo] = useState(agreementData.users.name)
   const [assignedToName, setAssignedToName] = useState("")
   const [deadline, setDeadline] = useState(agreementData.deadlineInputCast)
   const [sessionId, setSessionId] = useState(agreementData.sessionId)
@@ -18,6 +17,8 @@ function EditAgreement({ isModalOpen, handleModalState, agreementData }) {
   const [agreementIdConsecutive, setAgreementIdConsecutive] = useState(agreementData.agreementIdConsecutive)
   const [state, setState] = useState(agreementData.state)
   const [users, setUsers] = useState([]);
+  const [actualUser, _] = useState(agreementData.users.name);
+
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -62,21 +63,18 @@ function EditAgreement({ isModalOpen, handleModalState, agreementData }) {
     const simpleDate = formData.get("deadline")
     const date = simpleDate + "T00:00:00.000Z"
     const deadline = new Date(date);
-
     const agreementData = { id, topic, asignedTo, deadline, sessionId: sessionId, description, agreementIdConsecutive, state };
 
     const minimumDate = new Date();
-    minimumDate.setDate(minimumDate.getDate() + 3);
-
-    if (deadline < minimumDate) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Error...',
-        text: 'La fecha de vencimiento debe ser al menos 3 días después de hoy.'
-      })
-      return;
-    }
-
+    // minimumDate.setDate(minimumDate.getDate() + 3);
+    
+    // if (deadline < minimumDate) {
+    //   Swal.fire({
+    //     icon: 'warning',
+    //     title: 'Error...',
+    //     text: 'La fecha de vencimiento se encuentra a 3 dias de hoy.'
+    //   })
+    // }
     const put = putData("agreement", agreementData)
     put.then((response) => {
       response ?
@@ -124,7 +122,7 @@ function EditAgreement({ isModalOpen, handleModalState, agreementData }) {
                     name="agreementId"
                     type="text"
                     value={oficio}
-                    readOnly
+                    readOnly = {true}
                     required
                   />
                 </div>
@@ -141,6 +139,7 @@ function EditAgreement({ isModalOpen, handleModalState, agreementData }) {
                     value={topic}
                     onChange={handleInputChange}
                     required
+                    readOnly = {session_role !== "secreraria"}
                   />
                 </div>
 
@@ -154,8 +153,10 @@ function EditAgreement({ isModalOpen, handleModalState, agreementData }) {
                   <textarea
                     className="custom-input h-32"
                     id="description"
-                    name="description">
+                    name="description"
+                    readOnly = {session_role !== "secreraria"}>
                     {description}
+                    
                   </textarea>
                 </div>
 
@@ -171,12 +172,19 @@ function EditAgreement({ isModalOpen, handleModalState, agreementData }) {
                       value={assignedTo}
                       onChange={(event) => setAssignedTo(event.target.value)}
                       required
+                      disabled = {(session_role !== "secreraria" && session_role !== "alcaldia")}
                     >
-                      <option value={currentName()}>seleccionar...</option>
+                      <option value={actualUser}>Seleccionar</option>
                       {users.map((user) => (
-                        <option key={user.id} value={user.id}>{user.name}</option>
+                        user.name !== actualUser ?
+                        <option key={user.id} value={user.name}>{user.name}</option> 
+                        :
+                        null
                       ))}
                     </select>
+                    <div>
+                        Asignado a: {actualUser}
+                    </div>
                   </div>
                   <div>
                     <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-white" htmlFor="deadline">
@@ -191,6 +199,7 @@ function EditAgreement({ isModalOpen, handleModalState, agreementData }) {
                       value={deadline}
                       onChange={handleInputChange}
                       required
+                      readOnly = {session_role !== "secreraria"}
                     />
                   </div>
 
@@ -207,6 +216,7 @@ function EditAgreement({ isModalOpen, handleModalState, agreementData }) {
                   id="file"
                   name="file"
                   type="file"
+                  disabled = {session_role !== "secreraria"}
                 //required
                 />
               </div>

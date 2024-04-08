@@ -1,107 +1,161 @@
-import prisma from "../../../libs/client";
-import bcrypt from "bcrypt";
+import prisma from "../../../libs/client"
+import bcrypt from 'bcrypt';
+
 
 export const authenticateUser = async (email, password) => {
-  try {
-    const user = await prisma.tab_user.findUnique({
-      where: {
-        email,
-        password,
-      },
-      include: {
-        role: true,
-      },
-    });
-    return user;
-  } catch (e) {
-    console.log(e);
-  }
-};
+    try {
+        const user = await prisma.tab_user.findUnique({
+            where: {
+                email,
+            },
+            include: {
+                role: {
+                    select: {
+                        name: true,
+                        operations: {
+                            select: {
+                                operation: {
+                                    select: {
+                                        name: true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+
+            }
+        })
+
+        const matchPassword = await bcrypt.compare(password, user.password);
+        if (!matchPassword) {
+            throw new Error("Invalid credentials")
+        }
+
+        return user
+    }
+    catch (e) {
+        console.log(e)
+    }
+}
 
 export const getRoleById = async (Id) => {
-  try {
-    const role = await prisma.tab_role.findFirst({
-      where: {
-        id: Id,
-      },
-    });
-    return role;
-  } catch (error) {
-    console.log(error);
-  }
-};
+    try {
+        const role = await prisma.tab_role.findFirst({
+            where: {
+                id: Id
+            }
+        })
+        return role
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 export const getUsers = async () => {
-  try {
-    const users = await prisma.tab_user.findMany({
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        enabled: true,
-        role: {
-          select: {
-            name: true,
-          },
-        },
-      },
-    });
-    return users;
-  } catch (error) {
-    console.log(error);
-  }
-};
+    try {
+        const user = await prisma.tab_user.findMany({
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                enabled: true,
+                role: {
+                    select: {
+                        name: true,
+                        operations: {
+                            select: {
+                                operation: {
+                                    select: {
+                                        name: true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        })
+        console.log(user)
+        return user
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 export const createUser = async (userData) => {
-  console.log(userData);
-  const hashedPassword = await bcrypt.hash(userData.password, 10);
-  console.log(hashedPassword);
-  try {
-    const user = await prisma.tab_user.create({
-      data: {
-        name: userData.name,
-        email: userData.email,
-        password: hashedPassword,
-        role: {
-          connect: {
-            id: parseInt(userData.role),
-          },
-        },
-        enabled: userData.enabled,
-        FirstTime: userData.FirstTime,
-      },
-    });
-    console.log(user);
-    return user;
-  } catch (error) {
-    console.log(error);
-  }
-};
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
+    userData.password
+    try {
+        const user = await prisma.tab_user.create({
+            data: {
+                name: userData.name,
+                email: userData.email,
+                password: hashedPassword,
+                role: {
+                    connect: {
+                        id: parseInt(userData.role)
+                    }
+                },
+                enabled: userData.enabled,
+                FirstTime: userData.FirstTime,
+            },
+            include: {
+                role: true
+            }
+        })
+        return user
+    } catch (error) {
+        console.log(error)
+    }
+}
 
-export const updateUser = async (userId, { password, ...otherData }) => {
-  try {
-    // Provide the current password to update it
-    const hashedPassword = password
-      ? await bcrypt.hash(password, 10)
-      : undefined;
+export const updateUser = async (user) => {
+    console.log(user)
+    if (user.password) {
+        const hashedPassword = await bcrypt.hash(user.password, 10);
+        try {
+            const updatedUser = await prisma.tab_user.update({
+                where: {
+                    id: user.id
+                },
+                data: {
+                    FirstTime: user.firstTime,
+                    password: hashedPassword,
+                    
+                }
+            })
+            console.log("Actualizando password")
+            return updatedUser
+        }
+        catch (error) {
+            console.error('Error al actualizar contrasena:', error);
+            throw new Error('Error al actualizar la contrasena');
+        }
 
-    // Build the new data object
-    const updatedData = {
-      ...(hashedPassword && { password: hashedPassword }),
-      ...otherData,
-    };
+    }
 
-    // Update the user with the new data
-    const updatedUser = await prisma.tab_user.update({
-      where: {
-        id: userId,
-      },
-      data: updatedData,
-    });
+    try {
+        const updatedUser = await prisma.tab_user.update({
+            where: {
+                id: user.id
+            },
+            data: {
+                name: user.name,
+                email: user.email,
+                role: {
+                    connect: {
+                        id: parseInt(/^admin$/i.test(user.role.name) ? 1 : 2)
+                    }
+                },
+                enabled: user.enabled,
+                FirstTime: user.FirstTime,
+            }
+        })
+        return updatedUser
 
-    return updatedUser;
-  } catch (error) {
-    console.error("Error al actualizar el usuario:", error);
-    throw new Error("Error al actualizar el usuario");
-  }
+    } catch (error) {
+        console.error('Error al actualizar contrasena:', error);
+        throw new Error('Error al actualizar la contrasena');
+    }
 };

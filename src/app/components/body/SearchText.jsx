@@ -7,8 +7,17 @@ export default function SearchText() {
     const router = useRouter();
     const searchParams = useSearchParams()
     const filter = searchParams.get("filter") || ""
+     const page = searchParams.get("page") || "";
+     const itemsPerPage = Number(searchParams.get("items")) || "";
     const handleOnChange = (event) => {
-        router.push(`?${new URLSearchParams({filter:filter, searchText : event.target.value})}`)
+        router.push(
+          `?${new URLSearchParams({
+            filter: filter,
+            searchText: event.target.value,
+            page: page,
+            items: itemsPerPage,
+          })}`
+        );
     }
     return (
         <div className="relative">

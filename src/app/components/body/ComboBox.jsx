@@ -1,6 +1,6 @@
 "use client"
 
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 
@@ -10,11 +10,13 @@ const ComboBox = ({ options, filterName }) => {
 
   const searchParams = useSearchParams()
   const text = searchParams.get("searchText") || ""
+  const page = searchParams.get("page") || "";
+  const itemsPerPage = Number(searchParams.get("items")) || "";
 
   const handleOnChange = (event) => {
     const value = event.target.value
     setSelected(value)
-    router.push(`?${new URLSearchParams({filter:value, searchText : text})}`)
+    router.push(`?${new URLSearchParams({filter:value, searchText : text,page: page,items: itemsPerPage})}`)
   }
 
   return (

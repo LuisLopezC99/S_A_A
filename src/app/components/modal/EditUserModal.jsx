@@ -1,60 +1,83 @@
-// correo, nombre, role, enabled
-import React, { useState} from 'react';
+
+import React, { use, useEffect, useState } from 'react';
 import Swal from 'sweetalert2'
+import { useRouter } from 'next/navigation'
 
 
-const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
+const EditUserModal = ({ isOpen, onClose, selectedUser, editUser }) => {
+    const router = useRouter();
     const [userData, setUserData] = useState({
+        id: '',
         email: '',
         name: '',
-        role: { 
-            name: ''
-        },
+        role: { name: '' },
         enabled: true,
-        password: '',
-        firstTime: true,
+        FirstTime: true,
     });
+
+    useEffect(() => {
+        if (selectedUser) {
+            setUserData({
+                id: selectedUser.id || '',
+                email: selectedUser.email || '',
+                name: selectedUser.name || '',
+                role: selectedUser.role ? { ...selectedUser.role } : { name: '' },
+                enabled: selectedUser.enabled || true,
+                FirstTime: selectedUser.FirstTime || true,
+            });
+        }
+        
+    }, [selectedUser]);
+
 
     // Handle input changes
     const handleInputChange = (e) => {
         // Get the tag name and value of the input that triggered the event
         const { name, value } = e.target;
-        // Update the state of the user data
-        setUserData((prevData) => ({
-            // Use spread syntax to copy the previous state and update the field that changed
-            ...prevData,
-            [name]: value,
-        }));
+        
+        // Check if the field being updated is 'role'
+        if (name === 'role') {
+            // Get the role name based on the value
+            const roleName = value == 1? 'admin' : 'editor';
+            
+            // Update the state of the user data by providing a new object for the 'role' field
+            setUserData({
+                ...userData,
+                role: {
+                    name: roleName,
+                },
+            });
+        } else {
+            // For other fields, update the state as usual
+            setUserData((prevData) => ({
+                ...prevData,
+                [name]: value,
+            }));
+        }
+
     };
 
-    const addUser = (newUser) => {
-        addNewUser(newUser);
-    }
-
+    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const randomPassword = Math.random().toString(36).slice(-8);
-        console.log(randomPassword);
 
         try {
-            const userDataWithPassword = { ...userData, password: randomPassword };
-            console.log("All data", userDataWithPassword);
-            // Send a POST request to the server
+            // Send a PUT request to the server
             const response = await fetch('/api/users', {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(userDataWithPassword),
+                body: JSON.stringify(userData),
+                
             });
+                       
 
             if (response.ok) {
                 const newUser = await response.json();
-                console.log("New User", newUser);
+                editUser(newUser);
                 // Call the function provided by the prop to add the user locally
-                addUser(newUser);
-                onClose();
-
+                
 
                 // Clear the fields
                 setUserData({
@@ -78,16 +101,10 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
                 });
                 Toast.fire({
                     icon: "success",
-                    title: "Added"
+                    title: "Datos actualizados"
                 });
-
-                const sentEmail = await fetch('/api/send', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({...userDataWithPassword, subject: 'Bienvenido a la Municipalidad de Tibás',}),
-                });
+                // Close the modal
+                onClose();
             } else {
                 const Toast = Swal.mixin({
                     toast: true,
@@ -106,7 +123,7 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
                 });
                 console.error('Error al agregar el nuevo usuario');
             }
-            console.log(response);
+            
         } catch (error) {
             console.error('Error de red:', error);
         }
@@ -120,10 +137,10 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
             <div className="relative bg-white rounded-lg shadow dark:bg-gray-700 w-96">
                 <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                        Agregar Usuario
+                        Editar Usuario
                     </h3>
                     <button
-                        type="submit"
+                        type="button"
                         onClick={onClose}
                         className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                     >
@@ -194,36 +211,14 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
                                 name="role"
                                 id="role"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                value={userData.role.name}
+                                value={userData.role.name === 'admin' ? 1 : 2} 
                                 onChange={handleInputChange}
                                 required
                             >
-                                <option value="">Seleccionar Role</option> {/* Opción predeterminada */}
-                                <option value="1">Admin</option> {/* Opción de administrador */}
-                                <option value="2">Secretaria</option> {/* Opción de editor */}
-                                <option value="3">Departamento</option> {/* Opción de administrador */}
-                                <option value="4">Alcaldia</option> {/* Opción de editor */}
+                                <option value="">Seleccionar Role</option>
+                                <option value="1">Admin</option> 
+                                <option value="2">Editor</option> 
                             </select>
-                        </div>
-                        <div>
-                            <label
-                                htmlFor="enabled"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >
-                                Habilitado:
-                            </label>
-                            <div className="flex items-center">
-                                <input
-                                    type="checkbox"
-                                    name="enabled"
-                                    id="enabled"
-                                    className="mr-2"
-                                    checked={true}
-                                    onChange={(e) => setUserData({ ...userData, enabled: e.target.checked })}
-                                    disabled
-                                    required
-                                />
-                            </div>
                         </div>
                         <div>
                             <label
@@ -238,9 +233,8 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
                                     name="FirstTime"
                                     id="FirstTime"
                                     className="mr-2"
-                                    checked={true}
+                                    checked={userData.FirstTime}
                                     onChange={(e) => setUserData({ ...userData, FirstTime: e.target.checked })}
-                                    disabled
                                     required
                                 />
 
@@ -263,7 +257,7 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
                                 clipRule="evenodd"
                             ></path>
                         </svg>
-                        Agregar Usuario
+                        Editar Usuario
                     </button>
                 </form>
             </div>
@@ -271,4 +265,4 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
     );
 };
 
-export default AddUserModal;
+export default EditUserModal;

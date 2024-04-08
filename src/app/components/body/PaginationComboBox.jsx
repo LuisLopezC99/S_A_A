@@ -1,28 +1,44 @@
-"use client"
-import React, { useState } from 'react';
-
-const PaginationComboBox = ({ totalItems, itemsPerPage, onPageChange }) => {
-  const [selectedItemsPerPage, setSelectedItemsPerPage] = useState(itemsPerPage || 10);
-
+"use client";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+const PaginationComboBox = ({ itemsPerPage }) => {
+  const [selectedItemsPerPage, setSelectedItemsPerPage] = useState(
+    itemsPerPage || 5
+  );
+  const searchParams = useSearchParams();
+  const text = "";
+  const filter = searchParams.get("filter") || "";
+  const page = searchParams.get("page") || "";
+  const router = useRouter();
   const handleItemsPerPageChange = (event) => {
-    const newItemsPerPage = parseInt(event.target.value);
+    const newItemsPerPage = event.target.value;
+    
     setSelectedItemsPerPage(newItemsPerPage);
-    onPageChange(1, newItemsPerPage);
+    router.push(
+      `?${new URLSearchParams({
+        filter: filter,
+        searchText: text,
+        page: page,
+        items: newItemsPerPage,
+      })}`
+    );
   };
-
-  const totalPages = Math.ceil(totalItems / selectedItemsPerPage);
-
   return (
-    <div className="dark:text-gray-400">
-       
-      <span >Items: </span>
-      <select className="dark:bg-gray-800 dark:text-white" value={selectedItemsPerPage} onChange={handleItemsPerPageChange}>
+    <div className=" text-gray-500 mx-4 dark:text-gray-400 ">
+      <span>Items: </span>
+      <select
+        className=" text-green-700 dark:bg-gray-800 dark:text-white  border  rounded"
+        value={selectedItemsPerPage}
+        onChange={handleItemsPerPageChange}
+      >
         <option value="5">5</option>
-        <option value="10">10</option>
+        <option className="hover:bg-green-300" value="10">
+          10
+        </option>
         <option value="20">20</option>
         <option value="50">50</option>
       </select>
-      
     </div>
   );
 };

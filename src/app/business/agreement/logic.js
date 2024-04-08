@@ -1,13 +1,9 @@
-import { GetAgreement } from "@/app/services/agreement/crud";
-
 export const completeAgreements = (agreements) => {
   agreements.forEach((agreement) => {
-    agreement.state == "Cumplido"
-      ? (agreement.state = "Cumplido")
-      : (agreement.state = agreementState(new Date(agreement.deadline)));
+    agreement.state == "Cumplido" ? agreement.state = "Cumplido" : agreement.state = agreementState(new Date(agreement.deadline));
     // si el estado pasa a vencido deberia de setearse en bd
   });
-};
+}
 
 export const agreementState = (deadline) => {
   const currentDate = new Date();
@@ -16,23 +12,23 @@ export const agreementState = (deadline) => {
   const MilisecsDiff = deadline.getTime() - currentDate.getTime();
   const daysDiff = Math.floor(MilisecsDiff / (1000 * 60 * 60 * 24));
   if (daysDiff <= 0) {
-    return "Vencido";
+    return 'Vencido';
   } else if (daysDiff > 0 && daysDiff <= 3) {
-    return "Por vencer";
+    return 'Por vencer';
   } else {
-    return "Pendiente";
+    return 'Pendiente';
   }
-};
+}
 
 export const agreementID = () => {
-  let year = new Date().getFullYear();
-  return year;
-};
+  let year = new Date().getFullYear()
+  return year
+}
 export const castDayGet = (day) => {
   // let day2: string = (String)Date
-  // return day2;
-  return "";
-};
+  // return day2; 
+  return ""
+}
 export const castDayPost = (day) => {
-  return new Date();
-};
+  return new Date()
+}

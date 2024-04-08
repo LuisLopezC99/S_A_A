@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { useState } from "react";
 import ForgotPassword from "../modal/ForgotPassword";
 
+
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
@@ -82,11 +83,11 @@ export const Login = () => {
                       <form onSubmit={handleLogin}>
                         <p className="mb-4">Ingresa los datos de su cuenta</p>
                         <div className="mb-4">
-                          <input type="email" id="email" name="email" className="px-3 py-2 border rounded-md w-full" placeholder="Correo Electrónico" value={email} onChange={(e) => setEmail(e.target.value)} />
+                          <input type="email" id="email" name="email" className="px-3 py-2 border rounded-md w-full dark:bg-white" placeholder="Correo Electrónico" value={email} onChange={(e) => setEmail(e.target.value)} />
                         </div>
 
                         <div className="mb-4">
-                          <input type="password" id="password" name="password" className="px-3 py-2 border rounded-md w-full" placeholder="Contraseña" />
+                          <input type="password" id="password" name="password" className="px-3 py-2 border rounded-md w-full dark:bg-white" placeholder="Contraseña" />
                         </div>
 
                         {/* Agrega el enlace para "se te olvidó tu contraseña" */}

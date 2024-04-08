@@ -1,13 +1,22 @@
-import UserTable from "../components/body/UsersTable";
-export default function Admin() {
-  return (
-    <div className="h-screen w-screen bg-gray-900">
-      <div className="container mx-auto p-4">
-        <h1 className="m text-3xl font-semibold mb-4 text-white m-10">
-          Tabla de Usuarios
-        </h1>
-        <UserTable />
-      </div>
-    </div>
-  );
-}
+import { NextRequest, NextResponse } from "next/server";
+import { countFilteredAgreements, filterAgreement } from "@/app/services/agreement/crud";
+import { completeAgreements } from "@/app/business/agreement/logic";
+
+export const GET = async (request, { params }) => {
+  try {
+    const { searchParams } = new URL(request.url);
+    const lengthAgrement = searchParams.get("count");
+    if(lengthAgrement){
+        const totalDocuments = await countFilteredAgreements(lengthAgrement);
+        return NextResponse.json(totalDocuments);
+    }
+    const agreements = await filterAgreement(params.filter);
+    completeAgreements(agreements);
+    return NextResponse.json(agreements);
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Hubo un error al procesar la solicitud" },
+      { status: 500 }
+    );
+  }
+};
