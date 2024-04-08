@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model tab_session{
+  id   Int                    @id @default(autoincrement())
+  date DateTime               @map("session_date") @db.Date
+  report String               @unique
+  type String                 @map("session_type") 
+  UrlVideo String             @unique @map("facebook_link") 
+  agreements tab_agreement[]
+}
+
+model tab_agreement {
+  id   Int                     @id @default(autoincrement())
+  topic String                 @map("agreement_topic")
+  description String
+  asignedTo Int                @map("asigned_to") 
+  creationDate DateTime        @db.Date
+  deadline DateTime            @db.Date
+  session                      tab_session @relation(fields: [sessionId], references: [id])
+  sessionId Int                @map("session_id") 
+  agreementId                  tab_agreement_id?  @relation(fields: [agreementIdConsecutive], references: [id])
+  agreementIdConsecutive Int   @unique 
+  state String?     
+  users tab_user              @relation(fields: [asignedTo], references: [id])             
+}
+
+model tab_agreement_id{
+  id Int                        @id @default(autoincrement())
+  consecutive Int
+  month Int
+  year Int
+  agreement tab_agreement?
+  @@unique([consecutive, year])
+}
+
+model tab_user{
+  id                           Int                   @id @default(autoincrement())
+  name                         String                @unique
+  email                        String                @unique
+  password                     String
+  role                         tab_role              @relation(fields: [roleid], references: [id])
+  roleid                       Int                   @map("role_id")
+  agreements                   tab_agreement[]  
+  enabled Boolean              @default(true)
+  FirstTime Boolean            @default(true)     
+  }
+
+model tab_role{
+  id Int                        @id @default(autoincrement())
+  name String
+  users tab_user[]
+  operations tab_role_operations[]
+}
+
+model tab_operations{
+  id Int                        @id @default(autoincrement())
+  name String
+  description String
+  role tab_role_operations[]
+}
+
+model tab_role_operations{
+  roleId Int                    @map("role_id")
+  role tab_role                 @relation(fields: [roleId], references: [id])
+  operationId Int               @map("operation_id")
+  operation tab_operations      @relation(fields: [operationId], references: [id])
+  @@id([roleId, operationId])
+}

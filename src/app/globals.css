@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.gradient-custom-2 {
+  /* fallback for old browsers */
+  background: #1E7547;
+  
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right,  #1E7547, #E5D22D);
+  
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right,  #1E7547, #E5D22D);
+  }
+  
+  @media (min-width: 768px) {
+  .gradient-form {
+  height: 100vh !important;
+  }
+  }
+  @media (min-width: 769px) {
+  .gradient-custom-2 {
+  border-top-right-radius: .3rem;
+  border-bottom-right-radius: .3rem;
+  }
+  }
+
+.mi-tabla {
+  border-collapse: collapse; 
+  width: 100%; 
+  border: 2px solid rgb(20, 19, 19); 
+}
+
+.mi-tabla th, .mi-tabla td {
+  border: 1px solid rgb(14, 12, 12); 
+  padding: 8px; 
+  text-align: left; 
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  border: 1px solid #9c9c9c;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.menu-desplegable {
+  display: none; 
+  position: absolute;
+
+}
+
+.menu-desplegado {
+  position: absolute;
+  width: 100%;
+  right: 0;
+  z-index: 100;
+  background-color: #ffffff;
+}
+
+.bg-custom-green {
+  background-color: #6DBC66;
+}
+
+.bg-custom-green:hover {
+  background-color: #4FAA14; /* Cambia el color de fondo al pasar el mouse si lo deseas */
+}
+
+.custom-input {
+  background-color: #daead9; /* Color de fondo */
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Sombra */
+  border: 1px solid #E2E8F0; /* Borde */
+  border-radius: 0.25rem; /* Esquinas redondeadas */
+  width: 100%; /* Ancho del campo de entrada */
+  padding: 0.5rem; /* Espaciado interno */
+  color: #4A5568; /* Color del texto */
+}
+
+.custom-input:focus {
+  outline: none; /* Quita el contorno al hacer clic en el campo */
+  box-shadow: 0 0 0 2px #6DBC66; /* Contorno al hacer clic en el campo */
+}
+.estado {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.estado-rojo {
+  background-color: red;
+}
+
+.estado-verde {
+  background-color: green;
+}
+.estado-amarillo{
+  background-color: yellow;
+}
+.estado-naranja{
+  background-color: coral;
+}
