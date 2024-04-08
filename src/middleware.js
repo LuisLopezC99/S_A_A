@@ -1,11 +1,11 @@
 import { withAuth } from "next-auth/middleware"
 import { NextResponse } from "next/server"
-//import { signOut } from "next-auth/react";
+
 
 export default withAuth(
     function middleware(request){
         if(request?.nextauth?.token?.exp < Date.now() / 1000){
-            //signOut({redirect: true})
+            return NextResponse.redirect("/login")
         }
         if(request.nextUrl.pathname.startsWith("/home")
         && request.nextauth?.token?.user?.role === "admin"){
