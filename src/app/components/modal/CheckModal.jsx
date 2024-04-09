@@ -1,23 +1,28 @@
 "use client"
 import React, { useState } from "react";
+import { useSession } from "next-auth/react";
 
-const CheckModal = ({ onCloseModal })  => {
+function CheckModal({ onCloseModal }) {
     const [isOpen, setIsOpen] = useState(true);
+    const { data:session, status } = useSession() ;
 
     const handleToggleModal = () => {
         setIsOpen(!isOpen);
         onCloseModal(); // Llama a la función de cierre del modal desde aquí
     };
 
+    console.log(status);
+
     return (
         <>
-            {isOpen && (
+            {isOpen && status === "authenticated" ? (
+
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
                     <div className="bg-white p-8 max-w-md rounded-lg shadow-lg relative dark:bg-gray-700">
 
                     <h2 className="text-lg font-semibold mb-4 dark:text-white">Firmar Acuerdo</h2>
                         <p className="dark:text-white">
-                            Yo, como "el usuario", doy fe del cumplimiento de nuestra parte
+                            Yo, {session.user.name}, doy fe del cumplimiento de nuestra parte
                             de los diferentes puntos abarcados en el acuerdo presente y por
                             ende lo tramitamos a alcaldía para seguir su debido proceso.
                         </p>
@@ -45,9 +50,12 @@ const CheckModal = ({ onCloseModal })  => {
 
                 </div>
 
-            )}
+            ):(<div className="flex flex-col justify-center items-center h-screen">
+            <div className="animate-spin rounded-full h-20 w-20 border-t-2 border-b-2 border-gray-900 mb-4"></div>
+            <p className="text-gray-700 text-lg">Cargando...</p>
+        </div>  )}
         </>
     );
 }
 
-export default CheckModal
+export default CheckModal;
