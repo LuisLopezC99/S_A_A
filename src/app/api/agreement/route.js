@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { readAgreement, createAgreement, updateAgreement, getLastAgreement } from "@/app/services/agreement/crud";
+import { readAgreement, createAgreement, updateAgreement, getLastAgreement, getTotalAgrements } from "@/app/services/agreement/crud";
 import { completeAgreements } from "@/app/business/agreement/logic";
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "../auth/[...nextauth]/route";
@@ -11,6 +11,11 @@ export const GET = async (request) => {
     try {
         const { searchParams } = new URL(request.url)
         const addAgrement = searchParams.get("add")
+        const lengthAgrement = searchParams.get("count");
+        if(lengthAgrement){
+            const totalAgrements = await getTotalAgrements();
+            return NextResponse.json(totalAgrements);
+        }
         const agreements = addAgrement ? await getLastAgreement() : await readAgreement()
         completeAgreements(agreements)
         return NextResponse.json(agreements)

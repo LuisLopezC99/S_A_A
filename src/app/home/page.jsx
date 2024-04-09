@@ -10,9 +10,9 @@ import CreatePassword from "../components/modal/CreatePassword";
 export default async function Home({ searchParams }) {
   const session = await getServerSession(authOptions);
   let url = ""
-  session.user.role !== "secretaria"?
-    url = `agreement/${session.user.name}` :
-    url = "session";
+  session.user.role !== "secretaria"
+    ? (url = `agreement/${session.user.name}`)
+    : (url = "agreement");
   let totalDocuments = Number(await getRequest(`${url}?count=1`));
   let currentPage = Number(searchParams?.page) || 1;
   let itemsPerPage = Number(searchParams?.items) || 5;
@@ -23,8 +23,7 @@ export default async function Home({ searchParams }) {
     <div className="App">
       <Suspense key={startIndex + endIndex} fallback={<Loading />}>
         {
-          session.user.role !== "secretaria" ?
-            (
+          
               <Table
                 columns={[
                   "Oficio",
@@ -42,23 +41,8 @@ export default async function Home({ searchParams }) {
                 endIndex={endIndex}
                 session_role={session.user.role}
               />
-            ) :
-            (
-              <Table
-                columns={[
-                  "Fecha De Sesion",
-                  "Tipo de sesión",
-                  "Link de Facebook",
-                  "Session",
-                ]}
-                title={`Sesiones`}
-                url={url}
-                isFilter={false}
-                startIndex={startIndex}
-                endIndex={endIndex}
-                
-              />
-            )
+             
+            
         }
 
       </Suspense>

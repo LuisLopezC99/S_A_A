@@ -134,3 +134,7 @@ export const getLastAgreement = async () => {
         take: 1,
     })
 }
+export const getTotalAgrements = async () =>{
+    const total = await prisma.tab_agreement.count();
+    return total;
+}
