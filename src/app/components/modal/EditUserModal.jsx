@@ -4,7 +4,7 @@ import Swal from 'sweetalert2'
 import { useRouter } from 'next/navigation'
 
 
-export default EditUserModal = ({ isOpen, onClose, selectedUser, editUser }) => {
+const  EditUserModal = ({ isOpen, onClose, selectedUser, editUser }) => {
     const router = useRouter();
     const [userData, setUserData] = useState({
         id: '',
@@ -265,4 +265,4 @@ export default EditUserModal = ({ isOpen, onClose, selectedUser, editUser }) => 
     );
 };
 
-
+export default EditUserModal

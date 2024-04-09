@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import Swal from 'sweetalert2'; 
 
-const MAX_INACTIVITY_TIME = +(process.env.NEXT_PUBLIC_TIME_OUT_MS || 600000); // Tiempo de inactividad predeterminado: 10 minutos
+const MAX_INACTIVITY_TIME = +(process.env.NEXT_PUBLIC_TIME_OUT_MS || 60000); // Tiempo de inactividad predeterminado: 10 minutos
 const INACTIVITY_CHECK_INTERVAL = +(process.env.NEXT_PUBLIC_TIME_OUT_CHECK_MS || 10000); // Intervalo de verificación predeterminado: 10 segundos
 
 const AutoLogoutProvider = ({ timeoutMs = MAX_INACTIVITY_TIME, timeoutCheckMs = INACTIVITY_CHECK_INTERVAL, debug = false, requireSession = false, children }) => {

@@ -6,7 +6,7 @@ import Image from "next/image"
 import defaultProfilePic from "../../../../public/defaultProfilePic.png"
 import { ProfileInformationButton } from "../buttons/ProfileInformationButton"
 
-export default  ProfileModal = ({ isModalOpen, handleModalState, userData })  => {
+const ProfileModal = ({ isModalOpen, handleModalState, userData })  => {
     const router = useRouter();
     const ref = useRef(null);
 
@@ -62,3 +62,4 @@ export default  ProfileModal = ({ isModalOpen, handleModalState, userData })  =>
     );
 
 }
+export default  ProfileModal

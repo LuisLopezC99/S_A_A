@@ -5,8 +5,8 @@ import { useState, useEffect, useRef } from 'react';
 import Image from "next/image"
 import defaultProfilePic from "../../../../public/defaultProfilePic.png"
 
-export default ProfileInformationModal = ({ isModalOpen, handleModalState, userData }) => {
-    const router = useRouter();
+const ProfileInformationModal = ({ isModalOpen, handleModalState, userData }) => {
+    
     const [showChangePassword, setShowChangePassword] = useState(false);
 
     const closeModal = () => {
@@ -80,3 +80,5 @@ export default ProfileInformationModal = ({ isModalOpen, handleModalState, userD
     );
 
 }
+
+export default ProfileInformationModal

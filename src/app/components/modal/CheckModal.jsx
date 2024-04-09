@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from "react";
 
-export default CheckModal = ({ onCloseModal })  => {
+const CheckModal = ({ onCloseModal })  => {
     const [isOpen, setIsOpen] = useState(true);
 
     const handleToggleModal = () => {
@@ -50,4 +50,4 @@ export default CheckModal = ({ onCloseModal })  => {
     );
 }
 
-
+export default CheckModal

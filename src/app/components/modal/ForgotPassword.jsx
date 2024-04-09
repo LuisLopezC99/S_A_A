@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 
-export default ForgotPassword = ({ showForgotPasswordModal, setShowForgotPasswordModal }) => {
+const ForgotPassword = ({ showForgotPasswordModal, setShowForgotPasswordModal }) => {
   const [showVerificationModal, setShowVerificationModal] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -86,4 +86,4 @@ export default ForgotPassword = ({ showForgotPasswordModal, setShowForgotPasswor
   );
 };
 
-
+export default ForgotPassword

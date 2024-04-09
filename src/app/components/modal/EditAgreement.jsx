@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import { FormEvent } from 'react'
 import { putData, getRequest } from '@/app/requests/getRequests';
 
-export default  EditAgreement = ({ isModalOpen, handleModalState, agreementData, session_role = "" }) =>{
+const EditAgreement = ({ isModalOpen, handleModalState, agreementData, session_role = "" }) =>{
   const [oficio, setOficio] = useState("");
   const [id, setId] = useState(agreementData.id)
   const [topic, setTopic] = useState(agreementData.topic)
@@ -244,4 +244,4 @@ export default  EditAgreement = ({ isModalOpen, handleModalState, agreementData,
   );
 }
 
-
+export default  EditAgreement

@@ -10,7 +10,7 @@ import {
 import { FormEvent } from "react";
 import Swal from "sweetalert2";
 
-export default FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
+const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
   const router = useRouter();
   const [oficio, setOficio] = useState("");
   const [lastOficio, setLastOficio] = useState(-1);
@@ -252,4 +252,4 @@ const handleSubmit = async (event) => {
   );
 }
 
-
+export default FormAgreement
