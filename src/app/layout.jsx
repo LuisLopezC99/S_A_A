@@ -16,7 +16,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="dark:bg-gray-800">
-      <script src="http://10.0.2.15:3000/hook.js"></script>
         <SessionAuthProvider>
           <AutoLogoutProvider>
             <Providers>
@@ -25,7 +24,6 @@ export default function RootLayout({ children }) {
             </Providers>
           </AutoLogoutProvider>
         </SessionAuthProvider>
-
       </body>
     </html>
   );
