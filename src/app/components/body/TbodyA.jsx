@@ -97,6 +97,7 @@ const TbodyA = ({ rows = [], role = "" }) => {
                 {state}
               </td>
               <td className="text-center">
+
                 <button className="py-2 px-4 " title="Abrir Acuerdo">
                   <img
                     src="/document.png"
@@ -104,7 +105,8 @@ const TbodyA = ({ rows = [], role = "" }) => {
                     className="w-3 h-3"
                   />
                 </button>
-                {role === "departamento" &&
+
+                {role !== "departamento" &&
                   (
                     <>
                       <button
@@ -117,6 +119,7 @@ const TbodyA = ({ rows = [], role = "" }) => {
                     </>
                   )
                 }
+
                 {role !== "departamento" &&
                   (
                     <>
