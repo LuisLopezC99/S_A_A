@@ -22,10 +22,11 @@ export default async function Table({
 }) {
   let rows = await loadData(url);
   rows = rows ? rows : [];
+  console.log(rows)
   const displayedRows = isFilter
     ? rows[0].agreements
     : rows.slice(startIndex, endIndex + 1);
-  
+  console.log(displayedRows)
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <div className="flex justify-center items-center m-10">
