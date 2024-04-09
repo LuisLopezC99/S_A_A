@@ -16,8 +16,6 @@ export default async function Home({ searchParams }) {
   let totalDocuments = Number(await getRequest(`${url}?count=1`));
   let currentPage = Number(searchParams?.page) || 1;
   let itemsPerPage = Number(searchParams?.items) || 5;
-
-  
   let startIndex = (currentPage - 1) * itemsPerPage;
   let endIndex = Math.min(startIndex + itemsPerPage - 1, totalDocuments - 1);
 

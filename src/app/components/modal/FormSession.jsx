@@ -5,7 +5,7 @@ import { FormEvent } from "react";
 import React, { useState } from "react";
 import { postData, postDataForm } from "@/app/requests/getRequests";
 
-function FormSession({ isModalOpen, handleModalState }) {
+export default FormSession = ({ isModalOpen, handleModalState }) => {
   const router = useRouter();
   const [file, setFile] = useState(null);
   const closeModal = () => {
@@ -164,4 +164,4 @@ function FormSession({ isModalOpen, handleModalState }) {
     </div>
   );
 }
-export default FormSession;
+

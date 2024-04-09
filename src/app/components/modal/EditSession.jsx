@@ -6,7 +6,7 @@ import { FormEvent } from 'react'
 import { putData } from '@/app/requests/getRequests';
 
 
-function EditSession({ isModalOpen, handleModalState, sessionData }) {
+export default EditSession = ({ isModalOpen, handleModalState, sessionData }) =>{
   const router = useRouter();
 
   const [id, setId] = useState(sessionData.id)
@@ -171,4 +171,3 @@ function EditSession({ isModalOpen, handleModalState, sessionData }) {
     </div>
   );
 }
-export default EditSession;

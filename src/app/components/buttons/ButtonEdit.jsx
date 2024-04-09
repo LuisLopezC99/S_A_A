@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from "react";
 import EditSession from "../modal/EditSession";
 import EditAgreement from "../modal/EditAgreement";

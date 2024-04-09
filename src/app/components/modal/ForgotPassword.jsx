@@ -1,7 +1,8 @@
+"use client"
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 
-const ForgotPassword = ({ showForgotPasswordModal, setShowForgotPasswordModal }) => {
+export default ForgotPassword = ({ showForgotPasswordModal, setShowForgotPasswordModal }) => {
   const [showVerificationModal, setShowVerificationModal] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -85,4 +86,4 @@ const ForgotPassword = ({ showForgotPasswordModal, setShowForgotPasswordModal })
   );
 };
 
-export default ForgotPassword;
+

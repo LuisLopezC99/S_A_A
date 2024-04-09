@@ -1,10 +1,10 @@
-
+"use client"
 import React, { use, useEffect, useState } from 'react';
 import Swal from 'sweetalert2'
 import { useRouter } from 'next/navigation'
 
 
-const EditUserModal = ({ isOpen, onClose, selectedUser, editUser }) => {
+export default EditUserModal = ({ isOpen, onClose, selectedUser, editUser }) => {
     const router = useRouter();
     const [userData, setUserData] = useState({
         id: '',
@@ -265,4 +265,4 @@ const EditUserModal = ({ isOpen, onClose, selectedUser, editUser }) => {
     );
 };
 
-export default EditUserModal;
+

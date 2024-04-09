@@ -3,7 +3,7 @@ import React, { use, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 
-const PasswordModal = ({ user }) => {
+export default PasswordModal = ({ user }) => {
     const router = useRouter();
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -142,4 +142,4 @@ const PasswordModal = ({ user }) => {
     );
 };
 
-export default PasswordModal;
+
