@@ -139,7 +139,7 @@ function EditAgreement({ isModalOpen, handleModalState, agreementData, session_r
                     value={topic}
                     onChange={handleInputChange}
                     required
-                    readOnly = {session_role !== "secreraria"}
+                    readOnly = {session_role !== "secretaria"}
                   />
                 </div>
 
@@ -154,7 +154,7 @@ function EditAgreement({ isModalOpen, handleModalState, agreementData, session_r
                     className="custom-input h-32"
                     id="description"
                     name="description"
-                    readOnly = {session_role !== "secreraria"}>
+                    readOnly = {session_role !== "secretaria"}>
                     {description}
                     
                   </textarea>
@@ -172,7 +172,7 @@ function EditAgreement({ isModalOpen, handleModalState, agreementData, session_r
                       value={assignedTo}
                       onChange={(event) => setAssignedTo(event.target.value)}
                       required
-                      disabled = {(session_role !== "secreraria" && session_role !== "alcaldia")}
+                      disabled = {(session_role !== "secretaria" && session_role !== "alcaldia")}
                     >
                       <option value={actualUser}>Seleccionar</option>
                       {users.map((user) => (
@@ -199,7 +199,7 @@ function EditAgreement({ isModalOpen, handleModalState, agreementData, session_r
                       value={deadline}
                       onChange={handleInputChange}
                       required
-                      readOnly = {session_role !== "secreraria"}
+                      readOnly = {session_role !== "secretaria"}
                     />
                   </div>
 
@@ -216,7 +216,7 @@ function EditAgreement({ isModalOpen, handleModalState, agreementData, session_r
                   id="file"
                   name="file"
                   type="file"
-                  disabled = {session_role !== "secreraria"}
+                  disabled = {session_role !== "secretaria"}
                 //required
                 />
               </div>

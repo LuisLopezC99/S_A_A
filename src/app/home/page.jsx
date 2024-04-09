@@ -10,7 +10,7 @@ import CreatePassword from "../components/modal/CreatePassword";
 export default async function Home({ searchParams }) {
   const session = await getServerSession(authOptions);
   let url = ""
-  session.user.role !== "secreraria"?
+  session.user.role !== "secretaria"?
     url = `agreement/${session.user.name}` :
     url = "session";
   let totalDocuments = Number(await getRequest(`${url}?count=1`));
@@ -25,7 +25,7 @@ export default async function Home({ searchParams }) {
     <div className="App">
       <Suspense key={startIndex + endIndex} fallback={<Loading />}>
         {
-          session.user.role !== "secreraria" ?
+          session.user.role !== "secretaria" ?
             (
               <Table
                 columns={[

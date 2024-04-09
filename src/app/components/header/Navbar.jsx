@@ -43,7 +43,7 @@ export const Navbar = async () => {
               (
                 session.user.role === "admin" ? (
                   <></>
-                ) : session.user.role === "secreraria" ? (
+                ) : session.user.role === "secretaria" ? (
                   <>
                     <li className="mt-4 md:mt-4">
                       <Link
