@@ -1,7 +1,8 @@
 "use client";
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
+import verifyPassword from "../tools/verifyPassword";
 
 const PasswordModal = ({ user }) => {
     const router = useRouter();
@@ -12,37 +13,14 @@ const PasswordModal = ({ user }) => {
 
 
     const handleSubmit = () => {
-        console.log(user);
-        if (password.length < 8) {
-            setError("La contraseña debe tener al menos 8 caracteres");
+        const verifyPass = verifyPassword(password, setError);
+        if (!verifyPass) {
             return;
         }
-
         if (password !== confirmPassword) {
             setError("Las contraseñas no coinciden");
             return;
         }
-
-        if (!/[A-Z]/.test(password)) {
-            setError("La contraseña debe contener al menos una letra mayúscula");
-            return;
-        }
-
-        if (!/[a-z]/.test(password)) {
-            setError("La contraseña debe contener al menos una letra minúscula");
-            return;
-        }
-
-        if (!/\d/.test(password)) {
-            setError("La contraseña debe contener al menos un número");
-            return;
-        }
-
-        if (!/[^a-zA-Z0-9]/.test(password)) {
-            setError("La contraseña debe contener al menos un carácter especial");
-            return;
-        }
-
         setCorrecto("✅ Formato Correcto...");
 
         

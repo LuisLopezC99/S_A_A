@@ -1,5 +1,7 @@
 import prisma from "../../../libs/client"
 import bcrypt from 'bcrypt';
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "../../api/auth/[...nextauth]/route";
 
 
 export const authenticateUser = async (email, password) => {
@@ -159,3 +161,40 @@ export const updateUser = async (user) => {
         throw new Error('Error al actualizar la contrasena');
     }
 };
+
+export const updatePassword = async (user) => {
+   
+    const session = await getServerSession(authOptions);
+   
+    const actualEncryptPass = await prisma.tab_user.findUnique({
+        where: {
+            id: session.user.id
+        },
+        select: {
+            password: true
+        }
+    })
+     
+    const matchPassword = await bcrypt.compare(user.currentPassword, actualEncryptPass.password);
+
+    if (!matchPassword) {
+        throw new Error("La contrasena actual no coincide con la digitada, Intente de nuevo...")
+    }
+
+    const hashedPassword = await bcrypt.hash(user.newPassword, 10);
+    
+    try {
+        const updatedUser = await prisma.tab_user.update({
+            where: {
+                id: session.user.id
+            },
+            data: {
+                password: hashedPassword
+            }
+        })
+        return updatedUser
+    }
+    catch (error) {
+        throw new Error('Error al actualizar la contrasena');
+    }
+}
