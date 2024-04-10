@@ -83,6 +83,7 @@ const AutoLogoutProvider = ({ timeoutMs = MAX_INACTIVITY_TIME, timeoutCheckMs = 
                     console.error('User has expired======', expiry, now);
                 }
                 signOut({ redirect: true })
+                setLastActivity(now);
 
                 return true;
             }
@@ -92,6 +93,7 @@ const AutoLogoutProvider = ({ timeoutMs = MAX_INACTIVITY_TIME, timeoutCheckMs = 
             if (debug)
                 console.log('User inactive======', lastActivity, now);
             signOut({ redirect: true })
+            setLastActivity(now);
             return true;
         }
 
