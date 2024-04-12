@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import FormSession from "../modal/FormSession";
-import FormAgreement from "../modal/FormAgreement";
+import FormSession from "../pop-up/FormSession";
+import FormAgreement from "../pop-up/FormAgreement";
 
 export const AddButton = ({ title, children, idSession = "" }) => {
   const [openModal, setOpenModal] = useState(false);

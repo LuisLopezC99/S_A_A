@@ -2,11 +2,9 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { ButtonEdit } from "../buttons/ButtonEdit";
+import { ButtonEdit } from "../../buttons/ButtonEdit";
 import Image from "next/image";
-import edit from "../../../../public/edit.png";
 
-import document from "../../../../public/document.png";
 
 const TbodyS = ({ rows = [], columns }) => {
   const router = useRouter();
@@ -31,20 +29,9 @@ const TbodyS = ({ rows = [], columns }) => {
     const inputDate = dateCast.toLocaleDateString("en-CA", { timeZone: "UTC" });
     return inputDate;
   };
-
   return (
     <tbody>
       {rows
-        .filter(
-          (row) =>
-            (filter === "" || row.type === filter) &&
-            (text === "" ||
-              row.type.toLowerCase().includes(text.toLowerCase()) ||
-              row.UrlVideo.toLowerCase().includes(text.toLowerCase()) ||
-              castDateToCrDate(row.date)
-                .toLowerCase()
-                .includes(text.toLowerCase()))
-        )
         .map((row, index) => {
           const { id, date, type, UrlVideo, report } = row;
 

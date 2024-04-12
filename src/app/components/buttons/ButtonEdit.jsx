@@ -1,7 +1,7 @@
-"use client"
+"use client";
 import React, { useState } from "react";
-import EditSession from "../modal/EditSession";
-import EditAgreement from "../modal/EditAgreement";
+import EditSession from "../pop-up/EditSession";
+import EditAgreement from "../pop-up/EditAgreement";
 
 export const ButtonEdit = ({ title, children, data, session_role = "" }) => {
   const [openModal, setOpenModal] = useState(false);
@@ -9,8 +9,6 @@ export const ButtonEdit = ({ title, children, data, session_role = "" }) => {
   const handleClick = () => {
     !openModal ? setOpenModal(true) : setOpenModal(false);
   };
-
-  
 
   return (
     <>

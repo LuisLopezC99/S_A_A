@@ -2,9 +2,11 @@ import Thead from "./Thead";
 import TbodyS from "./TbodyS";
 import TbodyA from "./TbodyA";
 import { getRequest } from "@/app/requests/getRequests";
-import ComboBox from "./ComboBox";
-import SearchText from "./SearchText";
-import { AddButton } from "../buttons/AddButton";
+import ComboBox from "../filters/ComboBox";
+import SearchText from "../filters/SearchText";
+import { AddButton } from "../../buttons/AddButton";
+import { filterRowA, filterRowS } from "../../utils/filterRows";
+import Pagination from "../pagination/Pagination";
 
 const loadData = async (url) => {
   const data = await getRequest(url);
@@ -16,17 +18,34 @@ export default async function Table({
   url,
   isFilter = false,
   idsession = "",
-  startIndex = 1,
-  endIndex = 1,
   session_role = "",
+  filterBox = "",
+  querySearh = "",
+  currentPage = 1,
+  itemsPerPage = 5,
 }) {
   let rows = await loadData(url);
   rows = rows ? rows : [];
-  console.log(rows)
-  const displayedRows = isFilter
-    ? rows[0].agreements
-    : rows.slice(startIndex, endIndex + 1);
-  console.log(displayedRows)
+
+  const filterRows =
+    url === "session"
+      ? filterRowS(rows, filterBox, querySearh)
+      : isFilter
+      ? filterRowA(rows[0].agreements, filterBox, querySearh)
+      : filterRowA(rows, filterBox, querySearh);
+  console.log(filterRows);
+  const totalDocuments =
+    querySearh != ""
+      ? 1
+      : filterRows.length === undefined || filterRows.length == 0
+      ? 1
+      : filterRows.length;
+
+  let startIndex = (currentPage - 1) * itemsPerPage;
+  let endIndex = Math.min(startIndex + itemsPerPage - 1, totalDocuments - 1);
+
+  const displayedRows = filterRows.slice(startIndex, endIndex + 1);
+
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <div className="flex justify-center items-center m-10">
@@ -43,6 +62,7 @@ export default async function Table({
                 { value: "Ordinaria", label: "Ordinarios" },
               ]}
               filterName={" Tipo Sesion"}
+              currentSelect={filterBox}
             />
           ) : (
             <ComboBox
@@ -54,6 +74,7 @@ export default async function Table({
                 { value: "Cumplido", label: "Cumplidos" },
               ]}
               filterName={" Estado"}
+              currentSelect={filterBox}
             />
           )}
         </div>
@@ -81,11 +102,20 @@ export default async function Table({
           {url === "session" ? (
             <TbodyS rows={displayedRows} columns={columns} />
           ) : isFilter ? (
-            <TbodyA rows={displayedRows} role= {session_role} />
+            <TbodyA rows={displayedRows} role={session_role} />
           ) : (
-            <TbodyA rows={displayedRows} role= {session_role}/>
+            <TbodyA rows={displayedRows} role={session_role} />
           )}
         </table>
+      </div>
+      <div className="flex justify-center mt-1 ">
+        {typeof totalDocuments === "number" && !isNaN(totalDocuments) && (
+          <Pagination
+            totalDocuments={totalDocuments}
+            cupage={currentPage}
+            items={itemsPerPage}
+          />
+        )}
       </div>
     </div>
   );

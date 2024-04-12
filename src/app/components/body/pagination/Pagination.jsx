@@ -5,10 +5,10 @@ import PaginationComboBox from "./PaginationComboBox";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 
-export default function Pagination({ totalDocuments }) {
-  const [currentPage, setCurrentPage] = useState(1);
+export default function Pagination({ totalDocuments,cupage,items }) {
+  const [currentPage, setCurrentPage] = useState(cupage || 1);
   const searchParams = useSearchParams();
-  const itemsPerPage = Number(searchParams.get("items")) || 5;
+  const itemsPerPage = items;
   const totalPages = Math.ceil(totalDocuments / itemsPerPage);
   const text = "";
   const filter = searchParams.get("filter") || "";
@@ -26,7 +26,7 @@ export default function Pagination({ totalDocuments }) {
 
   const handlePageClick = (pageNumber) => {
     setCurrentPage(pageNumber);
-    
+
     router.push(
       `?${new URLSearchParams({
         filter: filter,
@@ -101,7 +101,7 @@ export default function Pagination({ totalDocuments }) {
             </a>
           </nav>
         </div>
-        <PaginationComboBox />
+        <PaginationComboBox itemsPerPage={items}/>
       </div>
     </div>
   );

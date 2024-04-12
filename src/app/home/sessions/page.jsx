@@ -1,19 +1,19 @@
-import Table from "../../components/body/Table";
-import Pagination from "../../components/body/Pagination";
-import { getRequest } from "@/app/requests/getRequests";
+import Table from "../../components/body/table/Table";
 import { Suspense } from "react";
-import Loading from "../../components/tools/Loading";
+import Loading from "../../components/utils/Loading";
 export default async function Home({ searchParams }) {
   let url = "session";
-  let totalDocuments = Number(await getRequest(`${url}?count=1`));
-  console.log(totalDocuments)
+  
   let currentPage = Number(searchParams?.page) || 1;
-  let itemsPerPage= Number(searchParams?.items) || 5;
-  let startIndex = (currentPage - 1) * itemsPerPage;
-  let endIndex = Math.min(startIndex + itemsPerPage - 1, totalDocuments - 1);
+  let itemsPerPage = Number(searchParams?.items) || 5;
+  let filterBox = searchParams?.filter || "";
+  let query = searchParams?.searchText || "";
   return (
     <div className="">
-      <Suspense key={startIndex + endIndex} fallback={<Loading />}>
+      <Suspense
+        key={currentPage + itemsPerPage + filterBox + query}
+        fallback={<Loading />}
+      >
         <Table
           columns={[
             "Fecha De Sesion",
@@ -24,15 +24,12 @@ export default async function Home({ searchParams }) {
           title={`Sesiones`}
           url={url}
           isFilter={false}
-          startIndex={startIndex}
-          endIndex={endIndex}
+          filterBox={filterBox}
+          querySearh={query}
+          currentPage={currentPage}
+          itemsPerPage={itemsPerPage}
         />
       </Suspense>
-      <div className="flex justify-center mt-1 ">
-        {typeof totalDocuments === "number" && !isNaN(totalDocuments) && (
-          <Pagination totalDocuments={totalDocuments} />
-        )}
-      </div>
     </div>
   );
 }

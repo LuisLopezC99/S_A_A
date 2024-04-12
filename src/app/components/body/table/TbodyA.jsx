@@ -2,8 +2,8 @@
 
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { ButtonEdit } from "../buttons/ButtonEdit";
-import CheckModal from "../modal/CheckModal";
+import { ButtonEdit } from "../../buttons/ButtonEdit";
+import CheckModal from "../../pop-up/CheckModal";
 const TbodyA = ({ rows = [], role = "" }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [row, setRows] = useState(rows);
@@ -36,24 +36,6 @@ const TbodyA = ({ rows = [], role = "" }) => {
   return (
     <tbody>
       {row
-        .filter(
-          (row) =>
-            (filter === "" || row.state === filter) &&
-            (text === "" ||
-              row.topic.toLowerCase().includes(text.toLowerCase()) ||
-              row.description.toLowerCase().includes(text.toLowerCase()) ||
-              row.state.toLowerCase().includes(text.toLowerCase()) ||
-              `DSC-ACD-${row.agreementId.consecutive}-${row.agreementId.month}-${row.agreementId.year}`
-                .toLowerCase()
-                .includes(text.toLowerCase()) ||
-              row.users.name.toLowerCase().includes(text.toLowerCase()) ||
-              castDateToCrDate(row.creationDate)
-                .toLowerCase()
-                .includes(text.toLowerCase()) ||
-              castDateToCrDate(row.deadline)
-                .toLowerCase()
-                .includes(text.toLowerCase()))
-        )
         .map((row, index) => {
           const {
             id,
@@ -97,7 +79,6 @@ const TbodyA = ({ rows = [], role = "" }) => {
                 {state}
               </td>
               <td className="text-center">
-
                 <button className="py-2 px-4 " title="Abrir Acuerdo">
                   <img
                     src="/document.png"
@@ -106,46 +87,41 @@ const TbodyA = ({ rows = [], role = "" }) => {
                   />
                 </button>
 
-                {role !== "departamento" &&
-                  (
-                    <>
-                      <button
-                        className=" py-5 px-4"
-                        title="Cumplir Acuerdo"
-                        onClick={handleOpenModal}
-                      >
-                        <img src="/check-box.png" alt="AcuerdoDoc" />
-                      </button>
-                    </>
-                  )
-                }
+                {role !== "departamento" && (
+                  <>
+                    <button
+                      className=" py-5 px-4"
+                      title="Cumplir Acuerdo"
+                      onClick={handleOpenModal}
+                    >
+                      <img src="/check-box.png" alt="AcuerdoDoc" />
+                    </button>
+                  </>
+                )}
 
-                {role !== "departamento" &&
-                  (
-                    <>
-                      <ButtonEdit
-                        title="agreement"
-                        data={{
-                          id,
-                          topic,
-                          asignedTo,
-                          creationDate,
-                          deadlineInputCast,
-                          sessionId,
-                          description,
-                          state,
-                          agreementId,
-                          agreementIdConsecutive,
-                          users,
-                        }}
-                        session_role={role}
-                      >
-                        <img src="/edit.png" alt="AcuerdoEdit" />
-                      </ButtonEdit>
-                    </>
-                  )
-                }
-
+                {role !== "departamento" && (
+                  <>
+                    <ButtonEdit
+                      title="agreement"
+                      data={{
+                        id,
+                        topic,
+                        asignedTo,
+                        creationDate,
+                        deadlineInputCast,
+                        sessionId,
+                        description,
+                        state,
+                        agreementId,
+                        agreementIdConsecutive,
+                        users,
+                      }}
+                      session_role={role}
+                    >
+                      <img src="/edit.png" alt="AcuerdoEdit" />
+                    </ButtonEdit>
+                  </>
+                )}
               </td>
               {modalVisible && <CheckModal onCloseModal={handleCloseModal} />}
             </tr>
