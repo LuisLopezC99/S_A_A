@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import verifyPassword from "../tools/verifyPassword";
+import Swal from "sweetalert2";
 
 const PasswordModal = ({ user }) => {
     const router = useRouter();
@@ -55,12 +56,20 @@ const PasswordModal = ({ user }) => {
             .then(() => {
                 
                 router.push("/");
-                alert('Se ha cambiado la contraseña correctamente y se ha enviado un correo de confirmación');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Contraseña Cambiada',
+                    text: 'Se ha cambiado la contraseña correctamente y se ha enviado un correo de confirmación',
+                });
             })
-            .catch((error) => console.log('Error:', error));
-
-            
-
+            .catch((error)  => {
+                console.log('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al cambiar la contraseña',
+                    text: 'Ha ocurrido un error al cambiar la contraseña',
+                });
+            });           
 
         console.log("Contraseña válida:", password);
 

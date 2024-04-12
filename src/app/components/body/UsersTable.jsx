@@ -3,7 +3,7 @@
 import React, { useState, useEffect, use } from 'react';
 import AddUserModal from '../modal/AddUserModal';
 import EditUserModal from '../modal/EditUserModal';
-
+import Swal from "sweetalert2";
 
 const UsersTable = () => {
   const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
@@ -49,27 +49,42 @@ const UsersTable = () => {
       )
     );
   };
+
   const handlePassword = (user) => () => {
-    const randomPassword = Math.random().toString(36).slice(-8);
-    fetch('/api/users', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({...user, password: randomPassword}),
-    })
-    .then((response) => (response.ok ? response.json() : Promise.reject(response)))
-    .then(() => fetch('/api/send', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({...user, password: randomPassword, messageType: 'reset',}),
-    }))
-    .then((response) => (response.ok ? response.json() : Promise.reject(response)))
-    .then(() => alert('Se ha enviado un correo con la nueva contraseña'))
-    .catch((error) => console.log('Error:', error));
-  }
+  const randomPassword = Math.random().toString(36).slice(-8);
+  fetch('/api/users', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({...user, password: randomPassword}),
+  })
+  .then((response) => (response.ok ? response.json() : Promise.reject(response)))
+  .then(() => fetch('/api/send', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({...user, password: randomPassword, messageType: 'reset',}),
+  }))
+  .then((response) => (response.ok ? response.json() : Promise.reject(response)))
+  .then(() => {
+    Swal.fire({
+      icon: 'success',
+      title: 'Correo Enviado',
+      text: 'Se ha enviado un correo con la nueva contraseña',
+    });
+  })
+  .catch((error) => {
+    console.log('Error:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error al enviar el correo',
+      text: 'Ha ocurrido un error al enviar el correo con la nueva contraseña',
+    });
+  });
+}
+  
   const handleEditUser = (user) => () => {
     setSelectedUser(user);
     editUserModalClosed();
