@@ -216,8 +216,10 @@ const  EditUserModal = ({ isOpen, onClose, selectedUser, editUser }) => {
                                 required
                             >
                                 <option value="">Seleccionar Role</option>
-                                <option value="1">Admin</option> 
-                                <option value="2">Editor</option> 
+                                <option value="1">Admin</option> {/* Opción de administrador */}
+                                <option value="2">Secretaria</option> {/* Opción de editor */}
+                                <option value="3">Departamento</option> {/* Opción de administrador */}
+                                <option value="4">Alcaldia</option> {/* Opción de editor */}
                             </select>
                         </div>
                         <div>
