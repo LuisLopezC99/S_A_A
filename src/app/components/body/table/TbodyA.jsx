@@ -87,7 +87,7 @@ const TbodyA = ({ rows = [], role = "" }) => {
                   />
                 </button>
 
-                {role !== "departamento" && (
+                {role !== "alcaldia" && (
                   <>
                     <button
                       className=" py-5 px-4"

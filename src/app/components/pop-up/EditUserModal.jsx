@@ -222,7 +222,7 @@ const  EditUserModal = ({ isOpen, onClose, selectedUser, editUser }) => {
                                 <option value="4">Alcaldia</option> {/* Opción de editor */}
                             </select>
                         </div>
-                        <div>
+                        {/* <div>
                             <label
                                 htmlFor="firstTime"
                                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -240,8 +240,8 @@ const  EditUserModal = ({ isOpen, onClose, selectedUser, editUser }) => {
                                     required
                                 />
 
-                            </div>
-                        </div>
+                            </div> innecesario, cuando un usuario olvida contrasenia inmediatamente se pasa a first time, no hay necesidad de que se cambia a first time a menos que sea por olvido de clave
+                        </div> */}
                     </div>
                     <button
                         type="submit"

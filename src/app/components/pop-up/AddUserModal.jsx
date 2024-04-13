@@ -205,6 +205,8 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
                                 <option value="4">Alcaldia</option> {/* Opción de editor */}
                             </select>
                         </div>
+                        {/* 
+                        
                         <div>
                             <label
                                 htmlFor="enabled"
@@ -224,7 +226,7 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
                                     required
                                 />
                             </div>
-                        </div>
+                        </div>  innceseario, al crearse se puede habilitar o deshabilitar en la misma tabla
                         <div>
                             <label
                                 htmlFor="firstTime"
@@ -241,11 +243,13 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
                                     checked={true}
                                     onChange={(e) => setUserData({ ...userData, FirstTime: e.target.checked })}
                                     disabled
-                                    required
+                                    required        innceseario, siempre que se cree debe ser nuevo ingreso
                                 />
 
                             </div>
-                        </div>
+                        </div> 
+                        
+                        */}
                     </div>
                     <button
                         type="submit"

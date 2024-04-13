@@ -71,8 +71,11 @@ const handleSubmit = async (event) => {
       icon: "success",
       title: "Acuerdo agregado",
       text: "La solicitud ha sido exitosa!.",
-    });
-    closeModal();
+    }).then(() => {
+      closeModal();
+      window.location.reload()
+    })
+    
   } catch (error) {
     Swal.fire({
       icon: "error",
