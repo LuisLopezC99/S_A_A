@@ -42,7 +42,7 @@ export default async function Table({
       : filterRows.length;
 
   let startIndex = (currentPage - 1) * itemsPerPage;
-  let endIndex = Math.min(startIndex + itemsPerPage - 1, totalDocuments - 1);
+  let endIndex = totalDocuments==1? 49 : Math.min(startIndex + itemsPerPage - 1, totalDocuments - 1);
 
   const displayedRows = filterRows.slice(startIndex, endIndex + 1);
 
@@ -81,7 +81,7 @@ export default async function Table({
 
         {/*     We may need to improve the way we do this SearchText validation  */}
         <div className="flex justify-center h-0">
-          <SearchText />
+          <SearchText currentText={querySearh} />
         </div>
         {isFilter || url === "session" ? (
           <div className="flex justify-end ">
