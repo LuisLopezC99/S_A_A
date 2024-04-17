@@ -55,8 +55,9 @@ export const PUT = async (request) => {
     if (isChangePass) {
       updatedUser = await updatePassword(user);
     }
-    else
+    else {
       updatedUser = await updateUser(user);
+    }
     return NextResponse.json(updatedUser, { status: 200 });
   } catch (error) {
     return NextResponse.json('Error al procesar la solicitud PUT', { status: 500 });

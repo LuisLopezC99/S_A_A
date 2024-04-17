@@ -113,7 +113,7 @@ export const createUser = async (userData) => {
 }
 
 export const updateUser = async (user) => {
-    console.log(user)
+    
     if (user.password) {
         const hashedPassword = await bcrypt.hash(user.password, 10);
         try {
@@ -122,12 +122,12 @@ export const updateUser = async (user) => {
                     id: user.id
                 },
                 data: {
-                    FirstTime: user.firstTime,
+                    FirstTime: user.firstTime === false ? false : true,
                     password: hashedPassword,
                     
                 }
             })
-            console.log("Actualizando password")
+           
             return updatedUser
         }
         catch (error) {
