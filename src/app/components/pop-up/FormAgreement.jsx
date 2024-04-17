@@ -41,11 +41,14 @@ const handleSubmit = async (event) => {
   const deadlineDate = formData.get("deadline");
   const sessionId = Number(sessionid);
   const creationDate = new Date();
+  const { name } = formData.get("file");
+
   const agreementData = {
     agreement: {
       topic,
       description,
       asignedTo,
+      report: name,
       deadline: new Date(deadlineDate),
       sessionId,
       creationDate,

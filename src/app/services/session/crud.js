@@ -29,6 +29,8 @@ export const readFilterSession = async (filter) => {
                     description: true,
                     asignedTo: true,
                     creationDate: true,
+                    report: true,
+                    reportCumplimiento: true,
                     deadline: true,
                     state: true,
                     agreementId: true,

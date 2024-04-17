@@ -26,14 +26,12 @@ export default async function Table({
 }) {
   let rows = await loadData(url);
   rows = rows ? rows : [];
-
   const filterRows =
     url === "session"
       ? filterRowS(rows, filterBox, querySearh)
       : isFilter
       ? filterRowA(rows[0].agreements, filterBox, querySearh)
       : filterRowA(rows, filterBox, querySearh);
-  console.log(filterRows);
   const totalDocuments =
     querySearh != ""
       ? 1

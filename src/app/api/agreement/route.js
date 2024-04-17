@@ -30,7 +30,7 @@ export const POST = async (request) => {
         const newInsert = await createAgreement(agreement, agreementID)
         return NextResponse.json(newInsert)
     } catch (error) {
-        return NextResponse.json({ error: "Hubo un error al procesar la solicitud" }, { status: 500 });
+        return NextResponse.json({ error: "Hubo un error al procesar la solicitud. Posible repeticion de archivo" }, { status: 500 });
     }
 }
 

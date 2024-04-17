@@ -3,13 +3,14 @@ import prisma from "@/libs/client.js"
 
 export const createAgreement = async (agreement, agrID) => {
     try {
-        console.log("Agreement", agrID)
         return await prisma.tab_agreement.create({
             data: {
                 topic: agreement.topic,
                 description: agreement.description,
                 creationDate: agreement.creationDate,
                 deadline: agreement.deadline,
+                report: agreement.report,
+                reportCumplimiento: agreement.reportCumplimiento,
                 session: {
                     connect: { id: agreement.sessionId }, // Conectar a la sesión existente por ID
                 },
@@ -44,7 +45,7 @@ export const readAgreement = async () => {
 }
 
 export const updateAgreement = async (agreement) => {
-    const { id, topic, description, asignedTo, deadline, sessionId, agreementIdConsecutive, state} = agreement
+    const { id, topic, description, asignedTo, report, reportCumplimiento, deadline, sessionId, agreementIdConsecutive, state} = agreement
     
     const user = await prisma.tab_user.findUnique({
         where: {
@@ -60,6 +61,8 @@ export const updateAgreement = async (agreement) => {
             topic,
             description,
             asignedTo: user.id,
+            report,
+            reportCumplimiento,
             deadline,
             sessionId,
             agreementIdConsecutive,
