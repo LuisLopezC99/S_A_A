@@ -4,6 +4,8 @@ import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { ButtonEdit } from "../../buttons/ButtonEdit";
 import CheckModal from "../../pop-up/CheckModal";
+import { DownloadButton } from "../../buttons/DownloadButton";
+
 const TbodyA = ({ rows = [], role = "" }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [row, setRows] = useState(rows);
@@ -45,6 +47,8 @@ const TbodyA = ({ rows = [], role = "" }) => {
             asignedTo,
             deadline,
             sessionId,
+            report,
+            reportCumplimiento,
             description,
             state,
             agreementId,
@@ -79,13 +83,20 @@ const TbodyA = ({ rows = [], role = "" }) => {
                 {state}
               </td>
               <td className="text-center">
-                <button className="py-2 px-4 " title="Abrir Acuerdo">
-                  <img
-                    src="/document.png"
-                    alt="AcuerdoDoc"
-                    className="w-3 h-3"
-                  />
-                </button>
+                
+                <DownloadButton
+                  filename={report}
+                  type="Acuerdos"
+                  title="Abrir Acuerdo"
+                >
+                </DownloadButton>
+
+                <DownloadButton
+                  filename={reportCumplimiento}
+                  type="Cumplidos"
+                  title="Abrir Cumplido"
+                >
+                </DownloadButton>
 
                 {role !== "alcaldia" && (
                   <>

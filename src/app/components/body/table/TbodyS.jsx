@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { ButtonEdit } from "../../buttons/ButtonEdit";
+import { DownloadButton } from "../../buttons/DownloadButton";
 import Image from "next/image";
 
 
@@ -51,16 +52,12 @@ const TbodyS = ({ rows = [], columns }) => {
               <td className=" py-2 px-4 text-center">{type}</td>
               <td className=" py-2 px-4 text-center">{UrlVideo}</td>
               <td className=" py-2 px-4 text-center">
-                <button
-                  className=" font-bold py-2 px-4 text-center "
-                  title="Abrir Acta"
+                <DownloadButton
+                  filename={report}
+                  type="Actas"
+                  title="Abrir Archivo Sesion"
                 >
-                  <img
-                    src="/document.png"
-                    alt="AcuerdoDoc"
-                    className="w-5 h-5"
-                  />
-                </button>
+                </DownloadButton>
                 <ButtonEdit
                   title="session"
                   data={{ id, inputDate, type, UrlVideo, report }}
