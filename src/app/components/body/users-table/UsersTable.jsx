@@ -32,7 +32,9 @@ const UsersTable = () => {
   };
   const handleUpdate = (updatedUser) => {
     const userId = updatedUser.id;
-    const role = updatedUser.roleid == 1 ? "admin" : "editor";
+    const role = updatedUser.roleid == 1 ? "admin" :
+    updatedUser.roleid == 2 ? "secretaria":
+    updatedUser.roleid == 3 ? "departamento": "alcaldia";
     // Update the user in the local state
     setUsers((prevUsers) =>
       prevUsers.map((user) =>

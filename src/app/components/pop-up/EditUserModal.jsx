@@ -38,7 +38,8 @@ const  EditUserModal = ({ isOpen, onClose, selectedUser, editUser }) => {
         // Check if the field being updated is 'role'
         if (name === 'role') {
             // Get the role name based on the value
-            const roleName = value == 1? 'admin' : 'editor';
+            const roleName = value == 1? 'admin' : value == 2? 'secretaria':
+            value == 3? 'departamento' : 'alcaldia';
             
             // Update the state of the user data by providing a new object for the 'role' field
             setUserData({
@@ -211,15 +212,16 @@ const  EditUserModal = ({ isOpen, onClose, selectedUser, editUser }) => {
                                 name="role"
                                 id="role"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                value={userData.role.name === 'admin' ? 1 : 2} 
+                                value={userData.role.name === 'admin' ? 1 : userData.role.name === 'secretaria'? 2 :
+                                userData.role.name === 'departamento'? 3 : 4} 
                                 onChange={handleInputChange}
                                 required
                             >
                                 <option value="">Seleccionar Role</option>
                                 <option value="1">Admin</option> {/* Opción de administrador */}
-                                <option value="2">Secretaria</option> {/* Opción de editor */}
+                                <option value="2">Secretaria</option> {/* Opción de secretaria */}
                                 <option value="3">Departamento</option> {/* Opción de administrador */}
-                                <option value="4">Alcaldia</option> {/* Opción de editor */}
+                                <option value="4">Alcaldia</option> {/* Opción de alcaldia */}
                             </select>
                         </div>
                         {/* <div>
