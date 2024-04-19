@@ -10,7 +10,7 @@ export default function SearchText({currentText}) {
     const [text, setText] = useState(currentText || "");
     const searchParams = useSearchParams()
     const filter = searchParams.get("filter") || ""
-    const page = searchParams.get("page") || "";
+    const page = 1;
     const itemsPerPage = Number(searchParams.get("items")) || "";
     const handleOnChange = useDebouncedCallback((event) => {
       setText(event.target.value);

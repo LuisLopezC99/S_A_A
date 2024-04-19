@@ -9,7 +9,7 @@ const PaginationComboBox = ({ itemsPerPage }) => {
   const searchParams = useSearchParams();
   const text = "";
   const filter = searchParams.get("filter") || "";
-  const page = searchParams.get("page") || "";
+  const page = 1;
   const router = useRouter();
   const handleItemsPerPageChange = (event) => {
     const newItemsPerPage = event.target.value;

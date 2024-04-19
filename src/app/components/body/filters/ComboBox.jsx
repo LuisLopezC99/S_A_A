@@ -10,7 +10,7 @@ const ComboBox = ({ options, filterName,currentSelect }) => {
 
   const searchParams = useSearchParams()
   const text = searchParams.get("searchText") || ""
-  const page = searchParams.get("page") || "";
+  const page = 1;
   const itemsPerPage = Number(searchParams.get("items")) || "";
   const currentSelect2 = Number(searchParams.get("filter")) || "";
 

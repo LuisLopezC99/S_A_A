@@ -37,6 +37,7 @@ export const POST = async (request) => {
 export const PUT = async (request) => {
     try {
         const newUpdate = await updateAgreement(await request.json())
+        console.log(newUpdate);
         return NextResponse.json(newUpdate)
     } catch (error) {
         return NextResponse.json({ error: "Hubo un error al procesar la solicitud" }, { status: 500 });

@@ -3,12 +3,14 @@
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { ButtonEdit } from "../../buttons/ButtonEdit";
-import CheckModal from "../../pop-up/CheckModal";
+
 import { DownloadButton } from "../../buttons/DownloadButton";
+import { CheckButton } from "../../buttons/CheckButton";
 
 const TbodyA = ({ rows = [], role = "" }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [row, setRows] = useState(rows);
+  const [oficio, setOficio] = useState("");
   const castDateToCrDate = (date) => {
     const dateCast = new Date(date);
     const crDate = dateCast.toLocaleDateString("en-GB", {
@@ -37,107 +39,115 @@ const TbodyA = ({ rows = [], role = "" }) => {
   const text = searchParams.get("searchText") || "";
   return (
     <tbody>
-      {row
-        .map((row, index) => {
-          const {
-            id,
-            topic,
-            users,
-            creationDate,
-            asignedTo,
-            deadline,
-            sessionId,
-            report,
-            reportCumplimiento,
-            description,
-            state,
-            agreementId,
-            agreementIdConsecutive,
-          } = row;
-          const creationDateCast = castDateToCrDate(new Date(creationDate));
-          const deadlineCast = castDateToCrDate(new Date(deadline));
-          const deadlineInputCast = castDateToInputDate(new Date(deadline));
+      {row.map((row, index) => {
+        const {
+          id,
+          topic,
+          users,
+          creationDate,
+          asignedTo,
+          deadline,
+          sessionId,
+          report,
+          reportCumplimiento,
+          description,
+          state,
+          agreementId,
+          agreementIdConsecutive,
+        } = row;
+        const creationDateCast = castDateToCrDate(new Date(creationDate));
+        const deadlineCast = castDateToCrDate(new Date(deadline));
+        const deadlineInputCast = castDateToInputDate(new Date(deadline));
 
-          return (
-            <tr
-              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-              key={`agree-${index}`}
-            >
-              <td scope="row" className="px-6 py-4 text-center">
-                {`DSC-ACD-${agreementId.consecutive}-${agreementId.month}-${agreementId.year}`}
-              </td>
-              <td className="px-6 py-4 text-center">{topic}</td>
-              <td className="px-6 py-4 text-center">{users.name}</td>
-              <td className="px-6 py-4 text-center">{creationDateCast}</td>
-              <td className="px-6 py-4 text-center">{deadlineCast}</td>
-              <td className="px-6 py-4 text-center">
-                {state === "Vencido" ? (
-                  <span className="estado estado-rojo"></span>
-                ) : state === "Cumplido" ? (
-                  <span className="estado estado-verde"></span>
-                ) : state === "Por vencer" ? (
-                  <span className="estado estado-naranja"></span>
-                ) : state === "Pendiente" ? (
-                  <span className="estado estado-amarillo"></span>
-                ) : null}
-                {state}
-              </td>
-              <td className="text-center">
+        return (
+          <tr
+            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            key={`agree-${index}`}
+          >
+            <td scope="row" className="px-6 py-4 text-center">
+              {`DSC-ACD-${agreementId.consecutive}-${agreementId.month}-${agreementId.year}`}
+            </td>
+            <td className="px-6 py-4 text-center">{topic}</td>
+            <td className="px-6 py-4 text-center">{users.name}</td>
+            <td className="px-6 py-4 text-center">{creationDateCast}</td>
+            <td className="px-6 py-4 text-center">{deadlineCast}</td>
+            <td className="px-6 py-4 text-center">
+              {state === "Vencido" ? (
+                <span className="estado estado-rojo"></span>
+              ) : state === "Cumplido" ? (
+                <span className="estado estado-verde"></span>
+              ) : state === "Por vencer" ? (
+                <span className="estado estado-naranja"></span>
+              ) : state === "Pendiente" ? (
+                <span className="estado estado-amarillo"></span>
+              ) : state === "Tramitado" ? (
+                <span className="estado estado-azul"></span>
+              ) : null}
+              {state}
+            </td>
+            <td className="text-center">
+              <DownloadButton
+                filename={report}
+                type="Acuerdos"
+                title="Abrir Acuerdo"
+              ></DownloadButton>
+
+              <DownloadButton
+                filename={reportCumplimiento}
+                type="Cumplidos"
+                title="Abrir Cumplido"
+              ></DownloadButton>
+              <>
                 
-                <DownloadButton
-                  filename={report}
-                  type="Acuerdos"
-                  title="Abrir Acuerdo"
-                >
-                </DownloadButton>
-
-                <DownloadButton
-                  filename={reportCumplimiento}
-                  type="Cumplidos"
-                  title="Abrir Cumplido"
-                >
-                </DownloadButton>
-
-                {role !== "alcaldia" && (
-                  <>
-                    <button
-                      className=" py-5 px-4"
-                      title="Cumplir Acuerdo"
-                      onClick={handleOpenModal}
-                    >
-                      <img src="/check-box.png" alt="AcuerdoDoc" />
-                    </button>
-                  </>
-                )}
-
-                {role !== "departamento" && (
-                  <>
-                    <ButtonEdit
-                      title="agreement"
-                      data={{
-                        id,
-                        topic,
-                        asignedTo,
-                        creationDate,
-                        deadlineInputCast,
-                        sessionId,
-                        description,
-                        state,
-                        agreementId,
-                        agreementIdConsecutive,
-                        users,
-                      }}
-                      session_role={role}
-                    >
-                      <img src="/edit.png" alt="AcuerdoEdit" />
-                    </ButtonEdit>
-                  </>
-                )}
-              </td>
-              {modalVisible && <CheckModal onCloseModal={handleCloseModal} />}
-            </tr>
-          );
-        })}
+                  <CheckButton
+                    agreementId={id}
+                    data={{
+                      id,
+                      topic,
+                      asignedTo,
+                      creationDate,
+                      deadlineInputCast,
+                      sessionId,
+                      report,
+                      reportCumplimiento,
+                      description,
+                      state,
+                      agreementId,
+                      agreementIdConsecutive,
+                      users,
+                    }}
+                    session_role={role}
+                  ></CheckButton>
+              </>
+              {role !== "departamento" && (
+                <>
+                  <ButtonEdit
+                    title="agreement"
+                    data={{
+                      id,
+                      topic,
+                      asignedTo,
+                      creationDate,
+                      deadlineInputCast,
+                      sessionId,
+                      report,
+                      reportCumplimiento,
+                      description,
+                      state,
+                      agreementId,
+                      agreementIdConsecutive,
+                      users,
+                    }}
+                    session_role={role}
+                  >
+                    <img src="/edit.png" alt="AcuerdoEdit" />
+                  </ButtonEdit>
+                </>
+              )}
+            </td>
+          </tr>
+        );
+      })}
     </tbody>
   );
 };

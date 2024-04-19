@@ -108,5 +108,8 @@ th {
   background-color: yellow;
 }
 .estado-naranja{
-  background-color: coral;
+  background-color: rgba(254, 80, 187, 0.901);
+}
+.estado-azul{
+  background-color: rgb(0, 179, 255);
 }

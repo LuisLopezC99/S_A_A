@@ -140,7 +140,6 @@ const FormSession = ({ isModalOpen, handleModalState }) => {
                   name="file"
                   type="file"
                   accept=".pdf,.docx"
-                  required
                 />
               </div>
               <div className="mb-6">

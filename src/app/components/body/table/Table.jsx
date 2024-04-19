@@ -25,7 +25,8 @@ export default async function Table({
   itemsPerPage = 5,
 }) {
   let rows = await loadData(url);
-  rows = rows ? rows : [];
+  rows = rows ? rows  : [];
+  rows = rows.reverse();
   const filterRows =
     url === "session"
       ? filterRowS(rows, filterBox, querySearh)
