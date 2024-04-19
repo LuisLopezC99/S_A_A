@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import {saveFile, getFile } from "../../services/file/crud.js";
+import {saveFile, getFile,updateFile } from "../../services/file/crud.js";
 import path from "path";
 import fs from 'fs';
 
@@ -35,7 +35,14 @@ export const POST = async (request) => {
 
 export const PUT = async (request) => {
   try {
-    return NextResponse.json("ok");
+    const data = await request.formData();
+    const file = data.get("file");
+    const type = data.get("type");
+    const currentNameFile = data.get("currentNameFile");
+    
+    const updateFiles = updateFile(file, type, currentNameFile);
+
+    return NextResponse.json(updateFiles);
   } catch (error) {
     return NextResponse.json(
       { error: "Hubo un error al procesar la solicitud" },

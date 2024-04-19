@@ -70,7 +70,7 @@ export const Navbar = async () => {
                 </Link>
               </li>
             )}
-            <li className="mt-1 md:mt-2 text-lg font-medium text-gray-800 dark:text-white dark:bg-gray-800 dark:hover:bg-gray-700 px-3 py-2 rounded-full hover:bg-gray-100 transition-colors duration-300">
+            <li className="mt-1 md:mt-2 text-lg font-medium text-gray-800 dark:text-white dark:bg-gray-800 dark:hover:bg-gray-700 px-3 py-3 rounded-full hover:bg-gray-100 transition-colors duration-300">
               <ThemeSwitch />
             </li>
             <li className="mt-1 md:mt-2">

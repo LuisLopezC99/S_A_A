@@ -85,7 +85,7 @@ const TbodyA = ({ rows = [], role = "" }) => {
               ) : null}
               {state}
             </td>
-            <td className="text-center">
+            <td className="text-center flex justify-center items-center">
               <DownloadButton
                 filename={report}
                 type="Acuerdos"

@@ -14,6 +14,33 @@ const ProfileInformationModal = ({
 }) => {
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [typeActual, setTypeActual] = useState("password");
+  const [typeNew, setTypeNew] = useState("password");
+  const [typeNewConf, setTypeNewConf] = useState("password");
+
+  const handleToggleActual = () => {
+    if (typeActual === "password") {
+      setTypeActual("text");
+    } else {
+      setTypeActual("password");
+    }
+  };
+
+  const handleToggleNew = () => {
+    if (typeNew === "password") {
+      setTypeNew("text");
+    } else {
+      setTypeNew("password");
+    }
+  };
+
+  const handleToggleNewConf = () => {
+    if (typeNewConf === "password") {
+      setTypeNewConf("text");
+    } else {
+      setTypeNewConf("password");
+    }
+  };
 
   const closeModal = () => {
     handleModalState();
@@ -164,13 +191,38 @@ const ProfileInformationModal = ({
                     >
                       Contraseña Actual
                     </label>
+                    <div className="flex relative items-center">
+
                     <input
-                      type="password"
+                      type={typeActual}
                       id="currentPassword"
                       name="currentPassword"
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      className="mt-1 block w-full border-gray-300 py-2 px-2 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       required
-                    />
+                      />
+                    <span
+                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                        onClick={handleToggleActual}
+                        >
+                        <div className="text-gray-500 focus:outline-none focus:text-gray-600 hover:text-gray-600">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth="1.5"
+                                  stroke="currentColor"
+                                  className="w-5 h-5"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+                                  />
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                              </div>
+                      </span>
+                        </div>
                   </div>
                   <div className="mb-4">
                     <h2 className="text-lg font-semibold mb-4 dark:text-white">
@@ -201,13 +253,37 @@ const ProfileInformationModal = ({
                     >
                       Nueva Contraseña
                     </label>
-                    <input
-                      type="password"
-                      id="newPassword"
-                      name="newPassword"
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      required
-                    />
+                    <div className="flex relative items-center">
+                      <input
+                        type={typeNew}
+                        id="newPassword"
+                        name="newPassword"
+                        className="mt-1 block w-full border-gray-300 py-2 px-2 rounded-none rounded-s-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        required
+                      />
+                      <span
+                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                        onClick={handleToggleNew}
+                      >
+                        <div className="text-gray-500 focus:outline-none focus:text-gray-600 hover:text-gray-600">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth="1.5"
+                                  stroke="currentColor"
+                                  className="w-5 h-5"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+                                  />
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                              </div>
+                      </span>
+                    </div>
                   </div>
                   <div className="mb-4">
                     <label
@@ -216,13 +292,38 @@ const ProfileInformationModal = ({
                     >
                       Confirmar Contraseña
                     </label>
-                    <input
-                      type="password"
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      required
-                    />
+                    <div className="flex relative items-center">
+
+                      <input
+                        type={typeNewConf}
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        className="mt-1 block w-full border-gray-300 py-2 px-2 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        required
+                        />
+                      <span
+                          class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                        onClick={handleToggleNewConf}
+                          >
+                          <div className="text-gray-500 focus:outline-none focus:text-gray-600 hover:text-gray-600">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth="1.5"
+                                  stroke="currentColor"
+                                  className="w-5 h-5"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+                                  />
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                              </div>
+                        </span>
+                        </div>
                   </div>
                   <button
                     type="submit"

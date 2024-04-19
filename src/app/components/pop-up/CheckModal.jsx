@@ -63,6 +63,7 @@ export const CheckModal = ({
     formData2.append("file", file);
     formData2.append("type", "Cumplidos");
     if (name !== "" && session_role !== "secretaria") {
+      //arreglar para aceptar put cuando se nesesita sirve pero no borra el actual acumulando archivos residuales mejorar
       await postDataForm("file", formData2);
     }
     const put = putData("agreement", agreementData);
@@ -117,7 +118,7 @@ export const CheckModal = ({
                       onChange={handleFileUpload}
                     />
                   </div>
-                  <div className="flex justify-between">
+                  <div className="flex justify-between my-4">
                     <button
                       className="bg-custom-green hover:bg-custom-green text-white font-bold py-2 px-4 rounded mr-4"
                       type="submit"
@@ -132,7 +133,8 @@ export const CheckModal = ({
                     </button>
                   </div>
                 </>
-              ) : session_role === "secretaria" ? (
+              ) : session_role === "secretaria" &&
+                currentState === "Tramitado" ? (
                 <>
                   <h2 className="text-lg font-semibold mb-4 dark:text-white">
                     Finalizar el cumplimiento del acuerdo
@@ -142,7 +144,36 @@ export const CheckModal = ({
                     cumplimiento por el departamento correspondinte. Al aceptar
                     se da por cumplido y finalizado el dicho acuerdo.
                   </p>
-                  <div className="flex justify-between">
+                  <div className="flex justify-between my-4">
+                    <button
+                      className="bg-custom-green hover:bg-custom-green text-white font-bold py-2 px-4 rounded mr-4"
+                      type="submit"
+                    >
+                      Confirmar Acuerdo
+                    </button>
+                    <button
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                      onClick={closeModal}
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                </>
+              ) : session_role === "secretaria" &&
+                currentState !== "Tramitado" ? (
+                <>
+                  <h2 className="text-lg font-semibold mb-4 dark:text-white">
+                    !Alerta esta por finalizar un acuerdo en proceso de
+                    cumplimiento!
+                  </h2>
+                  <h3 className="text-lg font-semibold mb-4 dark:text-white">
+                    Finalizar el cumplimiento del acuerdo
+                  </h3>
+                  <p className="dark:text-white">
+                    El acuerdo no a terminado su proceso de cumplimiento pero puede finalizar y pasarlo a cumplido.
+                    Si esta seguro de finalizar el acuerdo presione confirmar.
+                  </p>
+                  <div className="flex justify-between my-4">
                     <button
                       className="bg-custom-green hover:bg-custom-green text-white font-bold py-2 px-4 rounded mr-4"
                       type="submit"
@@ -182,7 +213,7 @@ export const CheckModal = ({
                       onChange={handleFileUpload}
                     />
                   </div>
-                  <div className="flex justify-between">
+                  <div className="flex justify-between my-4">
                     <button
                       className="bg-custom-green hover:bg-custom-green text-white font-bold py-2 px-4 rounded mr-4"
                       type="submit"

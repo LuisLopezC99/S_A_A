@@ -70,7 +70,7 @@ const FormSession = ({ isModalOpen, handleModalState }) => {
               Crear Session
             </h2>
             <form onSubmit={handleSubmit}>
-              <div className="flex mb-4">
+              <div className="grid grid-cols-2 mb-4">
                 <div className="mr-4">
                   <label
                     className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
@@ -100,7 +100,7 @@ const FormSession = ({ isModalOpen, handleModalState }) => {
                     name="type"
                     // value={selected}
                     // onChange={handleOnChange}
-                    className="appearance-none bg-white border border-gray-300 focus:outline-none focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:focus:ring-gray-700"
+                    className="custom-input"
                   >
                     <option value={"Ordinaria"}>Ordinaria</option>
                     <option value={"Extraordinaria"}>Extraordinaria</option>
