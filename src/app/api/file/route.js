@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import {saveFile, getFile,updateFile } from "../../services/file/crud.js";
+import {saveFile, updateFile } from "../../services/file/crud.js";
 import path from "path";
 import fs from 'fs';
 
@@ -8,9 +8,11 @@ export const GET = async (request) => {
   const filename = searchParams.get("filename");
   const type = searchParams.get("type");
 	const filePath = path.join(`${process.env.FILES_LOCATION}${type}`, filename);
-  console.log(filePath);
-	const data = await fs.readFileSync(filePath);
-
+	const fileExists = fs.existsSync(filePath);
+  if (!fileExists) {
+    throw new Error('PDF file not found');
+  }
+  const data = await fs.readFileSync(filePath);
 	return new Response(data, {
 		headers: {
 			'Content-Type': 'application/octet-stream', 

@@ -1,5 +1,6 @@
 "use client";
 import { useState, useRef } from "react";
+import Swal from "sweetalert2"
 
 export const DownloadButton = ({ filename, type, title }) => {
 	
@@ -18,12 +19,20 @@ export const DownloadButton = ({ filename, type, title }) => {
         
         // Code for displaying on new tab.
         const response = await fetch(`http://localhost:3000/api/file?filename=${filename}&type=${type}`);
+        if (!response.ok) {
+            Swal.fire({
+                icon: "error",
+                title: "Error en el archivo",
+                text: "Entrada no posee un archivo asociado aun.",
+            })
+        } else {
         const blob = await response.blob();
         const file = new Blob([blob], {
             type: "application/pdf",
           });
           const fileURL = URL.createObjectURL(file);
           window.open(fileURL);
+        }
 	}
 
     return (
