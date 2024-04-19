@@ -147,7 +147,9 @@ export const updateUser = async (user) => {
                 email: user.email,
                 role: {
                     connect: {
-                        id: parseInt(/^admin$/i.test(user.role.name) ? 1 : 2)
+                        id: parseInt(/^admin$/i.test(user.role.name) ? 1 :
+                         /^secretaria$/i.test(user.role.name)? 2 :
+                         /^departamento$/i.test(user.role.name)? 3 : 4)
                     }
                 },
                 enabled: user.enabled,
