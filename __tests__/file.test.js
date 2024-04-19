@@ -5,7 +5,13 @@ import path from "node:path";
 import { saveFile } from '../src/app/services/file/crud';
 
 test('saveFile() deberia de guardar el archivo de forma exitosa', async ({ expect }) => {
-    
+    const fileData = 'File content';
+    const filePath = '/path/to/file.txt';
+
+    const result = await saveFile(filePath, fileData);
+
+    expect(result).toBe(true); // Assuming the method returns true on success
+    expect(fs.writeFile).toHaveBeenCalledWith(filePath, fileData, expect.any(Function));
 });
 
 test('saveFile() deberia de tirar un error si hubo un fallo en el proceso', async ({ expect }) => {
@@ -21,5 +27,11 @@ test('saveFile() deberia de tirar un error si hubo un fallo en el proceso', asyn
 });
 
 test('getFile() deberia de recuperar el archivo de forma exitosa', async ({ expect }) => {
-    
+    const filePath = '/path/to/file.txt';
+
+    const result = await getFile(filePath);
+
+    expect(result).toEqual('File content');
+    expect(fs.readFile).toHaveBeenCalledWith(filePath, 'utf8', expect.any(Function));
+
 });
