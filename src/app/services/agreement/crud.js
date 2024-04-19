@@ -1,4 +1,4 @@
-import prisma from "@/libs/client.js"
+import prisma from "../../../libs/prisma.js"
 
 
 export const createAgreement = async (agreement, agrID) => {

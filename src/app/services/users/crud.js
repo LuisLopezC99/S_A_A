@@ -1,4 +1,4 @@
-import prisma from "../../../libs/client"
+import prisma from "../../../libs/prisma"
 import bcrypt from 'bcrypt';
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "../../api/auth/[...nextauth]/route";
