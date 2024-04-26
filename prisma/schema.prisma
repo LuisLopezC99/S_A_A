@@ -23,11 +23,12 @@ model tab_agreement {
   id   Int                     @id @default(autoincrement())
   topic String                 @map("agreement_topic")
   description String
-  report  String               @unique
+  report  String               
   reportCumplimiento  String?   @unique
   asignedTo Int                @map("asigned_to") 
   creationDate DateTime        @db.Date
   deadline DateTime            @db.Date
+  reminderDate DateTime        @db.Date
   session                      tab_session @relation(fields: [sessionId], references: [id])
   sessionId Int                @map("session_id") 
   agreementId                  tab_agreement_id?  @relation(fields: [agreementIdConsecutive], references: [id])
