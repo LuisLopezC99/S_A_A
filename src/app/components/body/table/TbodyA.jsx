@@ -8,6 +8,7 @@ import { DownloadButton } from "../../buttons/DownloadButton";
 import { CheckButton } from "../../buttons/CheckButton";
 
 const TbodyA = ({ rows = [], role = "" }) => {
+
   const [modalVisible, setModalVisible] = useState(false);
   const [row, setRows] = useState(rows);
   const [oficio, setOficio] = useState("");
@@ -65,7 +66,10 @@ const TbodyA = ({ rows = [], role = "" }) => {
             key={`agree-${index}`}
           >
             <td scope="row" className="px-6 py-4 text-center">
-              {`DSC-ACD-${agreementId.consecutive}-${agreementId.month}-${agreementId.year}`}
+              {
+
+                `DSC-ACD-${calculateZeros(agreementId.consecutive, true)}${agreementId.consecutive}-${calculateZeros(agreementId.month)}${agreementId.month}-${agreementId.year}`
+              }
             </td>
             <td className="px-6 py-4 text-center">{topic}</td>
             <td className="px-6 py-4 text-center">{users.name}</td>
@@ -151,5 +155,14 @@ const TbodyA = ({ rows = [], role = "" }) => {
     </tbody>
   );
 };
+
+const calculateZeros = (num, isConsecutive = false) =>{
+  let zeros = ""
+  let i = 0 
+  for ( isConsecutive ? i = 3 : i = 2 ; i > num.toString().length; i--) {
+    zeros += "0"
+  }
+  return zeros
+} 
 
 export default TbodyA;
