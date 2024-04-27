@@ -6,7 +6,13 @@ export const completeAgreements = (agreements) => {
     // si el estado pasa a vencido deberia de setearse en bd
   });
 }
-
+export const completeAgreement = (agreement) => {
+    agreement.state === "Cumplido" || agreement.state === "Tramitado"
+      ? agreement.state = agreement.state
+      : agreement.state = agreementState(new Date(agreement.deadline));
+      return agreement;
+    // si el estado pasa a vencido deberia de setearse en bd
+};
 export const agreementState = (deadline) => {
   const currentDate = new Date();
   currentDate.setUTCHours(0, 0, 0, 0);
