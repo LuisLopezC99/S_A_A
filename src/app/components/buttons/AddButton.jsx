@@ -2,7 +2,6 @@
 import { useState } from "react";
 import FormSession from "../pop-up/FormSession";
 import FormAgreement from "../pop-up/FormAgreement";
-import SessionModal from "../pop-up/SessionModal";
 
 export const AddButton = ({ title, children, idSession = "" }) => {
   const [openModal, setOpenModal] = useState(false);
@@ -21,7 +20,7 @@ export const AddButton = ({ title, children, idSession = "" }) => {
         {children}
       </button>
       {title === "session" ? (
-        <SessionModal isModalOpen={openModal} handleModalState={handleClick} />
+        <FormSession isModalOpen={openModal} handleModalState={handleClick} />
       ) : (
         <FormAgreement
           isModalOpen={openModal}
