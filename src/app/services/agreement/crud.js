@@ -197,3 +197,30 @@ export const getTotalAgrements = async () => {
   const total = await prisma.tab_agreement.count();
   return total;
 }
+
+export const getTodayAgreements = async () => {
+  const today = new Date();
+  const todayUTC = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()));
+  console.log(today);
+  try {
+    const agreements = await prisma.tab_agreement.findMany({
+      where: {
+        reminderDate: todayUTC,
+      },
+      include: {
+        agreementId: true,
+        users: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+  
+    return agreements;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
