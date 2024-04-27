@@ -16,7 +16,7 @@ const Report = async ({ rows, header, title, state,type, filter,sesion }) => {
   
   const head =
     title === "Sesiones"
-      ? header.filter((item) => item !== "Session").concat("Acta") 
+      ? header.filter((item) => item !== "Session")
       : header.filter((item) => item !== "Acuerdo");
   const fil = filter === "" ? "Ninguno" : filter;
   const stat = state === "" ? "Todos" : state;
@@ -95,7 +95,6 @@ const Report = async ({ rows, header, title, state,type, filter,sesion }) => {
               dataCasted,
               type,
               UrlVideo,
-              report,
             ];
           })
         : rows.map((row) => {
