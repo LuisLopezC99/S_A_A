@@ -32,6 +32,7 @@ try {
 }
 };
 export const postData = async (URL, formData) => {
+  
   try {
       const response = await fetch(`/api/${URL}`, {
           headers: {
@@ -45,6 +46,8 @@ export const postData = async (URL, formData) => {
           const data = await response.json()
           return data
       }
+
+      
 
   } catch (error) {
       console.error("Error posting data: ", error)
