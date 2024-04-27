@@ -3,6 +3,7 @@ import { readAgreement, createAgreement, updateAgreement, getLastAgreement, getT
 import { completeAgreements } from "@/app/business/agreement/logic";
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "../auth/[...nextauth]/route";
+import { assignedEmail } from "@/app/services/notification/assigned";
 
 
 export const GET = async (request) => {
@@ -26,9 +27,12 @@ export const GET = async (request) => {
 
 export const POST = async (request) => {
     try {
-        const { agreement, agreementID } = await request.json()
-        const newInsert = await createAgreement(agreement, agreementID)
-        return NextResponse.json(newInsert)
+        const { agreement, agreementID } = await request.json();
+        const newInsert = await createAgreement(agreement, agreementID);
+        console.log("Este es el newinser", newInsert)
+        console.log("Este es el agreement", agreement, agreementID)
+        await assignedEmail(newInsert);
+        return NextResponse.json(newInsert);
     } catch (error) {
         return NextResponse.json({ error: "Hubo un error al procesar la solicitud. Posible repeticion de archivo" }, { status: 500 });
     }

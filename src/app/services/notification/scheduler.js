@@ -1,5 +1,5 @@
-import { getTodayAgreements } from "./agreement/crud.js";
-import { transporter } from '../components/tools/nodemailer.js';
+import { getTodayAgreements } from "../agreement/crud.js";
+import { transporter } from '../../components/tools/nodemailer.js';
 import cron from 'node-cron';
 
 const getAgreements = async () => {

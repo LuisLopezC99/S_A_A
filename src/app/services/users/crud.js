@@ -200,3 +200,20 @@ export const updatePassword = async (user) => {
         throw new Error('Error al actualizar la contrasena');
     }
 }
+
+export const getUserById = async (id) => {
+    try {
+        return await prisma.tab_user.findUnique({
+            where: {
+                id
+            },
+            select: {
+                name: true,
+                email: true,
+            }
+        })
+    } catch (error) {
+        console.log(error)
+        throw new Error('Error al obtener el usuario');
+    }
+}
