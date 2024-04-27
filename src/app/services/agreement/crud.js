@@ -1,82 +1,87 @@
-import prisma from "@/libs/client.js"
+import prisma from "../../../libs/prisma.js"
 
 
 export const createAgreement = async (agreement, agrID) => {
-    try {
-        return await prisma.tab_agreement.create({
-            data: {
-                topic: agreement.topic,
-                description: agreement.description,
-                creationDate: agreement.creationDate,
-                deadline: agreement.deadline,
-                report: agreement.report,
-                reportCumplimiento: agreement.reportCumplimiento,
-                session: {
-                    connect: { id: agreement.sessionId }, // Conectar a la sesión existente por ID
-                },
-                users: {
-                    connect: { id: agreement.asignedTo }, // Conectar al usuario existente por ID
-                },
-                agreementId: {
-                    create: {
-                        consecutive: agrID.consecutive, // Asegúrate de proveer un valor único
-                        month: agrID.month, // Asegúrate de proveer un valor válido
-                        year: agrID.year, // Asegúrate de proveer un valor válido
-                    },
-                },
-                state: "Pendiente",
-            },
-        });
-    }
-    catch (e) {
-        console.log(e)
-    }
+  console.log(agreement.deadline);
+  const reminderDate = new Date(agreement.deadline);
+  // Maes aquí definir la cantidad de días antes al deadline que queremos que notifique
+  reminderDate.setDate(reminderDate.getDate() - 2);
+  try {
+    return await prisma.tab_agreement.create({
+      data: {
+        topic: agreement.topic,
+        description: agreement.description,
+        creationDate: agreement.creationDate,
+        deadline: agreement.deadline,
+        reminderDate: reminderDate,
+        report: agreement.report,
+        reportCumplimiento: agreement.reportCumplimiento,
+        session: {
+          connect: { id: agreement.sessionId }, // Conectar a la sesión existente por ID
+        },
+        users: {
+          connect: { id: agreement.asignedTo }, // Conectar al usuario existente por ID
+        },
+        agreementId: {
+          create: {
+            consecutive: agrID.consecutive, // Asegúrate de proveer un valor único
+            month: agrID.month, // Asegúrate de proveer un valor válido
+            year: agrID.year, // Asegúrate de proveer un valor válido
+          },
+        },
+        state: "Pendiente",
+      },
+    });
+  }
+  catch (e) {
+    console.log(e)
+  }
 
 }
 
 export const readAgreement = async () => {
-    const agreems = await prisma.tab_agreement.findMany({
-        include: {
-            agreementId: true,
-            users: true
-        }
-    })
-    return agreems
+  const agreems = await prisma.tab_agreement.findMany({
+    include: {
+      agreementId: true,
+      users: true
+    }
+  })
+  return agreems
 }
-export const getAgreementConsecutive= async (consecutiveAgreement) => {
-    const consecutive = consecutiveAgreement;
-    const agreementID = await prisma.tab_agreement_id.findUnique({
-        where:{
-            
-        }
-    });
-    return agreementID;
+export const getAgreementConsecutive = async (consecutiveAgreement) => {
+  const consecutive = consecutiveAgreement;
+  const agreementID = await prisma.tab_agreement_id.findUnique({
+    where: {
+
+    }
+  });
+  return agreementID;
 }
-export const updateCheck = async (nameReport,agreementId)=>{
-    const id = agreementId;
-    const reportCumplimiento = nameReport;
-    const state = "tramitado";
-    return await prisma.tab_agreement.update({
-      where: {
-        id,
-      },
-      data: {
-         reportCumplimiento,
-         state,
-        }
-    });
+export const updateCheck = async (nameReport, agreementId) => {
+  const id = agreementId;
+  const reportCumplimiento = nameReport;
+  const state = "tramitado";
+  return await prisma.tab_agreement.update({
+    where: {
+      id,
+    },
+    data: {
+      reportCumplimiento,
+      state,
+    }
+  });
 }
-export const updateState = async (newState,agreementId)=>{
-    const state = newState;
-    const id = agreementId;
-    return await prisma.tab_agreement.update({
-      where: {
-        id,
-      },
-      data: {
-        state,
-      },
-    });
+export const updateState = async (newState, agreementId) => {
+  const state = newState;
+  const id = agreementId;
+  return await prisma.tab_agreement.update({
+    where: {
+      id,
+    },
+    data: {
+      state,
+    },
+  });
 }
 export const updateReport = async (nameReport, agreementId) => {
   const id = agreementId;
@@ -91,33 +96,33 @@ export const updateReport = async (nameReport, agreementId) => {
   });
 };
 export const updateAgreement = async (agreement) => {
-    console.log(agreement);
-    const { id, topic, description, asignedTo, report, reportCumplimiento, deadline, sessionId, agreementIdConsecutive, state} = agreement
-    console.log(description);
-    try{
+  console.log(agreement);
+  const { id, topic, description, asignedTo, report, reportCumplimiento, deadline, sessionId, agreementIdConsecutive, state } = agreement
+  console.log(description);
+  try {
     const user = await prisma.tab_user.findUnique({
-        where: {
-          name: asignedTo
-        },
-      });
+      where: {
+        name: asignedTo
+      },
+    });
 
     return await prisma.tab_agreement.update({
-        where: {
-            id
-        },
-        data: {
-            topic,
-            description,
-            report,
-            reportCumplimiento,
-            asignedTo: user.id,
-            deadline,
-            sessionId,
-            agreementIdConsecutive,
-            state,
-        }
+      where: {
+        id
+      },
+      data: {
+        topic,
+        description,
+        report,
+        reportCumplimiento,
+        asignedTo: user.id,
+        deadline,
+        sessionId,
+        agreementIdConsecutive,
+        state,
+      }
     })
-  }catch(e){
+  } catch (e) {
     console.log(e)
   }
 }
@@ -149,46 +154,73 @@ export const countFilteredAgreements = async (filter) => {
   return agreements.length;
 };
 export const filterAgreement = async (filter) => {
-    return await prisma.tab_agreement.findMany({
-        where: {
-            OR: [
-                {
-                    topic: filter
-                },
-                {
-                    description: filter
-                },
-                {
-                    sessionId: Number(filter) ? Number(filter) : -1
-                },
-                {
-                    users: {
-                        name: filter
-                    }
-                }
-            ]
+  return await prisma.tab_agreement.findMany({
+    where: {
+      OR: [
+        {
+          topic: filter
         },
-        include: {
-            agreementId: true,
-            users: true
+        {
+          description: filter
         },
-        take: 30
-    })
+        {
+          sessionId: Number(filter) ? Number(filter) : -1
+        },
+        {
+          users: {
+            name: filter
+          }
+        }
+      ]
+    },
+    include: {
+      agreementId: true,
+      users: true
+    },
+    take: 30
+  })
 }
 
 export const getLastAgreement = async () => {
-    return await prisma.tab_agreement.findMany({
-        orderBy: {
-            id: 'desc',
-        },
-        include: {
-            agreementId: true,
-            users: true
-        },
-        take: 1,
-    })
+  return await prisma.tab_agreement.findMany({
+    orderBy: {
+      id: 'desc',
+    },
+    include: {
+      agreementId: true,
+      users: true
+    },
+    take: 1,
+  })
 }
-export const getTotalAgrements = async () =>{
-    const total = await prisma.tab_agreement.count();
-    return total;
+export const getTotalAgrements = async () => {
+  const total = await prisma.tab_agreement.count();
+  return total;
+}
+
+export const getTodayAgreements = async () => {
+  const today = new Date();
+  const todayUTC = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()));
+  console.log(today);
+  try {
+    const agreements = await prisma.tab_agreement.findMany({
+      where: {
+        reminderDate: todayUTC,
+      },
+      include: {
+        agreementId: true,
+        users: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+  
+    return agreements;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 }
