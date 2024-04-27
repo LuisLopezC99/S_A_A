@@ -15,6 +15,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      
       <body className="dark:bg-gray-800">
         <SessionAuthProvider>
           <AutoLogoutProvider>
