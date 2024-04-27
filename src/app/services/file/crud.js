@@ -33,6 +33,7 @@ export const updateFile = async (file, type, currentNameFile) => {
 
     return "archivo subido";
   } catch (error) {
+    console.log(error);
     throw new Error("Hubo un error al procesar la solicitud");
   }
 };
