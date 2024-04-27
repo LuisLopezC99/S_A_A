@@ -7,7 +7,8 @@ import SearchText from "../filters/SearchText";
 import { AddButton } from "../../buttons/AddButton";
 import { filterRowA, filterRowS } from "../../utils/filterRows";
 import Pagination from "../pagination/Pagination";
-
+import ReportButton from "../../buttons/ReportButton";
+import Report from "../../reports/Report";
 const loadData = async (url) => {
   const data = await getRequest(url);
   return data;
@@ -44,6 +45,7 @@ export default async function Table({
   let endIndex = totalDocuments==1? 49 : Math.min(startIndex + itemsPerPage - 1, totalDocuments - 1);
 
   const displayedRows = filterRows.slice(startIndex, endIndex + 1);
+  const reportTitle = url === "session" ? "Sesiones" : isFilter? `Acuerdos de la Sesión ${idsession}`:session_role!=="secretaria"?"Mis Acuerdos Asignados":"Acuerdos";
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -77,7 +79,17 @@ export default async function Table({
             />
           )}
         </div>
-
+        <div>
+          <ReportButton
+            rows={filterRows}
+            header={columns}
+            title={reportTitle}
+            state={filterBox}
+            type={filterBox}
+            filter={querySearh}
+            sesion={idsession}
+          />
+        </div>
         {/*     We may need to improve the way we do this SearchText validation  */}
         <div className="flex justify-center h-0">
           <SearchText currentText={querySearh} />
