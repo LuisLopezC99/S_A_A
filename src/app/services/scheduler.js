@@ -1,5 +1,6 @@
 import { getTodayAgreements } from "./agreement/crud.js";
 import { transporter } from '../components/tools/nodemailer.js';
+import cron from 'node-cron';
 
 const getAgreements = async () => {
   const response = await getTodayAgreements();
@@ -34,4 +35,6 @@ const sendEmail = async (agreement) => {
   console.log(info);
 }
 
-getAgreements();
+cron.schedule('* * * * *', () => {
+  getAgreements();
+});
