@@ -162,7 +162,7 @@ const calculateZeros = (num, isConsecutive = false) =>{
   for ( isConsecutive ? i = 3 : i = 2 ; i > num.toString().length; i--) {
     zeros += "0"
   }
-  return zeros
+  return zeros;
 } 
 
 export default TbodyA;
