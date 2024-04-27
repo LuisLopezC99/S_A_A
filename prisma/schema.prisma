@@ -13,7 +13,7 @@ datasource db {
 model tab_session{
   id   Int                    @id @default(autoincrement())
   date DateTime               @map("session_date") @db.Date
-  report String               @unique
+  report String?              @unique
   type String                 @map("session_type") 
   UrlVideo String             @unique @map("facebook_link") 
   agreements tab_agreement[]
