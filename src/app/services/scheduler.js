@@ -10,6 +10,7 @@ const getAgreements = async () => {
   }
 }
 
+
 const sendEmail = async (agreement) => {
   const { topic, description, users: { name, email } } = agreement;
   const mailOptions = {
@@ -35,6 +36,8 @@ const sendEmail = async (agreement) => {
   console.log(info);
 }
 
+// Obvio aquí está por minuto pero en la documentación está la manera de configurarlo
+// en caso de que se requiera cada día o cuando lo determinemos
 cron.schedule('* * * * *', () => {
   getAgreements();
 });
