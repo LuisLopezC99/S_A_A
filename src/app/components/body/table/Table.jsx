@@ -7,6 +7,7 @@ import SearchText from "../filters/SearchText";
 import { AddButton } from "../../buttons/AddButton";
 import { filterRowA, filterRowS } from "../../utils/filterRows";
 import Pagination from "../pagination/Pagination";
+import ReportButton from "../../buttons/ReportButton";
 
 const loadData = async (url) => {
   const data = await getRequest(url);
@@ -24,15 +25,18 @@ export default async function Table({
   currentPage = 1,
   itemsPerPage = 5,
 }) {
+  
   let rows = await loadData(url);
   rows = rows ? rows  : [];
   rows = rows.reverse();
+
   const filterRows =
     url === "session"
       ? filterRowS(rows, filterBox, querySearh)
       : isFilter
       ? filterRowA(rows[0].agreements, filterBox, querySearh)
       : filterRowA(rows, filterBox, querySearh);
+
   const totalDocuments =
     querySearh != ""
       ? 1
@@ -44,6 +48,16 @@ export default async function Table({
   let endIndex = totalDocuments==1? 49 : Math.min(startIndex + itemsPerPage - 1, totalDocuments - 1);
 
   const displayedRows = filterRows.slice(startIndex, endIndex + 1);
+
+
+  const reportTitle =
+  url === "session"
+    ? "Sesiones"
+    : isFilter
+    ? `Acuerdos de la Sesión ${idsession}`
+    : session_role !== "secretaria"
+    ? "Mis Acuerdos Asignados"
+    : "Acuerdos";
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -77,7 +91,17 @@ export default async function Table({
             />
           )}
         </div>
-
+        <div>
+          <ReportButton
+            rows={filterRows}
+            header={columns}
+            title={reportTitle}
+            state={filterBox}
+            type={filterBox}
+            filter={querySearh}
+            sesion={idsession}
+          />
+        </div>
         {/*     We may need to improve the way we do this SearchText validation  */}
         <div className="flex justify-center h-0">
           <SearchText currentText={querySearh} />
