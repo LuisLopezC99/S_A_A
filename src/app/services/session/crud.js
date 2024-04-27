@@ -3,17 +3,14 @@ import prisma from "../../../libs/client.js"
 
 
 export const createSession = async (session) => {
-  console.log(session);
-  try {
-    return await prisma.tab_session.create({
-      data:session,
-    });
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
-
+    try {
+        return await prisma.tab_session.create({
+            data: session,
+        })
+    } catch (error) {
+        throw error
+    }
+}
 
 export const readSessions = async () => {
 
@@ -68,15 +65,19 @@ export const readFilterSession = async (filter) => {
 }
 
 export const updateSession = async (session) => {
-    console.log(session);
+    const { id, date, report, type, UrlVideo } = session
     return await prisma.tab_session.update({
-    where: {
-      id: session.id,
-    },
-    data: session,
-  });
-};
-
+        where: {
+            id
+        },
+        data: {
+            date,
+            report,
+            type,
+            UrlVideo
+        }
+    })
+}
 export const getTotalSessions = async () => {
     const total = await prisma.tab_session.count();
     return total;

@@ -12,6 +12,7 @@ export default function Pagination({ totalDocuments,cupage,items }) {
   const totalPages = Math.ceil(totalDocuments / itemsPerPage);
   const text = "";
   const filter = searchParams.get("filter") || "";
+
   const router = useRouter();
 
   const getPageNumbers = (total) => {
