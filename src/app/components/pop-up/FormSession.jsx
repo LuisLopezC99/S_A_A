@@ -35,6 +35,7 @@ const FormSession = ({ isModalOpen, handleModalState }) => {
       if (response.error) {
         throw new Error(response.error);
       }
+
       const response2 = await postDataForm("file", formData2);
 
       if (response2.error) {

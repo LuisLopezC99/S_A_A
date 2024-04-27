@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
 import { putData, putDataFile } from "@/app/requests/getRequests";
 
-const EditSession = ({ isModalOpen, handleModalState, sessionData = null }) => {
+const EditSession = ({ isModalOpen, handleModalState, sessionData }) => {
   const router = useRouter();
   const [file, setFile] = useState(null);
   const [id, setId] = useState(sessionData.id);
@@ -15,17 +15,16 @@ const EditSession = ({ isModalOpen, handleModalState, sessionData = null }) => {
   const [report, setReport] = useState(sessionData.report);
 
   const closeModal = () => {
-    // setDate(sessionData.inputDate);
-    // setType(sessionData.type);
-    // setFacebookUrl(sessionData.UrlVideo);
-    // setReport(sessionData.report);
+    setDate(sessionData.inputDate);
+    setType(sessionData.type);
+    setFacebookUrl(sessionData.UrlVideo);
+    setReport(sessionData.report);
     handleModalState();
   };
   const handleFileUpload = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
   };
-
   const handleInputChange = (event) => {
     let value = event.target.value;
     let inputName = event.target.name;
@@ -52,7 +51,6 @@ const EditSession = ({ isModalOpen, handleModalState, sessionData = null }) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const formData2 = new FormData();
-    console.log(file);
     formData2.append("file", file);
     formData2.append("type", "Actas");
     formData2.append("currentNameFile", report);
@@ -62,30 +60,30 @@ const EditSession = ({ isModalOpen, handleModalState, sessionData = null }) => {
     const facebookUrl = formData.get("facebookUrl");
     // Made some superficial changes for the report part while we implement module itself
     const { name } = formData.get("file");
-    // name != "" && putDataFile("file", formData2);
-    // const rep = putData("session", {
-    //   id,
-    //   date,
-    //   report: name !== "" ? name : report,
-    //   type,
-    //   UrlVideo: facebookUrl,
-    // });
+    name != "" && putDataFile("file", formData2);
+    const rep = putData("session", {
+      id,
+      date,
+      report: name != "" ? name : report,
+      type,
+      UrlVideo: facebookUrl,
+    });
 
-    // rep.then((response) => {
-    //   response
-    //     ? (Swal.fire({
-    //         icon: "success",
-    //         title: "Sesión actualizada",
-    //         text: "La solicitud ha sido exitosa!.",
-    //       }),
-    //       router.refresh())
-    //     : Swal.fire({
-    //         icon: "error",
-    //         title: "Error en la sesión",
-    //         text: "No se pudo procesar la actualizacion. Revise sus datos.",
-    //       });
-    // });
-    // closeModal();
+    rep.then((response) => {
+      response
+        ? (Swal.fire({
+            icon: "success",
+            title: "Sesión actualizada",
+            text: "La solicitud ha sido exitosa!.",
+          }),
+          router.refresh())
+        : Swal.fire({
+            icon: "error",
+            title: "Error en la sesión",
+            text: "No se pudo procesar la actualizacion. Revise sus datos.",
+          });
+    });
+    closeModal();
   };
 
   return (

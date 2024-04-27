@@ -19,11 +19,9 @@ export const GET = async (request) => {
 export const POST = async (request) => {
     try {
         const requestData = await request.json();
-        console.log(requestData);
         const newInsert = await createSession(requestData)
         return NextResponse.json(newInsert)
     } catch (error) {
-        console.log(error)
         if(error.message.includes("facebook")) 
             return NextResponse.json({ error: "Link de Facebook Repetido"})
         else
