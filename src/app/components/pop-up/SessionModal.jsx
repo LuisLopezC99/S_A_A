@@ -12,7 +12,6 @@ const SessionModal = ({
 }) => {
   const router = useRouter();
   const { register, setValue, handleSubmit } = useForm();
-  console.log(sessionData)
   useEffect(() => {
     sessionData
       ? (setValue("date", sessionData.inputDate),
@@ -20,7 +19,7 @@ const SessionModal = ({
         setValue("facebookUrl", sessionData.UrlVideo),
         setValue("consecutive", sessionData.sessionId.consecutive))
       : console.log("No pasa nada");
-  }, []);
+  }, [sessionData]);
 
   const closeModal = () => {
     handleModalState();
