@@ -12,13 +12,13 @@ const SessionModal = ({
 }) => {
   const router = useRouter();
   const { register, setValue, handleSubmit } = useForm();
-
+  console.log(sessionData)
   useEffect(() => {
-    console.log(sessionData)
     sessionData
       ? (setValue("date", sessionData.inputDate),
         setValue("type", sessionData.type),
-        setValue("facebookUrl", sessionData.UrlVideo))
+        setValue("facebookUrl", sessionData.UrlVideo),
+        setValue("consecutive", sessionData.sessionId.consecutive))
       : console.log("No pasa nada");
   }, []);
 
@@ -29,101 +29,104 @@ const SessionModal = ({
   const onSubmit = async (data) => {
     if (sessionData) {
       const formData = new FormData();
-      formData.append("file", data.file[0] !== undefined ? data.file[0]: null);
+      formData.append("file", data.file[0] !== undefined ? data.file[0] : null);
       formData.append("type", "Actas");
-      sessionData.report !== null &&  formData.append("currentNameFile", sessionData.report);
+      sessionData.report !== null && formData.append("currentNameFile", sessionData.report);
       const id = sessionData.id;
       const simpleDate = data.date;
       const date = simpleDate + "T00:00:00.000Z";
       const type = data.type;
       const facebookUrl = data.facebookUrl;
+      const consecutive = data.consecutive;
       console.log(data.file[0])
       // Made some superficial changes for the report part while we implement module itself
-      const name = data.file[0] !== undefined ? data.file[0].name: "";
+      const name = data.file[0] !== undefined ? data.file[0].name : "";
       console.log(name)
-      if(data.file[0] !== undefined) {
-        sessionData.report !== null? putDataFile("file", formData) : postDataForm("file", formData);
+      if (data.file[0] !== undefined) {
+        sessionData.report !== null ? putDataFile("file", formData) : postDataForm("file", formData);
       }
-      console.log({
-        id,
-        date,
-        report: name !== "" ? name : sessionData.report,
-        type,
-        UrlVideo: facebookUrl,
-      })
-      //name !== "" && putDataFile("file", formData);
-      const rep = putData("session", {
-        id,
-        date,
-        report: name !== "" ? name : sessionData.report,
-        type,
-        UrlVideo: facebookUrl,
-      });
+      try {
+        const response = await putData("session", {
+          id,
+          date,
+          report: name !== "" ? name : sessionData.report,
+          type,
+          UrlVideo: facebookUrl,
+          consecutive
+        });
+        
+        if (response.error) {
+          throw new Error(response.error);
+        }
 
-      rep.then((response) => {
-        response
-          ? (Swal.fire({
-              icon: "success",
-              title: "Sesión actualizada",
-              text: "La solicitud ha sido exitosa!.",
-            }),
-            router.refresh())
-          : Swal.fire({
-              icon: "error",
-              title: "Error en la sesión",
-              text: "No se pudo procesar la actualizacion. Revise sus datos.",
-            });
-      });
-     
+
+        Swal.fire({
+          icon: "success",
+          title: "Sesión actualizada",
+          text: "La solicitud ha sido exitosa!.",
+        })
+        router.refresh()
+         
+    } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Error en la sesión",
+          text: error.message || "Ha ocurrido un error.",
+        });
+      }
+
       closeModal();
     }
-    else{
-        const formData = new FormData();
-        formData.append("file", data.file[0] !== undefined ? data.file[0]: null);
-        formData.append("type", "Actas");
-        console.log(data.file)
-        const simpleDate = data.date
-        const date = simpleDate + "T00:00:00.000Z";
-        const type = data.type
-        const facebookUrl = data.facebookUrl;
-        const name = data.file[0] !== undefined ? data.file[0].name: null;
-        
-        try {
+    else {
+      const formData = new FormData();
+      formData.append("file", data.file[0] !== undefined ? data.file[0] : null);
+      formData.append("type", "Actas");
+      console.log(data.file)
+      const simpleDate = data.date
+      const date = simpleDate + "T00:00:00.000Z";
+      const type = data.type
+      const facebookUrl = data.facebookUrl;
+      const sessionConsecutive = data.consecutive;
+      const name = data.file[0] !== undefined ? data.file[0].name : null;
+
+      try {
         const response = await postData("session", {
-            date,
-            report: name,
-            type,
-            UrlVideo: facebookUrl,
+          date,
+          report: name,
+          type,
+          UrlVideo: facebookUrl,
+          sessionConsecutive
         });
 
         if (response.error) {
-            throw new Error(response.error);
+          throw new Error(response.error);
         }
         const response2 =
           name !== null && (await postDataForm("file", formData));
 
         if (response2.error) {
-            throw new Error(response2.error);
+          throw new Error(response2.error);
         }
         router.refresh();
         Swal.fire({
-            icon: "success",
-            title: "Sesión agregada",
-            text: "La solicitud ha sido exitosa!",
+          icon: "success",
+          title: "Sesión agregada",
+          text: "La solicitud ha sido exitosa!",
         });
 
-        
-        } catch (error) {
+
+      } catch (error) {
         Swal.fire({
-            icon: "error",
-            title: "Error en la sesión",
-            text: error.message || "Ha ocurrido un error.",
+          icon: "error",
+          title: "Error en la sesión",
+          text: error.message || "Ha ocurrido un error.",
         });
-        }
-        setValue("date", ""),
+      }
+      setValue("date", ""),
         setValue("type", ""),
         setValue("facebookUrl", "")
-        closeModal();
+      setValue("consecutive", "")
+      closeModal();
     }
   };
 
@@ -193,6 +196,23 @@ const SessionModal = ({
                 />
               </div>
 
+              <div className="mb-4">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+                  htmlFor="consecutive"
+                >
+                  Consecutivo
+                </label>
+                <input
+                  className="custom-input"
+                  id="consecutive"
+                  name="consecutive"
+                  type="number"
+                  {...register("consecutive")}
+                  required
+                />
+              </div>
+
               {/* We need to implement 'File' module in order to set 'Edit' functionality correctly */}
               <div className="mb-4">
                 <label
@@ -207,9 +227,9 @@ const SessionModal = ({
                   name="file"
                   type="file"
                   {...register("file")}
-                  //required
+                //required
                 />
-                {sessionData !== null ? <div>Archivo original: {sessionData.report !== null ? sessionData.report: " No hay un acta subida"}</div>: <></>}
+                {sessionData !== null ? <div>Archivo original: {sessionData.report !== null ? sessionData.report : " No hay un acta subida"}</div> : <></>}
               </div>
 
               <div className="mb-6">

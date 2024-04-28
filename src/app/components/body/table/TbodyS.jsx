@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { ButtonEdit } from "../../buttons/ButtonEdit";
 import { DownloadButton } from "../../buttons/DownloadButton";
+import calculateZeros from "../../utils/addZeros";
 import Image from "next/image";
 
 
@@ -13,7 +14,7 @@ const TbodyS = ({ rows = [], columns }) => {
   const filter = searchParams.get("filter") || "";
   const text = searchParams.get("searchText") || "";
   const [updateEditSession, setUpdateEditSession] = useState({});
-
+  console.log(rows);
   // Date castings
   const castDateToCrDate = (date) => {
     const dateCast = new Date(date);
@@ -34,9 +35,9 @@ const TbodyS = ({ rows = [], columns }) => {
     <tbody>
       {rows
         .map((row, index) => {
-          const { id, date, type, UrlVideo, report } = row;
+          const { id, date, type, UrlVideo, report, sessionId } = row;
 
-          const handleDoubleClick = () => router.push(`/home/sessions/${id}`);
+          const handleDoubleClick = () => router.push(`/home/sessions/${id}?consecutive=${sessionId.consecutive}&type=${sessionId.type}`);
           const crDate = castDateToCrDate(date);
           const inputDate = castDateToInputDate(date);
 
@@ -46,6 +47,9 @@ const TbodyS = ({ rows = [], columns }) => {
               className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
               onDoubleClick={handleDoubleClick}
             >
+               <td scope="row" className="px-2 py-4 text-center">
+               {`Sesion ${sessionId.type} No. ${calculateZeros(sessionId.consecutive, true)}${sessionId.consecutive}`}
+              </td>
               <td scope="row" className="px-2 py-4 text-center">
                 {crDate}
               </td>
@@ -60,7 +64,7 @@ const TbodyS = ({ rows = [], columns }) => {
                 </DownloadButton>
                 <ButtonEdit
                   title="session"
-                  data={{ id, inputDate, type, UrlVideo, report }}
+                  data={{ id, inputDate, type, UrlVideo, report, sessionId: { consecutive: sessionId.consecutive } }}
                 >
                   <img src="/edit.png" alt="AcuerdoEdit" />
                 </ButtonEdit>

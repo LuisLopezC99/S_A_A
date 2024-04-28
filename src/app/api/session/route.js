@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { readSessions, createSession, updateSession, readSessionsPage, getTotalSessions } from "@/app/services/session/crud";
 
 
+
 export const GET = async (request) => {
     try {
         const { searchParams } = new URL(request.url);
@@ -11,6 +12,7 @@ export const GET = async (request) => {
         : await readSessions();
         return NextResponse.json(tab_session);
     } catch (error) {
+        console.log(error);
         return NextResponse.json({ error: "Hubo un error al procesar la solicitud" }, { status: 500 });
     }
 }
@@ -22,9 +24,12 @@ export const POST = async (request) => {
         const newInsert = await createSession(requestData)
         return NextResponse.json(newInsert)
     } catch (error) {
-        if(error.message.includes("facebook")) 
+        if(error.stack.includes("facebook")) 
             return NextResponse.json({ error: "Link de Facebook Repetido"})
-        else
+
+        else if(error.message.includes("consecutive"))
+            return NextResponse.json({ error: "Consecutivo repetido" });
+        else 
             return NextResponse.json({ error: "Reporte de Sesion Repetido" });
 
     }
@@ -33,8 +38,15 @@ export const POST = async (request) => {
 export const PUT = async (request) => {
     try {
         const newUpdate = await updateSession(await request.json())
+        console.log(newUpdate)
         return NextResponse.json(newUpdate)
     } catch (error) {
-        return NextResponse.json({ error: "Hubo un error al procesar la solicitud" }, { status: 500 });
+        console.log(error)
+        if(error.stack.includes("facebook")) 
+        return NextResponse.json({ error: "Link de Facebook Repetido"})
+    else if(error.message.includes("consecutive"))
+        return NextResponse.json({ error: "Consecutivo repetido" });
+    else 
+        return NextResponse.json({ error: "Reporte de Sesion Repetido" });
     }
 }

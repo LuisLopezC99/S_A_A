@@ -16,6 +16,8 @@ model tab_session{
   report String?               @unique
   type String                 @map("session_type") 
   UrlVideo String             @unique @map("facebook_link") 
+  sessionConsecutive Int      @unique @map("session_consecutive")
+  sessionId tab_session_id    @relation(fields: [sessionConsecutive], references: [id])
   agreements tab_agreement[]
 }
 
@@ -44,6 +46,15 @@ model tab_agreement_id{
   year Int
   agreement tab_agreement?
   @@unique([consecutive, year])
+}
+
+model tab_session_id{
+  id Int                        @id @default(autoincrement())
+  consecutive Int
+  year Int
+  type String
+  session tab_session?
+  @@unique([consecutive, year, type])
 }
 
 model tab_user{

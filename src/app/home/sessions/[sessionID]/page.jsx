@@ -11,6 +11,8 @@ const SessionPage = async ({ params, searchParams }) => {
   let itemsPerPage = Number(searchParams?.items) || 5;
   let filterBox = searchParams?.filter || "";
   let query = searchParams?.searchText || "";
+  let type = searchParams?.type || "";
+  let consecutive = searchParams?.consecutive || "";
   return (
     <div className="App">
       <Suspense
@@ -28,7 +30,7 @@ const SessionPage = async ({ params, searchParams }) => {
             "Acuerdo",
           ]}
           url={`session/${params.sessionID}`}
-          title={`Session ${params.sessionID}`}
+          title={`Session ${type} No. ${consecutive}`}
           isFilter={true}
           idsession={params.sessionID}
           session_role={session.user.role}

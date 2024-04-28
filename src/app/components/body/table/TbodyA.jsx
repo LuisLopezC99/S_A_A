@@ -3,7 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { ButtonEdit } from "../../buttons/ButtonEdit";
-
+import calculateZeros from "../../utils/addZeros";
 import { DownloadButton } from "../../buttons/DownloadButton";
 import { CheckButton } from "../../buttons/CheckButton";
 
@@ -155,14 +155,5 @@ const TbodyA = ({ rows = [], role = "" }) => {
     </tbody>
   );
 };
-
-const calculateZeros = (num, isConsecutive = false) =>{
-  let zeros = ""
-  let i = 0 
-  for ( isConsecutive ? i = 3 : i = 2 ; i > num.toString().length; i--) {
-    zeros += "0"
-  }
-  return zeros;
-} 
 
 export default TbodyA;

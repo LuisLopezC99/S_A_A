@@ -16,6 +16,7 @@ export default async function Home({ searchParams }) {
       >
         <Table
           columns={[
+            "Consecutivo",
             "Fecha De Sesion",
             "Tipo de sesión",
             "Link de Facebook",
