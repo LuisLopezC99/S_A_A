@@ -4,13 +4,16 @@ import { Logout } from "../logout/Logout";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import defaultProfilePic from "../../../../public/defaultProfilePic.png";
-import { ProfileInformationButton } from "../buttons/ProfileInformationButton";
 
-const ProfileModal = ({ isModalOpen, handleModalState, userData }) => {
+import { ProfileInformationButton } from "../buttons/ProfileInformationButton";
+import AboutButton from "../buttons/AboutButton";
+
+const ProfileModal = ({ isModalOpen, handleModalState, userData}) => {
+  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
   const router = useRouter();
   const ref = useRef(null);
 
-  useEffect(() => {
+  useEffect(() => { 
     const handleOutSideClick = (event) => {
       if (
         isModalOpen &&
@@ -30,6 +33,14 @@ const ProfileModal = ({ isModalOpen, handleModalState, userData }) => {
 
   const closeModal = () => {
     handleModalState();
+  };
+
+  const openAboutModal = () => {
+    setIsAboutModalOpen(true);
+  };
+
+  const closeAboutModal = () => {
+    setIsAboutModalOpen(false);
   };
 
   return (
@@ -64,6 +75,7 @@ const ProfileModal = ({ isModalOpen, handleModalState, userData }) => {
                     id="profileInformationButton"
                     userData={userData}
                   />
+
                 </li>
                 <li className="mb-2">
                   <a
@@ -73,14 +85,13 @@ const ProfileModal = ({ isModalOpen, handleModalState, userData }) => {
                     Manual de Usuario
                   </a>
                 </li>
+
                 <li className="mb-1">
-                  <a
-                    href="#"
-                    className="md:hover:text-green-500 dark:text-white"
-                  >
-                    Ayuda
-                  </a>
+                
+                <AboutButton userData={userData} />
+
                 </li>
+
               </ul>
             </div>
             <div className="p-3">
