@@ -9,7 +9,7 @@ const AboutModal = ({ isModalOpen, handleModalState }) => {
   return (
     <div className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 ${isModalOpen ? 'visible' : 'hidden'}`}>
       <div className="bg-white dark:bg-gray-700 rounded-lg text-black dark:text-white w-full max-w-4xl p-6 relative overflow-y-auto max-h-screen">
-        <button className="absolute top-2 right-2 text-gray-500 md:hover:text-green-500" onClick={closeModal}>
+      <button className="absolute top-2 right-2 text-gray-500 md:hover:text-green-500 text-2xl md:text-3xl" onClick={closeModal}>
           X
         </button>
 
