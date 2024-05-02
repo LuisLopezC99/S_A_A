@@ -4,24 +4,33 @@ import logo from "../../../../public/logo.png";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Swal from "sweetalert2";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ForgotPassword from "../pop-up/ForgotPassword";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false);
   const [type, setType] = useState("password");
   const router = useRouter();
 
   const handleToggle = () => {
-    if (type === "password") {
-      setType("text");
-    } else {
-      setType("password");
-    }
+    setType(type === "password" ? "text" : "password");
   };
 
-  //function to handle the login
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (e.key === "Enter" && email.trim() !== "" && password.trim() !== "") {
+        handleLogin(e);
+      }
+    };
+
+    document.addEventListener("keypress", handleKeyPress);
+    return () => {
+      document.removeEventListener("keypress", handleKeyPress);
+    };
+  }, [email, password]);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     const Toast = Swal.mixin({
@@ -36,21 +45,23 @@ export const Login = () => {
       },
     });
 
-    //get the email and password from the form
-    const payload = {
-      email: e.currentTarget.email.value,
-      password: e.currentTarget.password.value,
-    };
+    const payload = { email, password };
 
-    //sign in with the credentials provider
+    if (payload.email.trim() === "" || payload.password.trim() === "") {
+      Swal.fire({
+        icon: "error",
+        title: "Por favor, ingresa tu correo y contraseña",
+        confirmButtonText: "Aceptar",
+      });
+      return;
+    }
+
     const res = await signIn("credentials", {
-      //the first parameter is the name of the provider, the second parameter is the payload
-      email: payload.email, // we could use other providers like google
+      email: payload.email,
       password: payload.password,
       redirect: false,
     });
 
-    //if the response has an error, it means that the credentials are invalid
     if (!showForgotPasswordModal && res?.error) {
       res.error === "User is not enabled"
         ? Swal.fire({
@@ -77,7 +88,7 @@ export const Login = () => {
     <section className="h-screen flex items-center justify-center">
       <div className="container mx-auto">
         <div className="flex items-center justify-center h-full">
-          <div className="w-full md:w-10/12 lg:w-10/12 xl:w-10/12 ">
+          <div className="w-full md:w-10/12 lg:w-10/12 xl:w-10/12">
             <div className="card rounded-lg text-black">
               <div className="flex flex-col md:flex-row">
                 <div className="w-full md:w-6/12">
@@ -115,37 +126,38 @@ export const Login = () => {
                             name="password"
                             className="px-3 py-2 border rounded-md w-full dark:bg-white relative"
                             placeholder="Contraseña"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                           />
                           <span
-                            class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
                             onClick={handleToggle}
                           >
-                               <div className="text-gray-500 focus:outline-none focus:text-gray-600 hover:text-gray-600">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  strokeWidth="1.5"
-                                  stroke="currentColor"
-                                  className="w-6 h-6"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
-                                  />
-                                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                              </div>
-
+                            <div className="text-gray-500 focus:outline-none focus:text-gray-600 hover:text-gray-600">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth="1.5"
+                                stroke="currentColor"
+                                className="w-6 h-6"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+                                />
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                              </svg>
+                            </div>
                           </span>
                         </div>
 
-                        {/* Agrega el enlace para "se te olvidó tu contraseña" */}
                         <div className="mb-4 text-right">
                           <button
                             onClick={() => setShowForgotPasswordModal(true)}
                             className="text-green-500 hover:underline"
+                            type="button"
                           >
                             ¿Se te olvidó tu contraseña?
                           </button>
