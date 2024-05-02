@@ -2,8 +2,7 @@
 import { useRouter } from "next/navigation";
 import { Logout } from "../logout/Logout";
 import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
-import defaultProfilePic from "../../../../public/defaultProfilePic.png";
+import { FaUserCircle } from "react-icons/fa";
 
 import { ProfileInformationButton } from "../buttons/ProfileInformationButton";
 import AboutButton from "../buttons/AboutButton";
@@ -52,10 +51,10 @@ const ProfileModal = ({ isModalOpen, handleModalState, userData}) => {
         >
           <div className="flex flex-col items-center">
             <div className="flex-shrink-0 py-4">
-              <Image
+              <FaUserCircle
                 id="openProfileButton"
-                src={defaultProfilePic}
-                className="w-20 h-20 rounded-full object-cover"
+                
+                className="w-20 h-20 rounded-full object-cover text-green-600"
                 alt="Imagen de Perfil"
               />
             </div>

@@ -14,7 +14,7 @@ export const AddButton = ({ title, children, idSession = "" }) => {
   return (
     <>
       <button
-        className="bg-yellow-300 hover:bg-yellow-400 text-gray-500 font-bold py-2 px-4 border border-yellow-400 rounded"
+        className="bg-yellow-200 dark:bg-yellow-300 hover:bg-yellow-300 dark:hover:bg-yellow-400 text-gray-500 font-bold py-2 px-4 border border-yellow-400 rounded"
         title={title}
         onClick={handleClick}
       >

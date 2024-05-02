@@ -137,7 +137,7 @@ const ProfileInformationModal = ({
                 </button>
               </div>
               <button
-                className="text-gray-500 hover:text-gray-700 md:hover:text-green-500"
+                className="text-gray-500 hover:text-gray-700 md:hover:text-green-500 text-2xl md:text-2xl"
                 onClick={closeModal}
               >
                 X

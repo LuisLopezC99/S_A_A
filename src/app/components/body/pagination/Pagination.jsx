@@ -83,7 +83,7 @@ export default function Pagination({ totalDocuments,cupage,items }) {
                 key={pageNumber}
                 className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${
                   currentPage === pageNumber
-                    ? "bg-yellow-300 text-green-600 dark:bg-yellow-500 dark:text-gray-50"
+                    ? "bg-yellow-300 text-gray-500 dark:bg-yellow-500 dark:text-green-600"
                     : "text-gray-700 hover:bg-gray-200 hover:text-green-500 dark:text-neutral-100 dark:hover:text-green-500 dark:hover:bg-yellow-100  "
                 } ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0`}
                 aria-hidden="true"

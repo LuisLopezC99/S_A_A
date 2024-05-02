@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { CheckModal } from "../pop-up/CheckModal";
+import { FaCheckCircle } from "react-icons/fa";
 
 export const CheckButton = ({ data, session_role = "" }) => {
   const [openModal, setOpenModal] = useState(false);
@@ -24,7 +25,7 @@ export const CheckButton = ({ data, session_role = "" }) => {
             title={title}
             onClick={handleClick}
           >
-            <img src="/check-box.png" className="w-4 h-4" />
+            <FaCheckCircle className="w-6 h-6 dark:text-green-500" />
           </button>
           <CheckModal
             isModalOpen={openModal}

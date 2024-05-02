@@ -1,8 +1,7 @@
 "use client";
-import Image from "next/image";
-import defaultProfilePic from "../../../../public/defaultProfilePic.png";
 import { useState } from "react";
 import ProfileModal from "../pop-up/ProfileModal";
+import { FaUserCircle } from "react-icons/fa";
 
 export const ProfileButton = ({ userData }) => {
   const [openModal, setOpenModal] = useState(false);
@@ -15,13 +14,12 @@ export const ProfileButton = ({ userData }) => {
     <>
       <div className="relative">
         <button
-          className="relative z-50 bg-white p-0 rounded-full shadow-lg"
+          className="relative z-50 dark:bg-gray-700 bg-white p-0 rounded-full shadow-lg"
           onClick={handleClick}
         >
-          <Image
+          <FaUserCircle 
             id="openProfileButton"
-            src={defaultProfilePic}
-            className="w-9 h-9 rounded-full"
+            className="w-11 h-11 rounded-full text-green-600"
             alt="Imagen de Perfil"
           />
         </button>

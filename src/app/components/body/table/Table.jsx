@@ -8,6 +8,7 @@ import { AddButton } from "../../buttons/AddButton";
 import { filterRowA, filterRowS } from "../../utils/filterRows";
 import ReportButton from "../../buttons/ReportButton";
 import Pagination from "../pagination/Pagination";
+import { HiDocumentAdd } from "react-icons/hi";
 
 const loadData = async (url) => {
   const data = await getRequest(url);
@@ -28,26 +29,26 @@ export default async function Table({
 }) {
 
   let rows = await loadData(url);
-  rows = rows ? rows  : [];
+  rows = rows ? rows : [];
   rows = rows.reverse();
 
   const filterRows =
     url === "session"
       ? filterRowS(rows, filterBox, querySearh)
       : isFilter
-      ? filterRowA(rows[0].agreements, filterBox, querySearh)
-      : filterRowA(rows, filterBox, querySearh);
+        ? filterRowA(rows[0].agreements, filterBox, querySearh)
+        : filterRowA(rows, filterBox, querySearh);
 
   const totalDocuments =
     querySearh != ""
       ? 1
       : filterRows.length === undefined || filterRows.length == 0
-      ? 1
-      : filterRows.length;
+        ? 1
+        : filterRows.length;
 
   let startIndex = (currentPage - 1) * itemsPerPage;
-  let endIndex = totalDocuments==1? 49 : Math.min(startIndex + itemsPerPage - 1, totalDocuments - 1);
-  
+  let endIndex = totalDocuments == 1 ? 49 : Math.min(startIndex + itemsPerPage - 1, totalDocuments - 1);
+
   const displayedRows = filterRows.slice(startIndex, endIndex + 1);
 
 
@@ -55,10 +56,10 @@ export default async function Table({
     url === "session"
       ? "Sesiones"
       : isFilter
-      ? `Acuerdos de la Sesión ${idsession}`
-      : session_role !== "secretaria"
-      ? "Mis Acuerdos Asignados"
-      : "Acuerdos";
+        ? `Acuerdos de la Sesión ${idsession}`
+        : session_role !== "secretaria"
+          ? "Mis Acuerdos Asignados"
+          : "Acuerdos";
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -67,32 +68,65 @@ export default async function Table({
           {title}
         </h2>
       </div>
-      <div className="block my-5  mx-3  p-5">
-        <div className="flex justify-start h-0">
-          {url === "session" ? (
-            <ComboBox
-              options={[
-                { value: "Extraordinaria", label: "Extraordinarios" },
-                { value: "Ordinaria", label: "Ordinarios" },
-              ]}
-              filterName={" Tipo Sesion"}
-              currentSelect={filterBox}
-            />
-          ) : (
-            <ComboBox
-              options={[
-                { value: "Tramitado", label: "Tramitados" },
-                { value: "Pendiente", label: "Pendientes" },
-                { value: "Por vencer", label: "Por vencer" },
-                { value: "Vencido", label: "Vencidos" },
-                { value: "Cumplido", label: "Cumplidos" },
-              ]}
-              filterName={" Estado"}
-              currentSelect={filterBox}
-            />
-          )}
+
+      <div className="block my-5 mx-3 p-5">
+
+        <div className="flex justify-start">
+          <div className="relative">
+            {url === "session" ? (
+              <div className="flex items-center">
+                <ComboBox className="rounded-md w-[1000px] px-4 py-2" 
+                  options={[
+                    { value: "Extraordinaria", label: "Extraordinarios" },
+                    { value: "Ordinaria", label: "Ordinarios" },
+                  ]}
+                  filterName={" Tipo Sesion"}
+                  currentSelect={filterBox}
+                />
+                <svg
+                  className="absolute top-1/2 right-2 transform -translate-y-1/2 w-5 h-5 text-gray-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+            ) : (
+              <ComboBox
+                options={[
+                  { value: "Tramitado", label: "Tramitados" },
+                  { value: "Pendiente", label: "Pendientes" },
+                  { value: "Por vencer", label: "Por vencer" },
+                  { value: "Vencido", label: "Vencidos" },
+                  { value: "Cumplido", label: "Cumplidos" },
+                ]}
+                filterName={" Estado"}
+                currentSelect={filterBox}
+              />
+
+              
+            )}
+            <svg
+                  className="absolute top-1/2 right-2 transform -translate-y-1/2 w-5 h-5 text-gray-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+          </div>
         </div>
-        <div>
+
+        <div className="mt-[-40px]">
           <ReportButton
             rows={filterRows}
             header={columns}
@@ -103,23 +137,32 @@ export default async function Table({
             sesion={idsession}
           />
         </div>
+        
         {/*     We may need to improve the way we do this SearchText validation  */}
-        <div className="flex justify-center h-0">
+        <div className="flex justify-center items-center mt-[-4vh] md:flex-col">
           <SearchText currentText={querySearh} />
         </div>
+
         {isFilter || url === "session" ? (
           <div className="flex justify-end ">
             <AddButton
               title={url}
               idSession={url !== "session" ? idsession : ""}
             >
-              Agregar
+              <div className="flex items-center">
+                <HiDocumentAdd className="w-6 h-6 mr-1 text-gray-500 dark:text-green-600" /> {/* Icono a la izquierda del texto */}
+                Agregar
+              </div>
             </AddButton>
           </div>
+
         ) : (
           <div className="flex justify-end py-5 px-4"></div>
+
         )}
+
       </div>
+
       <div className="mx-10 h-80 relative overflow-x-auto overflow-y-auto ">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 dark:bg-gray-800 px-10">
           <Thead columns={columns} />

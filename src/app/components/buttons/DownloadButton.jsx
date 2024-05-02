@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef } from "react";
 import Swal from "sweetalert2"
+import { IoDocumentTextSharp } from "react-icons/io5";
 
 export const DownloadButton = ({ filename, type, title }) => {
 	
@@ -42,10 +43,7 @@ export const DownloadButton = ({ filename, type, title }) => {
                 onClick={handleDownload}
                 title={title}
             >
-                <img
-                    src="/document.png"
-                    className="w-5 h-5"
-                />
+                <IoDocumentTextSharp className="w-7 h-7 text-gray-500 dark:text-green-500" />
             </button>
         </>
     );

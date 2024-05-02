@@ -6,7 +6,7 @@ import { ButtonEdit } from "../../buttons/ButtonEdit";
 import { DownloadButton } from "../../buttons/DownloadButton";
 import calculateZeros from "../../utils/addZeros";
 import Image from "next/image";
-
+import { MdEditSquare } from "react-icons/md";
 
 const TbodyS = ({ rows = [], columns }) => {
   const router = useRouter();
@@ -66,7 +66,8 @@ const TbodyS = ({ rows = [], columns }) => {
                   title="session"
                   data={{ id, inputDate, type, UrlVideo, report, sessionId: { consecutive: sessionId.consecutive } }}
                 >
-                  <img src="/edit.png" alt="AcuerdoEdit" />
+                  <MdEditSquare className="w-7 h-7 text-gray-500 dark:text-green-500" alt="AcuerdoEdit"/>
+                  
                 </ButtonEdit>
               </td>
             </tr>

@@ -6,6 +6,7 @@ import { ButtonEdit } from "../../buttons/ButtonEdit";
 import calculateZeros from "../../utils/addZeros";
 import { DownloadButton } from "../../buttons/DownloadButton";
 import { CheckButton } from "../../buttons/CheckButton";
+import { MdEditSquare } from "react-icons/md";
 
 const TbodyA = ({ rows = [], role = "" }) => {
 
@@ -144,7 +145,7 @@ const TbodyA = ({ rows = [], role = "" }) => {
                     }}
                     session_role={role}
                   >
-                    <img src="/edit.png" alt="AcuerdoEdit" />
+                    <MdEditSquare className = "w-7 h-7 text-gray-500 dark:text-green-500" alt="AcuerdoEdit" />
                   </ButtonEdit>
                 </>
               )}

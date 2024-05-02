@@ -2,6 +2,9 @@
 import React, { useState, useEffect, use } from "react";
 import AddUserModal from "../../pop-up/AddUserModal";
 import EditUserModal from "../../pop-up/EditUserModal";
+import { RiLockPasswordLine } from "react-icons/ri";
+import { MdEditSquare } from "react-icons/md";
+import { TiUserAdd } from "react-icons/ti";
 
 const UsersTable = () => {
   const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
@@ -33,22 +36,22 @@ const UsersTable = () => {
   const handleUpdate = (updatedUser) => {
     const userId = updatedUser.id;
     const role = updatedUser.roleid == 1 ? "admin" :
-    updatedUser.roleid == 2 ? "secretaria":
-    updatedUser.roleid == 3 ? "departamento": "alcaldia";
+      updatedUser.roleid == 2 ? "secretaria" :
+        updatedUser.roleid == 3 ? "departamento" : "alcaldia";
     // Update the user in the local state
     setUsers((prevUsers) =>
       prevUsers.map((user) =>
         user.id === userId
           ? {
-              ...user,
-              name: updatedUser.name || user.name,
-              email: updatedUser.email || user.email,
-              role: { name: role || user.role.name },
-              enabled:
-                updatedUser.enabled !== undefined
-                  ? updatedUser.enabled
-                  : user.enabled,
-            }
+            ...user,
+            name: updatedUser.name || user.name,
+            email: updatedUser.email || user.email,
+            role: { name: role || user.role.name },
+            enabled:
+              updatedUser.enabled !== undefined
+                ? updatedUser.enabled
+                : user.enabled,
+          }
           : user
       )
     );
@@ -115,10 +118,11 @@ const UsersTable = () => {
     <div className="container mx-auto p-4 dark:bg-gray-800">
       <div className="flex items-center justify-between mb-5">
         <button
-          className="bg-yellow-400 text-white px-4 py-2 rounded"
+          className="font-bold py-2 px-4 border border-yellow-700 rounded bg-yellow-200 hover:bg-yellow-300 dark:bg-yellow-400 dark:hover:bg-yellow-500 text-white px-4 py-2 rounded flex items-center space-x-2 text-gray-600 font-bold"
           onClick={addUserModalOpen}
         >
-          Agregar Usuario
+          <TiUserAdd className="text-lg w-6 h-6 text-gray-600 dark:text-green-600" />
+          <span>Agregar</span>
         </button>
 
         <div className="relative flex items-center w-64">
@@ -131,18 +135,20 @@ const UsersTable = () => {
             required
           />
           <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
+              className="h-5 text-gray-500 dark:text-gray-400"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
               <path
                 fillRule="evenodd"
-                d="M14.293 13.293a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414zM9 15a6 6 0 100-12 6 6 0 000 12z"
+                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
                 clipRule="evenodd"
               />
             </svg>
+
           </span>
         </div>
       </div>
@@ -202,20 +208,20 @@ const UsersTable = () => {
                 </td>
                 <td className="py-2 px-4 border-b">
                   <button
-                    className="bg-yellow-400 hover:bg-yellow-700 text-white font-bold py-2 px-4 border border-yellow-700 rounded"
+                    className="bg-yellow-200 hover:bg-yellow-300 dark:bg-yellow-400 dark:hover:bg-yellow-500 text-white font-bold py-2 px-4 border border-yellow-700 rounded"
                     id={`editButton-${user.id}`}
                     onClick={handleEditUser(user)}
                   >
-                    <img src="/edit.png" alt="Edit" />
+                    <MdEditSquare className="w-5 h-5 dark:text-green-600 text-gray-600" alt="Edit" />
                   </button>
                 </td>
                 <td className="py-2 px-4 border-b">
                   <button
-                    className="bg-yellow-400 hover:bg-yellow-700 text-white font-bold py-2 px-4 border border-yellow-700 rounded"
+                    className="bg-yellow-200 dark:bg-yellow-400 hover:bg-yellow-300 dark:hover:bg-yellow-500 text-white font-bold py-2 px-4 border border-yellow-700 rounded"
                     id={`forgotButton-${user.id}`}
                     onClick={handlePassword(user)}
                   >
-                    <img src="/forgot.png" alt="Forgot" />
+                    <RiLockPasswordLine className="w-5 h-5 dark:text-green-600 text-gray-600" alt="Forgot" />
                   </button>
                 </td>
               </tr>
