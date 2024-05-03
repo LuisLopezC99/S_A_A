@@ -85,7 +85,7 @@ export const Login = () => {
   };
 
   return (
-    <section className="h-screen flex items-center justify-center">
+    <section className="min-h-screen flex items-center justify-center">
       <div className="container mx-auto">
         <div className="flex items-center justify-center h-full">
           <div className="w-full md:w-10/12 lg:w-10/12 xl:w-10/12">
@@ -175,17 +175,17 @@ export const Login = () => {
 
                 <div className="w-full md:w-6/12 bg-gradient-to-r from-green-800 to-yellow-300">
                   <div className="max-w-xl">
-                    <div className="text-white px-3 py-4 md:px-14 md:py-14">
-                      <h4 className="mb-0 text-3xl py-4 md:px-14 md:py-14 ">
+                    <div className="text-white px-3 py-4 md:px-8 md:py-8">
+                      <h4 className="mb-4 text-2xl md:text-3xl ">
                         Municipalidad de Tibas
                       </h4>
-                      <p className="text-sm mb-5 ">
+                      <p className="text-sm md:text-base mb-4 ">
                         La misión es el propósito o la razón de ser de la
                         organización, conforme al principio de legalidad y el
                         marco normativo y de políticas públicas, que establece
                         las competencias de la institución.
                       </p>
-                      <p className="text-sm mb-0">
+                      <p className="text-sm md:text-base">
                         Por su parte, la visión recoge las aspiraciones de las
                         personas colaboradoras en la institución, con el fin de
                         alcanzar el perfil organizacional requerido para cumplir
