@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { FormEvent } from "react";
 import { putData, getRequest, putDataFile } from "@/app/requests/getRequests";
+import { set } from "react-hook-form";
 
 const EditAgreement = ({
   isModalOpen,
@@ -28,6 +29,7 @@ const EditAgreement = ({
   const [state, setState] = useState(agreementData.state);
   const [users, setUsers] = useState([]);
   const [actualUser, _] = useState(agreementData.users.name);
+  const [isChecked, setIsChecked] = useState(assignedTo === "externo" ? true : false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -69,13 +71,14 @@ const EditAgreement = ({
 
     const topic = formData.get("topic");
     const description = formData.get("description");
-    const asignedTo = formData.get("assignedTo");
+    const asignedTo = isChecked ? (users.find(user => user.role.name === "externo"))?.name : formData.get("assignedTo");
     const { name } = formData.get("file") || currentState; // Not used
 
     const simpleDate = formData.get("deadline");
     const date = simpleDate + "T00:00:00.000Z";
     const deadline = new Date(date);
-
+    const newState = isChecked ? "Externo" : ["Cumplido", "Tramitado", "Vencido"].includes(state) ? state : "Pendiente";
+    setState(newState);
     const agreementData = {
       id,
       topic,
@@ -86,36 +89,27 @@ const EditAgreement = ({
       sessionId: sessionId,
       description,
       agreementIdConsecutive,
-      state,
+      state: newState
     };
     const formData2 = new FormData();
     formData2.append("file", file);
     formData2.append("type", "Acuerdos");
     formData2.append("currentNameFile", report);
     name !== "" && putDataFile("file", formData2);
-    const minimumDate = new Date();
-    // minimumDate.setDate(minimumDate.getDate() + 3);
-
-    // if (deadline < minimumDate) {
-    //   Swal.fire({
-    //     icon: 'warning',
-    //     title: 'Error...',
-    //     text: 'La fecha de vencimiento se encuentra a 3 dias de hoy.'
-    //   })
-    // }
+    console.log(agreementData);
     const put = putData("agreement", agreementData);
     put.then((response) => {
       response
         ? Swal.fire({
-            icon: "success",
-            title: "Acuerdo actualizado",
-            text: "La solicitud ha sido exitosa!.",
-          }).then(() => window.location.reload())
-        : Swal.fire({
-            icon: "error",
-            title: "Error en el acuerdo",
-            text: "No se pudo procesar la actualizacion. Revise sus datos.",
-          });
+          icon: "success",
+          title: "Acuerdo actualizado",
+          text: "La solicitud ha sido exitosa!.",
+        }).then(() => window.location.reload())
+        : (Swal.fire({
+          icon: "error",
+          title: "Error en el acuerdo",
+          text: "No se pudo procesar la actualizacion. Revise sus datos.",
+        }), window.location.reload());
     });
     closeModal();
   };
@@ -128,6 +122,10 @@ const EditAgreement = ({
   const currentName = () => {
     return users.map((user) => (user.id === assignedTo ? user.name : ""));
   };
+
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+  }
 
   return (
     <div>
@@ -195,35 +193,46 @@ const EditAgreement = ({
                 </div>
 
                 <div className="mb-4">
-                  <div>
-                    <label
-                      className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
-                      htmlFor="assignedTo"
-                    >
-                      Asignado a:
-                    </label>
-                    <select
-                      className="custom-input"
-                      id="assignedTo"
-                      name="assignedTo"
-                      value={assignedTo}
-                      onChange={(event) => setAssignedTo(event.target.value)}
-                      required
-                      disabled={
-                        session_role !== "secretaria" &&
-                        session_role !== "alcaldia"
-                      }
-                    >
-                      <option value={actualUser}>Seleccionar</option>
-                      {users.map((user) =>
-                        user.name !== actualUser ? (
-                          <option key={user.id} value={user.name}>
-                            {user.name}
-                          </option>
-                        ) : null
-                      )}
-                    </select>
-                    <div>Asignado a: {actualUser}</div>
+                  <div className="flex items-center">
+                    <div>
+                      <label
+                        className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+                        htmlFor="assignedTo"
+                      >
+                        Asignado a:
+                      </label>
+                      <select
+                        className="custom-input"
+                        id="assignedTo"
+                        name="assignedTo"
+                        required
+                        disabled={isChecked}
+                      >
+                        <option value="">Seleccionar...</option>
+                        {users.map((user) => (
+                          user.role.name !== "externo" && (
+                            <option key={user.id} value={user.name}>
+                              {user.name}
+                            </option>
+                          )
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="ml-4">
+                      <label
+                        className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+                        htmlFor="external"
+                      >
+                        Externo
+                      </label>
+                      <input
+                        type="checkbox"
+                        id="external"
+                        checked={isChecked}
+                        onChange={handleCheckboxChange}
+                      />
+                    </div>
                   </div>
                   <div>
                     <label
@@ -260,7 +269,7 @@ const EditAgreement = ({
                   type="file"
                   onChange={handleFileUpload}
                   disabled={session_role !== "secretaria"}
-                  //required
+                //required
                 />
               </div>
               Archivo actual: <br />

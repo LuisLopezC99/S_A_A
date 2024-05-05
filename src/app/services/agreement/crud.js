@@ -29,7 +29,7 @@ export const createAgreement = async (agreement, agrID) => {
             year: agrID.year, // Asegúrate de proveer un valor válido
           },
         },
-        state: "Pendiente",
+        state: agreement.state,
       },
     });
   }

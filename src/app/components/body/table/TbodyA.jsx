@@ -87,6 +87,8 @@ const TbodyA = ({ rows = [], role = "" }) => {
                 <span className="estado estado-amarillo"></span>
               ) : state === "Tramitado" ? (
                 <span className="estado estado-azul"></span>
+              ) : state === "Externo" ? (
+                <span className="estado estado-morado"></span>
               ) : null}
               {state}
             </td>

@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 
 const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
   const router = useRouter();
+  const [isChecked, setIsChecked] = useState(false);
   const [oficio, setOficio] = useState("");
   const [lastOficio, setLastOficio] = useState(-1);
   const [users, setUsers] = useState([]);
@@ -29,64 +30,65 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
   const closeModal = () => {
     handleModalState();
   };
-const handleSubmit = async (event) => {
-  event.preventDefault();
-  const formData = new FormData(event.currentTarget);
-  const formData2 = new FormData();
-  formData2.append("file", file);
-  formData2.append("type", "Acuerdos");
-  const topic = formData.get("topic");
-  const description = formData.get("description");
-  const asignedTo = Number(formData.get("assignedTo"));
-  const deadlineDate = formData.get("deadline");
-  const sessionId = Number(sessionid);
-  const creationDate = new Date();
-  const { name } = formData.get("file");
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formData2 = new FormData();
+    formData2.append("file", file);
+    formData2.append("type", "Acuerdos");
+    const topic = formData.get("topic");
+    const description = formData.get("description");
+    const asignedTo = isChecked ? (users.find(user => user.role.name === "externo"))?.id : Number(formData.get("assignedTo"));
+    const deadlineDate = formData.get("deadline");
+    const sessionId = Number(sessionid);
+    const creationDate = new Date();
+    const state = isChecked ? "Externo" : "Pendiente";
+    const { name } = formData.get("file");
 
-  const agreementData = {
-    agreement: {
-      topic,
-      description,
-      asignedTo,
-      report: name,
-      deadline: new Date(deadlineDate),
-      sessionId,
-      creationDate,
-      state: "Pendiente",
-    },
-    agreementID: {
-      consecutive: lastOficio,
-      month: creationDate.getMonth() + 1,
-      year: creationDate.getFullYear(),
-    },
-  };
+    const agreementData = {
+      agreement: {
+        topic,
+        description,
+        asignedTo,
+        report: name,
+        deadline: new Date(deadlineDate),
+        sessionId,
+        creationDate,
+        state
+      },
+      agreementID: {
+        consecutive: lastOficio,
+        month: creationDate.getMonth() + 1,
+        year: creationDate.getFullYear(),
+      },
+    };
 
-  const minimumDate = new Date();
-  minimumDate.setDate(minimumDate.getDate() + 3);
+    const minimumDate = new Date();
+    minimumDate.setDate(minimumDate.getDate() + 3);
 
-  try {
-    const response = await postData("agreement", agreementData);
-    if (!response) {
-      throw new Error("El reporte se encuentra repetido.");
+    try {
+      const response = await postData("agreement", agreementData);
+      if (!response) {
+        throw new Error("El reporte se encuentra repetido.");
+      }
+      await postDataForm("file", formData2);
+      Swal.fire({
+        icon: "success",
+        title: "Acuerdo agregado",
+        text: "La solicitud ha sido exitosa!.",
+      }).then(() => {
+        closeModal();
+        window.location.reload()
+      })
+
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Error en el acuerdo",
+        text: error.message || "Ha ocurrido un error.",
+      });
     }
-    await postDataForm("file", formData2);
-    Swal.fire({
-      icon: "success",
-      title: "Acuerdo agregado",
-      text: "La solicitud ha sido exitosa!.",
-    }).then(() => {
-      closeModal();
-      window.location.reload()
-    })
-    
-  } catch (error) {
-    Swal.fire({
-      icon: "error",
-      title: "Error en el acuerdo",
-      text: error.message || "Ha ocurrido un error.",
-    });
-  }
-};
+  };
 
 
   useEffect(() => {
@@ -96,14 +98,13 @@ const handleSubmit = async (event) => {
         const actual = new Date();
         actual.getFullYear() === response[0].agreementId.year
           ? (setOficio(
-              `DSC-ACD-${response[0].agreementId.consecutive + 1}-${
-                actual.getMonth() + 1
-              }-${actual.getFullYear()}`
-            ),
+            `DSC-ACD-${response[0].agreementId.consecutive + 1}-${actual.getMonth() + 1
+            }-${actual.getFullYear()}`
+          ),
             setLastOficio(response[0].agreementId.consecutive + 1))
           : (setOficio(
-              `DSC-ACD-0-${actual.getMonth() + 1}-${actual.getFullYear()}`
-            ),
+            `DSC-ACD-0-${actual.getMonth() + 1}-${actual.getFullYear()}`
+          ),
             setLastOficio(0));
       } else {
         const actual = new Date();
@@ -112,6 +113,10 @@ const handleSubmit = async (event) => {
       }
     });
   });
+
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+  }
 
   return (
     <div>
@@ -175,28 +180,49 @@ const handleSubmit = async (event) => {
                 </div>
 
                 <div className="mb-4">
-                  <div>
-                    <label
-                      className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
-                      htmlFor="assignedTo"
-                    >
-                      Asignado a:
-                    </label>
-                    <select
-                      className="custom-input"
-                      id="assignedTo"
-                      name="assignedTo"
-                      required
-                    >
-                      <option value="">Seleccionar...</option>
-                      {users.map((user) => (
-                        <option key={user.id} value={user.id}>
-                          {user.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
 
+                  <div className="flex items-center">
+                    <div>
+                      <label
+                        className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+                        htmlFor="assignedTo"
+                      >
+                        Asignado a:
+                      </label>
+                      <select
+                        className="custom-input"
+                        id="assignedTo"
+                        name="assignedTo"
+                        required
+                        disabled={isChecked}
+                      >
+                        <option value="">Seleccionar...</option>
+
+                        {users.map((user) => (
+                          user.role.name !== "externo" && (
+                            <option key={user.id} value={user.id}>
+                              {user.name}
+                            </option>
+                          )
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="ml-4">
+                      <label
+                        className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+                        htmlFor="external"
+                      >
+                        Externo
+                      </label>
+                      <input
+                        type="checkbox"
+                        id="external"
+                        checked={isChecked}
+                        onChange={handleCheckboxChange}
+                      />
+                    </div>
+                  </div>
                   <div>
                     <label
                       className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"

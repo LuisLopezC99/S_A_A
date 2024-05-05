@@ -1,6 +1,6 @@
 export const completeAgreements = (agreements) => {
   agreements.forEach((agreement) => {
-    agreement.state === "Cumplido" || agreement.state === "Tramitado"
+    agreement.state === "Cumplido" || agreement.state === "Tramitado" || agreement.state === "Externo" || agreement.state === "Vencido"
       ? (agreement.state = agreement.state)
       : (agreement.state = agreementState(new Date(agreement.deadline)));
     // si el estado pasa a vencido deberia de setearse en bd

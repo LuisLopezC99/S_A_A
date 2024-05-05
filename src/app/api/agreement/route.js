@@ -29,8 +29,6 @@ export const POST = async (request) => {
     try {
         const { agreement, agreementID } = await request.json();
         const newInsert = await createAgreement(agreement, agreementID);
-        console.log("Este es el newinser", newInsert)
-        console.log("Este es el agreement", agreement, agreementID)
         await assignedEmail(newInsert);
         return NextResponse.json(newInsert);
     } catch (error) {
