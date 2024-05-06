@@ -39,6 +39,7 @@ export const POST = async (request) => {
 export const PUT = async (request) => {
     try {
         const newUpdate = await updateAgreement(await request.json())
+        await assignedEmail(newUpdate);
         console.log(newUpdate);
         return NextResponse.json(newUpdate)
     } catch (error) {
