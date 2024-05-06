@@ -7,6 +7,8 @@ import calculateZeros from "../../utils/addZeros";
 import { DownloadButton } from "../../buttons/DownloadButton";
 import { CheckButton } from "../../buttons/CheckButton";
 import { MdEditSquare } from "react-icons/md";
+import { IoDocumentAttach } from "react-icons/io5";
+import { IoDocumentTextSharp } from "react-icons/io5";
 
 const TbodyA = ({ rows = [], role = "" }) => {
 
@@ -92,17 +94,19 @@ const TbodyA = ({ rows = [], role = "" }) => {
               ) : null}
               {state}
             </td>
-            <td className="text-center flex justify-center items-center">
+            <td className="text-center  sm:justify-center sm:items-center">
               <DownloadButton
                 filename={report}
                 type="Acuerdos"
                 title="Abrir Acuerdo"
+                icon={<IoDocumentTextSharp className="w-7 h-7 text-gray-500 dark:text-green-500" />}
               ></DownloadButton>
 
               <DownloadButton
                 filename={reportCumplimiento}
                 type="Cumplidos"
                 title="Abrir Cumplido"
+                icon={<IoDocumentAttach  className="w-7 h-7 text-gray-500 dark:text-green-500" />}
               ></DownloadButton>
               <>
                 

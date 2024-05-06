@@ -71,60 +71,61 @@ export default async function Table({
 
       <div className="block my-5 mx-3 p-5">
 
-        <div className="flex justify-start">
-          <div className="relative">
-            {url === "session" ? (
-              <div className="flex items-center">
-                <ComboBox className="rounded-md w-[1000px] px-4 py-2" 
-                  options={[
-                    { value: "Extraordinaria", label: "Extraordinarios" },
-                    { value: "Ordinaria", label: "Ordinarios" },
-                  ]}
-                  filterName={" Tipo Sesion"}
-                  currentSelect={filterBox}
-                />
-                <svg
-                  className="absolute top-1/2 right-2 transform -translate-y-1/2 w-5 h-5 text-gray-500"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-            ) : (
-              <ComboBox
-                options={[
-                  { value: "Tramitado", label: "Tramitados" },
-                  { value: "Pendiente", label: "Pendientes" },
-                  { value: "Por vencer", label: "Por vencer" },
-                  { value: "Vencido", label: "Vencidos" },
-                  { value: "Cumplido", label: "Cumplidos" },
-                ]}
-                filterName={" Estado"}
-                currentSelect={filterBox}
-              />
+      <div className="flex justify-start">
+  <div className="relative">
+    {url === "session" ? (
+      <div className="flex items-center">
+        <ComboBox
+          className="rounded-md w-full md:w-64 px-4 py-2" // Utiliza w-full en lugar de un ancho fijo
+          options={[
+            { value: "Extraordinaria", label: "Extraordinarios" },
+            { value: "Ordinaria", label: "Ordinarios" },
+          ]}
+          filterName={" Tipo Sesión"}
+          currentSelect={filterBox}
+        />
+        <svg
+          className="absolute top-1/2 right-2 transform -translate-y-1/2 w-5 h-5 text-gray-500"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fillRule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </div>
+    ) : (
+      <ComboBox
+        className="w-full md:w-64 px-4 py-2" // Utiliza w-full en lugar de un ancho fijo
+        options={[
+          { value: "Tramitado", label: "Tramitados" },
+          { value: "Pendiente", label: "Pendientes" },
+          { value: "Por vencer", label: "Por vencer" },
+          { value: "Vencido", label: "Vencidos" },
+          { value: "Cumplido", label: "Cumplidos" },
+        ]}
+        filterName={" Estado"}
+        currentSelect={filterBox}
+      />
+    )}
+    <svg
+      className="absolute top-1/2 right-2 transform -translate-y-1/2 w-5 h-5 text-gray-500"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fillRule="evenodd"
+        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+        clipRule="evenodd"
+      />
+    </svg>
+  </div>
+</div>
 
-              
-            )}
-            <svg
-                  className="absolute top-1/2 right-2 transform -translate-y-1/2 w-5 h-5 text-gray-500"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-          </div>
-        </div>
 
         <div className="mt-[-40px]">
           <ReportButton
@@ -137,24 +138,31 @@ export default async function Table({
             sesion={idsession}
           />
         </div>
-        
+
         {/*     We may need to improve the way we do this SearchText validation  */}
-        <div className="flex justify-center items-center mt-[-4vh] md:flex-col">
-          <SearchText currentText={querySearh} />
+        <div className="flex justify-center items-center md:flex-col">
+          <div className="mt-4 md:mt-0 w-full max-w-xs md:max-w-sm">
+            <SearchText currentText={querySearh} />
+          </div>
         </div>
 
         {isFilter || url === "session" ? (
-          <div className="flex justify-end ">
+          <div>
+          <div className="flex justify-end mt-2"> {/* Agregué mt-2 para mover el botón hacia abajo */}
             <AddButton
               title={url}
               idSession={url !== "session" ? idsession : ""}
+              className="flex items-center justify-center max-w-xs md:max-w-sm"
             >
               <div className="flex items-center">
-                <HiDocumentAdd className="w-6 h-6 mr-1 text-gray-500 dark:text-green-600" /> {/* Icono a la izquierda del texto */}
-                Agregar
+                <HiDocumentAdd className="w-6 h-6 mr-1 text-gray-500 dark:text-green-600" />
+                <span className="md:hidden">Agregar</span>
+                <span className="hidden md:inline-block mt-1">Agregar</span>
               </div>
             </AddButton>
           </div>
+        </div>
+        
 
         ) : (
           <div className="flex justify-end py-5 px-4"></div>

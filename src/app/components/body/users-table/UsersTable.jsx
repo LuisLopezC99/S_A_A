@@ -152,92 +152,98 @@ const UsersTable = () => {
           </span>
         </div>
       </div>
-      <table className="min-w-full bg-white dark:bg-gray-700 border rounded">
-        <thead>
-          <tr>
-            <th className="py-2 px-4 border-b text-left dark:text-black">
-              Nombre
-            </th>
-            <th className="py-2 px-4 border-b text-left dark:text-black">
-              Correo
-            </th>
-            <th className="py-2 px-4 border-b text-left dark:text-black">
-              Role
-            </th>
-            <th className="py-2 px-4 border-b text-left dark:text-black">
-              Estado
-            </th>
-            <th className="py-2 px-4 border-b text-left dark:text-black">
-              Editar
-            </th>
-            <th className="py-2 px-4 border-b text-left dark:text-black">
-              Recuperar
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {users
-            ?.filter(
-              (user) =>
-                user.name.toLowerCase().includes(filterText.toLowerCase()) ||
-                user.email.toLowerCase().includes(filterText.toLowerCase()) ||
-                user.role.name.toLowerCase().includes(filterText.toLowerCase())
-            )
-            ?.map((user) => (
-              <tr key={user.name}>
-                <td className="py-2 px-4 border-b">{user.name}</td>
-                <td className="py-2 px-4 border-b">{user.email}</td>
-                <td className="py-2 px-4 border-b">{user.role.name}</td>
-                <td className="py-2 px-4 border-b">
-                  <label className="inline-flex items-center me-5 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      id={`checkbox-${user.id}`}
-                      onChange={() => handleActivo(user)}
-                      className="sr-only peer"
-                      checked={user.enabled}
-                    />
-                    <div className="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
-                    <span
-                      className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"
-                      style={{ width: "60px" }}
+
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white dark:bg-gray-700 border rounded">
+          <thead>
+            <tr>
+              <th className="py-2 px-4 border-b text-left dark:text-black">
+                Nombre
+              </th>
+              <th className="py-2 px-4 border-b text-left dark:text-black">
+                Correo
+              </th>
+              <th className="py-2 px-4 border-b text-left dark:text-black">
+                Role
+              </th>
+              <th className="py-2 px-4 border-b text-left dark:text-black">
+                Estado
+              </th>
+              <th className="py-2 px-4 border-b text-left dark:text-black">
+                Editar
+              </th>
+              <th className="py-2 px-4 border-b text-left dark:text-black">
+                Recuperar
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {users
+              ?.filter(
+                (user) =>
+                  user.name.toLowerCase().includes(filterText.toLowerCase()) ||
+                  user.email.toLowerCase().includes(filterText.toLowerCase()) ||
+                  user.role.name.toLowerCase().includes(filterText.toLowerCase())
+              )
+              ?.map((user) => (
+                <tr key={user.name}>
+                  <td className="py-2 px-4 border-b">{user.name}</td>
+                  <td className="py-2 px-4 border-b">{user.email}</td>
+                  <td className="py-2 px-4 border-b">{user.role.name}</td>
+                  <td className="py-2 px-4 border-b">
+                    <label className="inline-flex items-center me-5 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        id={`checkbox-${user.id}`}
+                        onChange={() => handleActivo(user)}
+                        className="sr-only peer"
+                        checked={user.enabled}
+                      />
+                      <div className="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
+                      <span
+                        className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        style={{ width: "60px" }}
+                      >
+                        {user.enabled ? "Activo" : "Desactivo"}
+                      </span>
+                    </label>
+                  </td>
+                  <td className="py-2 px-4 border-b">
+                    <button
+                      className="bg-yellow-200 hover:bg-yellow-300 dark:bg-yellow-400 dark:hover:bg-yellow-500 text-white font-bold py-2 px-4 border border-yellow-700 rounded"
+                      id={`editButton-${user.id}`}
+                      onClick={handleEditUser(user)}
                     >
-                      {user.enabled ? "Activo" : "Desactivo"}
-                    </span>
-                  </label>
-                </td>
-                <td className="py-2 px-4 border-b">
-                  <button
-                    className="bg-yellow-200 hover:bg-yellow-300 dark:bg-yellow-400 dark:hover:bg-yellow-500 text-white font-bold py-2 px-4 border border-yellow-700 rounded"
-                    id={`editButton-${user.id}`}
-                    onClick={handleEditUser(user)}
-                  >
-                    <MdEditSquare className="w-5 h-5 dark:text-green-600 text-gray-600" alt="Edit" />
-                  </button>
-                </td>
-                <td className="py-2 px-4 border-b">
-                  <button
-                    className="bg-yellow-200 dark:bg-yellow-400 hover:bg-yellow-300 dark:hover:bg-yellow-500 text-white font-bold py-2 px-4 border border-yellow-700 rounded"
-                    id={`forgotButton-${user.id}`}
-                    onClick={handlePassword(user)}
-                  >
-                    <RiLockPasswordLine className="w-5 h-5 dark:text-green-600 text-gray-600" alt="Forgot" />
-                  </button>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
+                      <MdEditSquare className="w-5 h-5 dark:text-green-600 text-gray-600" alt="Edit" />
+                    </button>
+                  </td>
+                  <td className="py-2 px-4 border-b">
+                    <button
+                      className="bg-yellow-200 dark:bg-yellow-400 hover:bg-yellow-300 dark:hover:bg-yellow-500 text-white font-bold py-2 px-4 border border-yellow-700 rounded"
+                      id={`forgotButton-${user.id}`}
+                      onClick={handlePassword(user)}
+                    >
+                      <RiLockPasswordLine className="w-5 h-5 dark:text-green-600 text-gray-600" alt="Forgot" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+
       <AddUserModal
         isOpen={isAddUserModalOpen}
         onClose={addUserModalClosed}
         addNewUser={addUser}
+        className="sm:w-full md:w-3/4 lg:w-1/2 xl:w-1/3"
       />
       <EditUserModal
         isOpen={isEditUserModalOpen}
         onClose={editUserModalClosed}
         editUser={handleUpdate}
         selectedUser={selectedUser}
+        className="sm:w-full md:w-3/4 lg:w-1/2 xl:w-1/3"
       />
     </div>
   );

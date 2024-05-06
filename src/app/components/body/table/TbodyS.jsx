@@ -1,4 +1,5 @@
 "use client";
+import { IoDocumentTextSharp } from "react-icons/io5";
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
@@ -60,6 +61,7 @@ const TbodyS = ({ rows = [], columns }) => {
                   filename={report}
                   type="Actas"
                   title="Abrir Archivo Sesion"
+                  icon={<IoDocumentTextSharp className="w-7 h-7 text-gray-500 dark:text-green-500" />}
                 >
                 </DownloadButton>
                 <ButtonEdit

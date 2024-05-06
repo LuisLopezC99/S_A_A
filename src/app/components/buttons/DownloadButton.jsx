@@ -3,7 +3,7 @@ import { useState, useRef } from "react";
 import Swal from "sweetalert2"
 import { IoDocumentTextSharp } from "react-icons/io5";
 
-export const DownloadButton = ({ filename, type, title }) => {
+export const DownloadButton = ({ filename, type, title, icon }) => {
 	
     const handleDownload = async () => {
 		
@@ -43,7 +43,7 @@ export const DownloadButton = ({ filename, type, title }) => {
                 onClick={handleDownload}
                 title={title}
             >
-                <IoDocumentTextSharp className="w-7 h-7 text-gray-500 dark:text-green-500" />
+                {icon}
             </button>
         </>
     );

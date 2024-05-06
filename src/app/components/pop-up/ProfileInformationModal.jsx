@@ -170,12 +170,6 @@ const ProfileInformationModal = ({
                       <p className="text-gray-500">{userData["role"]}</p>
                     </div>
                   </div>
-
-                  <Image
-                    src={defaultProfilePic}
-                    className="w-40 h-40 rounded-full object-cover"
-                    alt="Profile Picture"
-                  />
                 </div>
               </div>
             ) : (

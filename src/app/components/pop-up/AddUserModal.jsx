@@ -1,5 +1,5 @@
 "use client"
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import Swal from 'sweetalert2'
 
 
@@ -7,7 +7,7 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
     const [userData, setUserData] = useState({
         email: '',
         name: '',
-        role: { 
+        role: {
             name: ''
         },
         enabled: true,
@@ -86,7 +86,7 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({...userDataWithPassword, subject: 'Bienvenido a la Municipalidad de Tibás',}),
+                    body: JSON.stringify({ ...userDataWithPassword, subject: 'Bienvenido a la Municipalidad de Tibás', }),
                 });
             } else {
                 const Toast = Swal.mixin({
@@ -113,11 +113,8 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
     };
 
     return (
-        <div
-            className={`fixed top-0 left-0 w-full h-full flex items-center justify-center ${isOpen ? 'visible' : 'invisible'
-                }`}
-        >
-            <div className="relative bg-white rounded-lg shadow dark:bg-gray-700 w-96">
+        <div className={`fixed top-0 left-0 w-full h-full flex items-center justify-center ${isOpen ? 'visible' : 'invisible'}`}>
+            <div className="relative bg-white rounded-lg shadow dark:bg-gray-700 sm:w-full md:w-96">
                 <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                         Agregar Usuario
@@ -198,62 +195,17 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
                                 onChange={handleInputChange}
                                 required
                             >
-                                <option value="">Seleccionar Role</option> {/* Opción predeterminada */}
-                                <option value="1">Admin</option> {/* Opción de administrador */}
-                                <option value="2">Secretaria</option> {/* Opción de editor */}
-                                <option value="3">Departamento</option> {/* Opción de administrador */}
-                                <option value="4">Alcaldia</option> {/* Opción de editor */}
+                                <option value="">Seleccionar Role</option>
+                                <option value="1">Admin</option>
+                                <option value="2">Secretaria</option>
+                                <option value="3">Departamento</option>
+                                <option value="4">Alcaldia</option>
                             </select>
                         </div>
-                        {/* 
-                        
-                        <div>
-                            <label
-                                htmlFor="enabled"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >
-                                Habilitado:
-                            </label>
-                            <div className="flex items-center">
-                                <input
-                                    type="checkbox"
-                                    name="enabled"
-                                    id="enabled"
-                                    className="mr-2"
-                                    checked={true}
-                                    onChange={(e) => setUserData({ ...userData, enabled: e.target.checked })}
-                                    disabled
-                                    required
-                                />
-                            </div>
-                        </div>  innceseario, al crearse se puede habilitar o deshabilitar en la misma tabla
-                        <div>
-                            <label
-                                htmlFor="firstTime"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >
-                                Nuevo Ingreso:
-                            </label>
-                            <div className="flex items-center">
-                                <input
-                                    type="checkbox"
-                                    name="FirstTime"
-                                    id="FirstTime"
-                                    className="mr-2"
-                                    checked={true}
-                                    onChange={(e) => setUserData({ ...userData, FirstTime: e.target.checked })}
-                                    disabled
-                                    required        innceseario, siempre que se cree debe ser nuevo ingreso
-                                />
-
-                            </div>
-                        </div> 
-                        
-                        */}
                     </div>
                     <button
                         type="submit"
-                        className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        className="text-gray-600 dark:text-green-800 inline-flex items-center bg-yellow-200 hover:bg-yellow-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-400 dark:hover:bg-yellow-500 dark:focus:ring-blue-800"
                     >
                         <svg
                             className="me-1 -ms-1 w-5 h-5"
@@ -272,6 +224,7 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
                 </form>
             </div>
         </div>
+
     );
 };
 

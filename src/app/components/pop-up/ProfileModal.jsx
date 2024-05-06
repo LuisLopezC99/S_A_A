@@ -47,7 +47,7 @@ const ProfileModal = ({ isModalOpen, handleModalState, userData}) => {
       {isModalOpen && (
         <div
           ref={ref}
-          className="dark:bg-gray-700 w-96 absolute z-50 mt-1 w-48 md:w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 origin-top-right right-0"
+          className="dark:bg-gray-700 w-full md:w-96 lg:w-96 absolute z-50 mt-1 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 origin-top-right right-0"
         >
           <div className="flex flex-col items-center">
             <div className="flex-shrink-0 py-4">
@@ -85,9 +85,9 @@ const ProfileModal = ({ isModalOpen, handleModalState, userData}) => {
                   </a>
                 </li>
 
-                <li className="mb-1">
+                <li className="mt-1 mb-2">
                 
-                <AboutButton userData={userData} />
+                <AboutButton  />
 
                 </li>
 
