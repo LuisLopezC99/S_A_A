@@ -22,7 +22,7 @@ export const sendAssignedEmail = async (topic, description, deadline, name, emai
         html: `
           <div>
             <h1>Acuerdo asignado</h1>
-            <p>Buenos días, ${name}</p>
+            <p>Buen día, ${name}</p>
             <p>Se le ha asignado un nuevo acuerdo.</p>
             <p><strong>Datos del acuerdo:</strong></p>
             <ul>
