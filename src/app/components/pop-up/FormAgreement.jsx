@@ -180,7 +180,6 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
                 </div>
 
                 <div className="mb-4">
-
                   <div className="flex items-center">
                     <div>
                       <label
@@ -208,20 +207,25 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
                       </select>
                     </div>
 
-                    <div className="ml-4">
-                      <label
-                        className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
-                        htmlFor="external"
-                      >
-                        Externo
-                      </label>
-                      <input
-                        type="checkbox"
-                        id="external"
-                        checked={isChecked}
-                        onChange={handleCheckboxChange}
-                      />
-                    </div>
+                    <div className="ml-5 flex items-center mt-1"> {/* Cambiado mt-2 a mt-1 */}
+  <label
+    className="block text-gray-700 text-sm font-bold mb-2 dark:text-white mr-2"
+    htmlFor="external"
+  >
+    Externo
+  </label>
+  <div>
+    <input
+      type="checkbox"
+      id="external"
+      checked={isChecked}
+      onChange={handleCheckboxChange}
+    />
+  </div>
+</div>
+
+
+
                   </div>
                   <div>
                     <label

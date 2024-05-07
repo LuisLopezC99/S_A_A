@@ -219,9 +219,9 @@ const EditAgreement = ({
                       </select>
                     </div>
 
-                    <div className="ml-4">
+                    <div className="ml-5 flex items-center mt-1"> {/* Cambiado mt-2 a mt-1 */}
                       <label
-                        className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+                        className="block text-gray-700 text-sm font-bold mb-2 dark:text-white mr-2"
                         htmlFor="external"
                       >
                         Externo
