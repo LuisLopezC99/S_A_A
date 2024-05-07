@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import verifyPassword from "../utils/verifyPassword";
+import Swal from 'sweetalert2';
 
 const PasswordModal = ({ user }) => {
   const router = useRouter();
@@ -16,10 +17,12 @@ const PasswordModal = ({ user }) => {
     if (!verifyPass) {
       return;
     }
+
     if (password !== confirmPassword) {
       setError("Las contraseñas no coinciden");
       return;
     }
+
     setCorrecto("✅ Formato Correcto...");
 
     const updatedUser = { ...user, password: password, firstTime: false };
@@ -57,12 +60,25 @@ const PasswordModal = ({ user }) => {
         }
       })
       .then(() => {
-        router.push("/");
-        alert(
-          "Se ha cambiado la contraseña correctamente y se ha enviado un correo de confirmación"
-        );
+        Swal.fire({
+          title: 'Contraseña cambiada',
+          text: 'Se ha cambiado la contraseña correctamente y se ha enviado un correo de confirmación',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        }).then(() => {
+          router.push("/");
+        });
       })
-      .catch((error) => console.log("Error:", error));
+      .catch((error) => {
+        // Si hay un error
+        Swal.fire({
+          title: 'Error',
+          text: 'Hubo un problema al cambiar la contraseña. Por favor, inténtalo de nuevo más tarde.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+        });
+        console.log("Error:", error);
+      });
 
     console.log("Contraseña válida:", password);
   };

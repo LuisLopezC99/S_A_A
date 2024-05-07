@@ -5,6 +5,7 @@ import EditUserModal from "../../pop-up/EditUserModal";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { MdEditSquare } from "react-icons/md";
 import { TiUserAdd } from "react-icons/ti";
+import Swal from "sweetalert2";
 
 const UsersTable = () => {
   const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
@@ -56,6 +57,7 @@ const UsersTable = () => {
       )
     );
   };
+
   const handlePassword = (user) => () => {
     const randomPassword = Math.random().toString(36).slice(-8);
     fetch("/api/users", {
@@ -84,9 +86,16 @@ const UsersTable = () => {
       .then((response) =>
         response.ok ? response.json() : Promise.reject(response)
       )
-      .then(() => alert("Se ha enviado un correo con la nueva contraseña"))
+      .then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: '¡Correo enviado!',
+          text: 'Se ha enviado un correo con la nueva contraseña',
+        });
+      })
       .catch((error) => console.log("Error:", error));
   };
+
   const handleEditUser = (user) => () => {
     setSelectedUser(user);
     editUserModalClosed();
@@ -118,7 +127,7 @@ const UsersTable = () => {
     <div className="container mx-auto p-4 dark:bg-gray-800">
       <div className="flex items-center justify-between mb-5">
         <button
-          className="font-bold py-2 px-4 border border-yellow-700 rounded bg-yellow-200 hover:bg-yellow-300 dark:bg-yellow-400 dark:hover:bg-yellow-500 text-white px-4 py-2 rounded flex items-center space-x-2 text-gray-600 font-bold"
+          className="font-bold py-2 px-4 border border-yellow-700 rounded bg-yellow-200 hover:bg-yellow-300 dark:bg-yellow-400 dark:hover:bg-yellow-500 text-gray-400 px-4 py-2 rounded flex items-center space-x-2 text-gray-600 font-bold"
           onClick={addUserModalOpen}
         >
           <TiUserAdd className="text-lg w-6 h-6 text-gray-600 dark:text-green-600" />
