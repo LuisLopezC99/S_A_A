@@ -13,10 +13,12 @@ const Flowbar = async () => {
                     href={session.user.role === 'admin' ? '/admin' : '/home'}
                     className="flex items-center pr-5 md:pr-15"
                 >
-                    <p>©2024 Todos los derechos reservados por Municipalidad de Tibás. Diseño por universidad nacional escuela de informática</p>
+                    <p>©2024 Todos los derechos reservados por Municipalidad de Tibás. Diseño por Universidad Nacional, Escuela de Informática</p>
                 </a>
             </div>
         </footer>
+
+
 
     );
 };
