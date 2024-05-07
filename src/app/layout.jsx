@@ -4,6 +4,7 @@ import { Navbar } from "./components/header/Navbar";
 import { Providers } from "./providers";
 import SessionAuthProvider from "./context/SessionAuthProvider";
 import AutoLogoutProvider from "./components/utils/SesionInactivityHandler";
+import Flowbar from "./components/footer/Flowbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({ children }) {
             <Providers>
               <Navbar />
               {children}
+              <Flowbar />
             </Providers>
           </AutoLogoutProvider>
         </SessionAuthProvider>
