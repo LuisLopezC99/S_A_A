@@ -24,6 +24,7 @@ export const filterRowA = (rows, filter, searchText) => {
           row.state,
           agreementIdFormatted,
           row.users.name,
+          `Sesion ${row.session.type} N.${row.session.sessionId.consecutive}`,
           castDateToCrDateString(row.creationDate),
           castDateToCrDateString(row.deadline)
         ))
