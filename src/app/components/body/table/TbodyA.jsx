@@ -11,7 +11,7 @@ import { IoDocumentAttach } from "react-icons/io5";
 import { IoDocumentTextSharp } from "react-icons/io5";
 
 const TbodyA = ({ rows = [], role = "" }) => {
-
+  console.log("rows", rows);
   const [modalVisible, setModalVisible] = useState(false);
   const [row, setRows] = useState(rows);
   const [oficio, setOficio] = useState("");
@@ -58,6 +58,7 @@ const TbodyA = ({ rows = [], role = "" }) => {
           state,
           agreementId,
           agreementIdConsecutive,
+          session,
         } = row;
         const creationDateCast = castDateToCrDate(new Date(creationDate));
         const deadlineCast = castDateToCrDate(new Date(deadline));
@@ -74,6 +75,7 @@ const TbodyA = ({ rows = [], role = "" }) => {
                 `DSC-ACD-${calculateZeros(agreementId.consecutive, true)}${agreementId.consecutive}-${calculateZeros(agreementId.month)}${agreementId.month}-${agreementId.year}`
               }
             </td>
+            <td className="px-6 py-4 text-center">{`Sesion ${session.type} N.${session.sessionId.consecutive}`}</td>
             <td className="px-6 py-4 text-center">{topic}</td>
             <td className="px-6 py-4 text-center">{users.name}</td>
             <td className="px-6 py-4 text-center">{creationDateCast}</td>

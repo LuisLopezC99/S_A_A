@@ -23,6 +23,7 @@ const SessionPage = async ({ params, searchParams }) => {
           columns={[
             "Oficio",
             "Tema",
+            "Sesion",
             "Asignado",
             "Fecha de creación",
             "Fecha de vencimiento",

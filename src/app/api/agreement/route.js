@@ -21,6 +21,7 @@ export const GET = async (request) => {
         completeAgreements(agreements)
         return NextResponse.json(agreements)
     } catch (error) {
+        
         return NextResponse.json({ error: "Hubo un error al procesar la solicitud" }, { status: 500 });
     }
 }
@@ -32,7 +33,10 @@ export const POST = async (request) => {
         await assignedEmail(newInsert);
         return NextResponse.json(newInsert);
     } catch (error) {
-        return NextResponse.json({ error: "Hubo un error al procesar la solicitud. Posible repeticion de archivo" }, { status: 500 });
+        console.log(error)
+        if( error.stack.includes("consecutive") )
+            return NextResponse.json({ error: "Consecutivo Repetido" }) 
+        return NextResponse.json({ error: "Error al crear el acuerdo, Vuelva a intentarlo" });   
     }
 }
 

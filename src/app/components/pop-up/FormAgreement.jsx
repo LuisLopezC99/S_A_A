@@ -11,7 +11,7 @@ import { FormEvent } from "react";
 import Swal from "sweetalert2";
 
 const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
-  const router = useRouter();
+  
   const [isChecked, setIsChecked] = useState(false);
   const [oficio, setOficio] = useState("");
   const [lastOficio, setLastOficio] = useState(-1);
@@ -68,8 +68,8 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
 
     try {
       const response = await postData("agreement", agreementData);
-      if (!response) {
-        throw new Error("El reporte se encuentra repetido.");
+      if (response.error) {
+        throw new Error(response.error);
       }
       await postDataForm("file", formData2);
       Swal.fire({
@@ -86,7 +86,7 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
         icon: "error",
         title: "Error en el acuerdo",
         text: error.message || "Ha ocurrido un error.",
-      });
+      })
     }
   };
 
@@ -94,6 +94,7 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
   useEffect(() => {
     const promise = getRequest("agreement?add=Hola");
     promise.then((response) => {
+      console.log(response);
       if (response[0]) {
         const actual = new Date();
         actual.getFullYear() === response[0].agreementId.year
@@ -112,10 +113,17 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
         setLastOficio(0);
       }
     });
-  });
+  }, []);
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
+  }
+
+  const handleConsecutiveValue = (e) => {
+    const actual = new Date();
+    setLastOficio(Number(e.target.value));
+    setOficio(`DSC-ACD-${e.target.value}-${actual.getMonth() + 1}-${actual.getFullYear()}`);
+    
   }
 
   return (
@@ -208,21 +216,21 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
                     </div>
 
                     <div className="ml-5 flex items-center mt-1"> {/* Cambiado mt-2 a mt-1 */}
-  <label
-    className="block text-gray-700 text-sm font-bold mb-2 dark:text-white mr-2"
-    htmlFor="external"
-  >
-    Externo
-  </label>
-  <div>
-    <input
-      type="checkbox"
-      id="external"
-      checked={isChecked}
-      onChange={handleCheckboxChange}
-    />
-  </div>
-</div>
+                      <label
+                        className="block text-gray-700 text-sm font-bold mb-2 dark:text-white mr-2"
+                        htmlFor="external"
+                      >
+                        Externo
+                      </label>
+                      <div>
+                        <input
+                          type="checkbox"
+                          id="external"
+                          checked={isChecked}
+                          onChange={handleCheckboxChange}
+                        />
+                      </div>
+                    </div>
 
 
 
@@ -245,6 +253,24 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
                     />
                   </div>
                 </div>
+              </div>
+
+              <div className="mb-4">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+                  htmlFor="consecutive"
+                >
+                  Consecutivo
+                </label>
+                <input
+                  className="custom-input"
+                  id="consecutive"
+                  name="consecutive"
+                  type="number"
+                  value={lastOficio}
+                  onChange={handleConsecutiveValue}
+                  required
+                />
               </div>
 
               <div className="mb-4">

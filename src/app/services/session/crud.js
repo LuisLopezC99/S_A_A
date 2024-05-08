@@ -35,7 +35,7 @@ export const readSessions = async () => {
 }
 
 export const readFilterSession = async (filter) => {
-
+    try {
     const sessions = await prisma.tab_session.findMany({
         include: {
             agreements: {
@@ -54,7 +54,17 @@ export const readFilterSession = async (filter) => {
                         select: {
                             name: true
                         }
-                    }
+                    },
+                    session : {
+                        select: {
+                          type: true,
+                          sessionId : {
+                            select: {
+                              consecutive: true
+                            }
+                          }
+                        }
+                      }
                 }
             },
             sessionId: true
@@ -79,6 +89,9 @@ export const readFilterSession = async (filter) => {
     })
 
     return sessions
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export const updateSession = async (session) => {

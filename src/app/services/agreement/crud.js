@@ -34,7 +34,7 @@ export const createAgreement = async (agreement, agrID) => {
     });
   }
   catch (e) {
-    console.log(e)
+    throw e
   }
 
 }
@@ -43,7 +43,17 @@ export const readAgreement = async () => {
   const agreems = await prisma.tab_agreement.findMany({
     include: {
       agreementId: true,
-      users: true
+      users: true,
+      session : {
+        select: {
+          type: true,
+          sessionId : {
+            select: {
+              consecutive: true
+            }
+          }
+        }
+      }
     }
   })
   return agreems
@@ -123,7 +133,7 @@ export const updateAgreement = async (agreement) => {
       }
     })
   } catch (e) {
-    console.log(e)
+     throw e
   }
 }
 export const countFilteredAgreements = async (filter) => {
@@ -184,14 +194,15 @@ export const filterAgreement = async (filter) => {
 export const getLastAgreement = async () => {
   return await prisma.tab_agreement.findMany({
     orderBy: {
-      id: 'desc',
+      agreementId: {
+        consecutive: 'desc',
+      },
     },
-    include: {
+    select: {
       agreementId: true,
-      users: true
     },
     take: 1,
-  })
+  });
 }
 export const getTotalAgrements = async () => {
   const total = await prisma.tab_agreement.count();
