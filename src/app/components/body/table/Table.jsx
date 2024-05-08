@@ -172,7 +172,7 @@ export default async function Table({
       </div>
 
       <div className="mx-10 h-full relative overflow-x-auto overflow-y-auto ">
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 dark:bg-gray-800 px-10">
+        <table className="w-full h-full text-sm text-left text-gray-500 dark:text-gray-400 dark:bg-gray-800 px-10">
           <Thead columns={columns} />
           {url === "session" ? (
             <TbodyS rows={displayedRows} columns={columns} />

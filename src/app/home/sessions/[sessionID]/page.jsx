@@ -14,7 +14,7 @@ const SessionPage = async ({ params, searchParams }) => {
   let type = searchParams?.type || "";
   let consecutive = searchParams?.consecutive || "";
   return (
-    <div className="App">
+    <div className="flex-grow">
       <Suspense
         key={currentPage + itemsPerPage + filterBox + query}
         fallback={<Loading />}

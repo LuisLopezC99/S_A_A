@@ -9,7 +9,7 @@ export default async function Home({ searchParams }) {
   let filterBox = searchParams?.filter || "";
   let query = searchParams?.searchText || "";
   return (
-    <div className="">
+    <div className="flex-grow">
       <Suspense
         key={currentPage + itemsPerPage + filterBox + query}
         fallback={<Loading />}

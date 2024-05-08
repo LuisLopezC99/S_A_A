@@ -21,7 +21,7 @@ export default async function Home({ searchParams }) {
   
 
   return (
-    <div className="App">
+    <div className="flex-grow">
       <Suspense
         key={currentPage + itemsPerPage + filterBox + query}
         fallback={<Loading />}
