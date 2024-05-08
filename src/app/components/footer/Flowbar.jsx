@@ -7,7 +7,7 @@ const Flowbar = async () => {
     if (!session) return null;
 
     return (
-        <footer className="bg-gray-300 border-gray-200 dark:border-gray-600 dark:bg-gray-900 mt-40">
+        <footer className="inset-x-0 bottom-0 m-0 bg-gray-300 border-gray-200 dark:border-gray-600 dark:bg-gray-900">
             <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
                 <a
                     href={session.user.role === 'admin' ? '/admin' : '/home'}
