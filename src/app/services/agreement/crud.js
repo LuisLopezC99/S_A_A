@@ -185,7 +185,17 @@ export const filterAgreement = async (filter) => {
     },
     include: {
       agreementId: true,
-      users: true
+      users: true,
+      session : {
+        select: {
+          type: true,
+          sessionId : {
+            select: {
+              consecutive: true
+            }
+          }
+        }
+      }
     },
     take: 30
   })
