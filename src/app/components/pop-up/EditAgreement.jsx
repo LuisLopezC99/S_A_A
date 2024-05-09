@@ -72,7 +72,7 @@ const EditAgreement = ({
     const topic = formData.get("topic");
     const description = formData.get("description");
     const asignedTo = isChecked ? (users.find(user => user.role.name === "externo"))?.name : formData.get("assignedTo");
-    const { name } = formData.get("file") || currentState; // Not used
+    const { name } = formData.get("file") ? formData.get("file") : { name: report };
 
     const simpleDate = formData.get("deadline");
     const date = simpleDate + "T00:00:00.000Z";
