@@ -124,7 +124,7 @@ const UsersTable = () => {
   }, []);
 
   return (
-    <div className="container mx-auto p-4 dark:bg-gray-800">
+    <div className="container mx-auto p-4 dark:bg-gray-800 min-h-screen">
       <div className="flex items-center justify-between mb-5">
         <button
           className="font-bold py-2 px-4 border border-yellow-700 rounded bg-yellow-200 hover:bg-yellow-300 dark:bg-yellow-400 dark:hover:bg-yellow-500 text-gray-400 px-4 py-2 rounded flex items-center space-x-2 text-gray-600 font-bold"
@@ -162,8 +162,8 @@ const UsersTable = () => {
         </div>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white dark:bg-gray-700 border rounded">
+      <div className="mx-100 my-100 h-full relative overflow-x-auto overflow-x-auto">
+        <table className="w-full h-full text-sm text-left text-gray-500 dark:text-gray-400 dark:bg-gray-800 px-10">
           <thead>
             <tr>
               <th className="py-2 px-4 border-b text-left dark:text-black">
