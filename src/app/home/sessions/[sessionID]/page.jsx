@@ -31,7 +31,7 @@ const SessionPage = async ({ params, searchParams }) => {
             "Acuerdo",
           ]}
           url={`session/${params.sessionID}`}
-          title={`Session ${type} No. ${consecutive}`}
+          title={`Sesión ${type} No. ${consecutive}`}
           isFilter={true}
           idsession={params.sessionID}
           session_role={session.user.role}

@@ -93,7 +93,7 @@ const EditSession = ({ isModalOpen, handleModalState, sessionData }) => {
           <div className="absolute inset-0 bg-gray-800 opacity-75"></div>
           <div className="bg-white p-4 rounded shadow-lg z-10 dark:bg-gray-700">
             <h2 className="text-2xl font-bold mb-4 dark:text-white">
-              Editar Sesion
+              Editar Sesión
             </h2>
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-2 mb-4">

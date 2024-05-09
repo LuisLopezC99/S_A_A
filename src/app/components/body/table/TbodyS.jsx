@@ -60,7 +60,7 @@ const TbodyS = ({ rows = [], columns }) => {
                 <DownloadButton
                   filename={report}
                   type="Actas"
-                  title="Abrir Archivo Sesion"
+                  title="Abrir Archivo Sesión"
                   icon={<IoDocumentTextSharp className="w-7 h-7 text-gray-500 dark:text-green-500" />}
                 >
                 </DownloadButton>
