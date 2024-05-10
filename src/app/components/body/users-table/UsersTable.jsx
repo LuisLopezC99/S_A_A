@@ -38,8 +38,10 @@
 import React, { useState, useEffect, use } from "react";
 import AddUserModal from "../../pop-up/AddUserModal";
 import EditUserModal from "../../pop-up/EditUserModal";
+import { LogActionsReportButton } from "../../buttons/LogActionsReportButton";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { MdEditSquare } from "react-icons/md";
+import { IoDocumentTextSharp } from "react-icons/io5";
 import { TiUserAdd } from "react-icons/ti";
 import Swal from "sweetalert2";
 
@@ -220,6 +222,9 @@ const UsersTable = () => {
               <th className="py-2 px-4 border-b text-left dark:text-black">
                 Recuperar
               </th>
+              <th className="py-2 px-4 border-b text-left dark:text-black">
+                Reporte Acciones
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -270,6 +275,14 @@ const UsersTable = () => {
                     >
                       <RiLockPasswordLine className="w-5 h-5 dark:text-green-600 text-gray-600" alt="Forgot" />
                     </button>
+                  </td>
+                  <td className="py-2 px-4 border-b"> 
+                    <LogActionsReportButton 
+                      userId={user.id}
+                      icon={<IoDocumentTextSharp className="w-7 h-7 text-gray-500 dark:text-green-500" />}
+                    >
+
+                    </LogActionsReportButton>
                   </td>
                 </tr>
               ))}

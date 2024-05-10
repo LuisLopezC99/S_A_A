@@ -37,6 +37,7 @@
 import { useState } from "react";
 import ProfileModal from "../pop-up/ProfileModal";
 import { FaUserCircle } from "react-icons/fa";
+import Image from "next/image";
 
 export const ProfileButton = ({ userData }) => {
   const [openModal, setOpenModal] = useState(false);
@@ -52,11 +53,15 @@ export const ProfileButton = ({ userData }) => {
           className="relative z-50 dark:bg-gray-700 bg-white p-0 rounded-full shadow-lg"
           onClick={handleClick}
         >
-          <FaUserCircle 
-            id="openProfileButton"
-            className="w-11 h-11 rounded-full text-green-600"
-            alt="Imagen de Perfil"
-          />
+          <Image
+                width={0}
+                height={0}
+                src={`/profile-pictures/${userData["id"]}.jpg`}
+                className="w-11 h-11 rounded-full text-green-600"
+                alt="Imagen de Perfil"
+                unoptimized
+              >
+          </Image>
         </button>
         {
           <ProfileModal

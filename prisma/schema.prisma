@@ -10,83 +10,98 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model tab_session{
-  id   Int                    @id @default(autoincrement())
-  date DateTime               @map("session_date") @db.Date
-  report String?               @unique
-  type String                 @map("session_type") 
-  UrlVideo String             @unique @map("facebook_link") 
-  sessionConsecutive Int      @unique @map("session_consecutive")
-  sessionId tab_session_id    @relation(fields: [sessionConsecutive], references: [id])
-  agreements tab_agreement[]
+model tab_session {
+  id                 Int             @id @default(autoincrement())
+  date               DateTime        @map("session_date") @db.Date
+  report             String?         @unique
+  type               String          @map("session_type")
+  UrlVideo           String          @unique @map("facebook_link")
+  sessionConsecutive Int             @unique @map("session_consecutive")
+  sessionId          tab_session_id  @relation(fields: [sessionConsecutive], references: [id])
+  agreements         tab_agreement[]
 }
 
 model tab_agreement {
-  id   Int                     @id @default(autoincrement())
-  topic String                 @map("agreement_topic")
-  description String
-  report  String               
-  reportCumplimiento  String?   @unique
-  asignedTo Int                @map("asigned_to") 
-  creationDate DateTime        @db.Date
-  deadline DateTime            @db.Date
-  reminderDate DateTime        @db.Date
-  session                      tab_session @relation(fields: [sessionId], references: [id])
-  sessionId Int                @map("session_id") 
-  agreementId                  tab_agreement_id?  @relation(fields: [agreementIdConsecutive], references: [id])
-  agreementIdConsecutive Int   @unique 
-  state String?     
-  users tab_user              @relation(fields: [asignedTo], references: [id])             
+  id                     Int               @id @default(autoincrement())
+  topic                  String            @map("agreement_topic")
+  description            String
+  report                 String
+  reportCumplimiento     String?           @unique
+  asignedTo              Int               @map("asigned_to")
+  creationDate           DateTime          @db.Date
+  deadline               DateTime          @db.Date
+  reminderDate           DateTime          @db.Date
+  session                tab_session       @relation(fields: [sessionId], references: [id])
+  sessionId              Int               @map("session_id")
+  agreementId            tab_agreement_id? @relation(fields: [agreementIdConsecutive], references: [id])
+  agreementIdConsecutive Int               @unique
+  state                  String?
+  users                  tab_user          @relation(fields: [asignedTo], references: [id])
 }
 
-model tab_agreement_id{
-  id Int                        @id @default(autoincrement())
+model tab_agreement_id {
+  id          Int            @id @default(autoincrement())
   consecutive Int
-  month Int
-  year Int
-  agreement tab_agreement?
+  month       Int
+  year        Int
+  agreement   tab_agreement?
+
   @@unique([consecutive, year])
 }
 
-model tab_session_id{
-  id Int                        @id @default(autoincrement())
+model tab_session_id {
+  id          Int          @id @default(autoincrement())
   consecutive Int
-  year Int
-  type String
-  session tab_session?
+  year        Int
+  type        String
+  session     tab_session?
+
   @@unique([consecutive, year, type])
 }
 
-model tab_user{
-  id                           Int                   @id @default(autoincrement())
-  name                         String                @unique
-  email                        String                @unique
-  password                     String
-  role                         tab_role              @relation(fields: [roleid], references: [id])
-  roleid                       Int                   @map("role_id")
-  agreements                   tab_agreement[]  
-  enabled Boolean              @default(true)
-  FirstTime Boolean            @default(true)     
-  }
+model tab_user {
+  id                 Int                  @id @default(autoincrement())
+  name               String               @unique
+  email              String               @unique
+  password           String
+  role               tab_role             @relation(fields: [roleid], references: [id])
+  roleid             Int                  @map("role_id")
+  agreements         tab_agreement[]
+  enabled            Boolean              @default(true)
+  FirstTime          Boolean              @default(true)
+  tab_log_operations tab_log_operations[]
+}
 
-model tab_role{
-  id Int                        @id @default(autoincrement())
-  name String
-  users tab_user[]
+model tab_role {
+  id         Int                   @id @default(autoincrement())
+  name       String
+  users      tab_user[]
   operations tab_role_operations[]
 }
 
-model tab_operations{
-  id Int                        @id @default(autoincrement())
-  name String
-  description String
-  role tab_role_operations[]
+model tab_operations {
+  id                 Int                   @id @default(autoincrement())
+  name               String
+  description        String
+  role               tab_role_operations[]
+  tab_log_operations tab_log_operations[]
 }
 
-model tab_role_operations{
-  roleId Int                    @map("role_id")
-  role tab_role                 @relation(fields: [roleId], references: [id])
-  operationId Int               @map("operation_id")
-  operation tab_operations      @relation(fields: [operationId], references: [id])
+model tab_role_operations {
+  roleId      Int            @map("role_id")
+  role        tab_role       @relation(fields: [roleId], references: [id])
+  operationId Int            @map("operation_id")
+  operation   tab_operations @relation(fields: [operationId], references: [id])
+
   @@id([roleId, operationId])
+}
+
+model tab_log_operations {
+  id          Int            @id @default(autoincrement())
+  userId      Int            @map("user_id")
+  user        tab_user       @relation(fields: [userId], references: [id])
+  operationId Int            @map("operation_id")
+  operation   tab_operations @relation(fields: [operationId], references: [id])
+  timestamp   DateTime       @default(now())
+  description String
 }

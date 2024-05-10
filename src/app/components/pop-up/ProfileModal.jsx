@@ -37,9 +37,10 @@
 import { useRouter } from "next/navigation";
 import { Logout } from "../logout/Logout";
 import { useState, useEffect, useRef } from "react";
-import { FaUserCircle } from "react-icons/fa";
-
+import { FaUserCircle } from "react-icons/fa";  
+import Image from "next/image";
 import { ProfileInformationButton } from "../buttons/ProfileInformationButton";
+import { ProfilePictureButton } from "../buttons/ProfilePictureButton";
 import AboutButton from "../buttons/AboutButton";
 
 const ProfileModal = ({ isModalOpen, handleModalState, userData}) => {
@@ -86,12 +87,17 @@ const ProfileModal = ({ isModalOpen, handleModalState, userData}) => {
         >
           <div className="flex flex-col items-center">
             <div className="flex-shrink-0 py-4">
-              <FaUserCircle
-                id="openProfileButton"
-                
-                className="w-20 h-20 rounded-full object-cover text-green-600"
+
+              <Image
+                width={0}
+                height={0}
+                src={`/profile-pictures/${userData["id"]}.jpg`}
+                className="w-28 h-28 rounded-full object-cover text-green-600"
                 alt="Imagen de Perfil"
-              />
+                unoptimized
+              >
+              </Image>
+
             </div>
             <div className="ml-4 text-center">
               <p className="text-lg font-medium dark:text-white">
@@ -111,7 +117,13 @@ const ProfileModal = ({ isModalOpen, handleModalState, userData}) => {
                   />
 
                 </li>
-                <li className="mb-2">
+                <li className="mt-1 mb-2">
+                  <ProfilePictureButton
+                    id="profilePictureButton"
+                    userId={userData["id"]}
+                  />
+                </li>
+                <li className="mt-1 mb-2">
                   <a
                     href="#"
                     className="md:hover:text-green-500 dark:text-white"
@@ -125,7 +137,6 @@ const ProfileModal = ({ isModalOpen, handleModalState, userData}) => {
                 <AboutButton  />
 
                 </li>
-
               </ul>
             </div>
             <div className="p-3">

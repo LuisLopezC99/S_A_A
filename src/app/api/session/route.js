@@ -35,7 +35,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { readSessions, createSession, updateSession, readSessionsPage, getTotalSessions } from "@/app/services/session/crud";
-
+import { logUserAction } from "@/app/services/log/functions";
 
 
 export const GET = async (request) => {
@@ -57,8 +57,10 @@ export const POST = async (request) => {
     try {
         const requestData = await request.json();
         const newInsert = await createSession(requestData)
+        await logUserAction(6, "Sesion creada, con ID " + newInsert.id)
         return NextResponse.json(newInsert)
     } catch (error) {
+        console.log(error)
         if(error.stack.includes("facebook")) 
             return NextResponse.json({ error: "Link de Facebook Repetido"})
 
@@ -73,7 +75,7 @@ export const POST = async (request) => {
 export const PUT = async (request) => {
     try {
         const newUpdate = await updateSession(await request.json())
-        console.log(newUpdate)
+        await logUserAction(8, "Sesion actualizada, con ID " + newUpdate.id)
         return NextResponse.json(newUpdate)
     } catch (error) {
         console.log(error)

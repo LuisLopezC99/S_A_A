@@ -35,6 +35,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import {saveFile, updateFile } from "../../services/file/crud.js";
+import { logUserAction } from "@/app/services/log/functions.js";
 import path from "path";
 import fs from 'fs';
 
@@ -61,6 +62,7 @@ export const POST = async (request) => {
     const file = data.get("file");
     const type= data.get("type");
     const saveFiles = saveFile(file,type);
+    await logUserAction(type === 'Actas' ? 8 : 5, "Agregando archivo PDF de nombre: " + file.name)
     return NextResponse.json(saveFiles);
   } catch (error) {
     return NextResponse.json(
@@ -76,9 +78,8 @@ export const PUT = async (request) => {
     const file = data.get("file");
     const type = data.get("type");
     const currentNameFile = data.get("currentNameFile");
-    
     const updateFiles = updateFile(file, type, currentNameFile);
-
+    await logUserAction(type === 'Actas' ? 8 : 5, "Actualizando archivo PDF de nombre " + currentNameFile + " con " + file.name)
     return NextResponse.json(updateFiles);
   } catch (error) {
     return NextResponse.json(

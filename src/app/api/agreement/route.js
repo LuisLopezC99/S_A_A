@@ -35,6 +35,7 @@
 
 import { NextResponse } from "next/server";
 import { readAgreement, createAgreement, updateAgreement, getLastAgreement, getTotalAgrements } from "@/app/services/agreement/crud";
+import { logUserAction } from "@/app/services/log/functions";
 import { completeAgreements } from "@/app/business/agreement/logic";
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "../auth/[...nextauth]/route";
@@ -66,6 +67,7 @@ export const POST = async (request) => {
         const { agreement, agreementID } = await request.json();
         const newInsert = await createAgreement(agreement, agreementID);
         await assignedEmail(newInsert);
+        await logUserAction(3, "Acuerdo creado, con ID " + newInsert.id)
         return NextResponse.json(newInsert);
     } catch (error) {
         console.log(error)
@@ -79,7 +81,7 @@ export const PUT = async (request) => {
     try {
         const newUpdate = await updateAgreement(await request.json())
         await assignedEmail(newUpdate);
-        console.log(newUpdate);
+        await logUserAction(5, "Acuerdo actualizado, con ID " + newUpdate.id)
         return NextResponse.json(newUpdate)
     } catch (error) {
         return NextResponse.json({ error: "Hubo un error al procesar la solicitud" }, { status: 500 });

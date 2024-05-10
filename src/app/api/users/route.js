@@ -36,6 +36,7 @@
 import { getUsers } from "../../services/users/crud"
 import { NextResponse } from "next/server";
 import { createUser, updateUser, updatePassword } from "../../services/users/crud";
+import { logUserAction } from "@/app/services/log/functions";
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "../auth/[...nextauth]/route";
 
@@ -64,6 +65,7 @@ export const POST = async (request) => {
     const { name, email, password, role, enabled, FirstTime } = await request.json();
 
     const newUser = await createUser({ name, email, password, role, enabled, FirstTime });
+    await logUserAction(1, "Usuario creado, con ID " + newUser.id)
     return NextResponse.json(newUser, { status: 201 });
   } catch (error) {
     console.error('Error al procesar la solicitud POST:', error);
@@ -93,6 +95,7 @@ export const PUT = async (request) => {
     else {
       updatedUser = await updateUser(user);
     }
+    await logUserAction(1, "Usuario actualizado, con ID " + updatedUser.id)
     return NextResponse.json(updatedUser, { status: 200 });
   } catch (error) {
     return NextResponse.json('Error al procesar la solicitud PUT', { status: 500 });
