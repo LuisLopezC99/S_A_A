@@ -321,7 +321,7 @@ const ProfileInformationModal = ({
                   </div>
                   <button
                     type="submit"
-                    class="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75"
+                    class="bg-yellow-200 hover:bg-yellow-300 dark:bg-yellow-300 hover:bg-yellow-300 text-gray-500 font-bold py-2 px-4 border border-yellow-400 rounded"
                   >
                     Guardar Contraseña
                   </button>
