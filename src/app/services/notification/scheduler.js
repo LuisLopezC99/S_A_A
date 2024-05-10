@@ -36,18 +36,20 @@
 import { getTodayAgreements } from "../agreement/crud.js";
 import { transporter } from '../../components/tools/nodemailer.js';
 import cron from 'node-cron';
+import { sendEmailToSecretary } from './assigned.js';
 
 const getAgreements = async () => {
   const response = await getTodayAgreements();
   console.log(response);
   if (response.length > 0) {
-    response.map(agreement => sendEmail(agreement));
+    response.forEach(agreement => agreement.users.name !== "externo" ? sendEmail(agreement.topic, agreement.description, agreement.users.name, agreement.users.email)
+    :
+    sendEmailToSecretary(agreement.topic, agreement.description, agreement.users.name, sendEmail, true) )
   }
 }
 
 
-const sendEmail = async (agreement) => {
-  const { topic, description, users: { name, email } } = agreement;
+const sendEmail = async (topic, description, username, email) => {
   const mailOptions = {
     from: process.env.NOTIFIER_EMAIL,
     to: email,
@@ -55,7 +57,7 @@ const sendEmail = async (agreement) => {
     html: `
       <div>
         <h1>Acuerdos pronto a vencer</h1>
-        <p>Buenos días, ${name}</p>
+        <p>Buenos días, ${username}</p>
         <p>Se le recuerda que tiene un acuerdo pronto a vencer.</p>
         <p><strong>Datos del acuerdo:</strong></p>
         <ul>
@@ -76,3 +78,5 @@ const sendEmail = async (agreement) => {
 cron.schedule('* * * * *', () => {
   getAgreements();
 });
+
+

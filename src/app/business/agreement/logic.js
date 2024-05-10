@@ -35,14 +35,14 @@
 
 export const completeAgreements = (agreements) => {
   agreements.forEach((agreement) => {
-    agreement.state === "Cumplido" || agreement.state === "Tramitado" || agreement.state === "Externo" || agreement.state === "Vencido"
+    agreement.state === "Cumplido" || agreement.state === "Tramitado"  || agreement.state === "Vencido"
       ? (agreement.state = agreement.state)
-      : (agreement.state = agreementState(new Date(agreement.deadline)));
+      : (agreement.state = agreementState(new Date(agreement.deadline), agreement.state));
     // si el estado pasa a vencido deberia de setearse en bd
   });
 }
 
-export const agreementState = (deadline) => {
+export const agreementState = (deadline, lastState) => {
   const currentDate = new Date();
   currentDate.setUTCHours(0, 0, 0, 0);
   deadline.setUTCHours(0, 0, 0, 0);
@@ -50,7 +50,10 @@ export const agreementState = (deadline) => {
   const daysDiff = Math.floor(MilisecsDiff / (1000 * 60 * 60 * 24));
   if (daysDiff <= 0) {
     return 'Vencido';
-  } else if (daysDiff > 0 && daysDiff <= 3) {
+  } else if(lastState === 'Externo'){
+    return 'Externo';
+  }
+  else if (daysDiff > 0 && daysDiff <= 3) {
     return 'Por vencer';
   } else {
     return 'Pendiente';

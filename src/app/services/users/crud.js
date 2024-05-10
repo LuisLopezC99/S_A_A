@@ -113,7 +113,25 @@ export const getUsers = async () => {
                 }
             }
         })
-        console.log(user)
+        return user
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getSecetariaUsers = async () => {
+    try {
+        const user = await prisma.tab_user.findMany({
+            where: {
+                role: {
+                    name: 'secretaria'
+                }
+            },
+            select: { 
+                name: true,
+                email: true,
+            }
+        })
         return user
     } catch (error) {
         console.log(error)
