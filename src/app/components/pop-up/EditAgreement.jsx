@@ -69,7 +69,7 @@ const EditAgreement = ({
   useEffect(() => {
     const fetchUsers = async () => {
       const response = await getRequest("users");
-      setUsers(response);
+      setUsers(response.filter(user => user.role.name === "departamento"));
     };
 
     fetchUsers();
@@ -154,10 +154,7 @@ const EditAgreement = ({
       `DSC-ACD-${agreementId.consecutive}-${agreementId.month}-${agreementId.year}`
     );
   });
-  const currentName = () => {
-    return users.map((user) => (user.id === assignedTo ? user.name : ""));
-  };
-
+  
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   }

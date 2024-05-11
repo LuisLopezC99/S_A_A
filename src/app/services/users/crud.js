@@ -270,3 +270,4 @@ export const getUserById = async (id) => {
         throw new Error('Error al obtener el usuario');
     }
 }
+

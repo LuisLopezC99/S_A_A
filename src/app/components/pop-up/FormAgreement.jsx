@@ -35,14 +35,12 @@
 
 "use client";
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import {
   getRequest,
   postData,
   postDataForm,
   putData,
 } from "@/app/requests/getRequests";
-import { FormEvent } from "react";
 import Swal from "sweetalert2";
 
 const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
@@ -73,7 +71,7 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
     formData2.append("type", "Acuerdos");
     const topic = formData.get("topic");
     const description = formData.get("description");
-    const asignedTo = isChecked ? (users.find(user => user.role.name === "externo"))?.id : Number(formData.get("assignedTo"));
+    const asignedTo = isChecked ? (users.find(user => user.role.name === "externo"))?.id : users.find(user => user.role.name === "alcaldia")?.id;
     const deadlineDate = formData.get("deadline");
     const sessionId = Number(sessionid);
     const creationDate = new Date();
@@ -129,7 +127,6 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
   useEffect(() => {
     const promise = getRequest("agreement?add=Hola");
     promise.then((response) => {
-      console.log(response);
       if (response[0]) {
         const actual = new Date();
         actual.getFullYear() === response[0].agreementId.year
@@ -223,15 +220,17 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
                 </div>
 
                 <div className="mb-4">
-                  <div className="flex items-center">
+                  <div className="flex items-center mb-5 mt-10">
                     <div>
                       <label
-                        className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+                        className="block text-gray-700 text-sm font-bold dark:text-white"
                         htmlFor="assignedTo"
                       >
-                        Asignado a:
+                        Asignado a: {
+                          users.find(user => user.role.name === "alcaldia")?.name
+                        }
                       </label>
-                      <select
+                      {/* <select
                         className="custom-input"
                         id="assignedTo"
                         name="assignedTo"
@@ -247,12 +246,12 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
                             </option>
                           )
                         ))}
-                      </select>
+                      </select> */}
                     </div>
 
-                    <div className="ml-5 flex items-center mt-1"> {/* Cambiado mt-2 a mt-1 */}
+                    <div className="ml-5 flex items-center "> {/* Cambiado mt-2 a mt-1 */}
                       <label
-                        className="block text-gray-700 text-sm font-bold mb-2 dark:text-white mr-2"
+                        className="block text-gray-700 text-sm font-bold dark:text-white mr-2"
                         htmlFor="external"
                       >
                         Externo
@@ -270,7 +269,7 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
 
 
                   </div>
-                  <div>
+                  <div className="mt-17">
                     <label
                       className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                       htmlFor="deadline"
