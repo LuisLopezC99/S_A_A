@@ -182,7 +182,8 @@ export const createUser = async (userData) => {
 }
 
 export const updateUser = async (user) => {
-
+    if(user.role.name === 'admin' || user.role.name === 'alcaldia' || user.role.name === 'externo')
+        throw new Error(`Ya existe un usuario con el rol ${user.role.name}`)
     if (user.password) {
         const hashedPassword = await bcrypt.hash(user.password, 10);
         try {
@@ -200,8 +201,7 @@ export const updateUser = async (user) => {
             return updatedUser
         }
         catch (error) {
-            console.error('Error al actualizar contrasena:', error);
-            throw new Error('Error al actualizar la contrasena');
+            throw error
         }
 
     }

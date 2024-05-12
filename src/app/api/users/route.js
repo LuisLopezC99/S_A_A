@@ -97,6 +97,6 @@ export const PUT = async (request) => {
     await logUserAction(1, "Usuario actualizado, con ID " + updatedUser.id)
     return NextResponse.json(updatedUser, { status: 200 });
   } catch (error) {
-    return NextResponse.json('Error al procesar la solicitud PUT', { status: 500 });
+    return NextResponse.json({ error: error.message });
   }
 }
