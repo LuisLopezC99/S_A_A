@@ -69,11 +69,9 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const randomPassword = Math.random().toString(36).slice(-8);
-        console.log(randomPassword);
 
         try {
             const userDataWithPassword = { ...userData, password: randomPassword };
-            console.log("All data", userDataWithPassword);
             // Send a POST request to the server
             const response = await fetch('/api/users', {
                 method: 'POST',
@@ -82,9 +80,9 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
                 },
                 body: JSON.stringify(userDataWithPassword),
             });
-
-            if (response.ok) {
-                const newUser = await response.json();
+            const newUser = await response.json(); 
+            if (!newUser.error) {
+                
                 console.log("New User", newUser);
                 // Call the function provided by the prop to add the user locally
                 addUser(newUser);
@@ -116,7 +114,7 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
                     title: "Added"
                 });
 
-                const sentEmail = await fetch('/api/send', {
+                await fetch('/api/send', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -137,11 +135,10 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
                 });
                 Toast.fire({
                     icon: "error",
-                    title: "Error on the data"
+                    title: newUser.error
                 });
                 console.error('Error al agregar el nuevo usuario');
             }
-            console.log(response);
         } catch (error) {
             console.error('Error de red:', error);
         }

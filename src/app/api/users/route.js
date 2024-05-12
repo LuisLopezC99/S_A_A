@@ -68,8 +68,7 @@ export const POST = async (request) => {
     await logUserAction(1, "Usuario creado, con ID " + newUser.id)
     return NextResponse.json(newUser, { status: 201 });
   } catch (error) {
-    console.error('Error al procesar la solicitud POST:', error);
-    return NextResponse.json('Error al procesar la solicitud POST', { status: 500 });
+    return NextResponse.json({ error: error.message });
   }
 };
 

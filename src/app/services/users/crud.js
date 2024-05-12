@@ -127,7 +127,7 @@ export const getSecetariaUsers = async () => {
                     name: 'secretaria'
                 }
             },
-            select: { 
+            select: {
                 name: true,
                 email: true,
             }
@@ -139,9 +139,25 @@ export const getSecetariaUsers = async () => {
 }
 
 export const createUser = async (userData) => {
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
-    userData.password
+    console.log(userData)
     try {
+        const userRole = await prisma.tab_role.findUnique({
+            where: {
+                id: parseInt(userData.role)
+            },
+            select: {
+                name: true
+            }
+        })
+
+        console.log(userRole)
+
+        if (userRole.name === 'admin' || userRole.name === 'externo' || userRole.name === 'alcaldia')
+            throw new Error(`Ya existe un usuario con rol ${userRole.name}`)
+
+        const hashedPassword = await bcrypt.hash(userData.password, 10);
+        userData.password
+
         const user = await prisma.tab_user.create({
             data: {
                 name: userData.name,
@@ -161,12 +177,12 @@ export const createUser = async (userData) => {
         })
         return user
     } catch (error) {
-        console.log(error)
+        throw error;
     }
 }
 
 export const updateUser = async (user) => {
-    
+
     if (user.password) {
         const hashedPassword = await bcrypt.hash(user.password, 10);
         try {
@@ -177,10 +193,10 @@ export const updateUser = async (user) => {
                 data: {
                     FirstTime: user.firstTime === false ? false : true,
                     password: hashedPassword,
-                    
+
                 }
             })
-           
+
             return updatedUser
         }
         catch (error) {
@@ -201,8 +217,8 @@ export const updateUser = async (user) => {
                 role: {
                     connect: {
                         id: parseInt(/^admin$/i.test(user.role.name) ? 1 :
-                         /^secretaria$/i.test(user.role.name)? 2 :
-                         /^departamento$/i.test(user.role.name)? 3 : 4)
+                            /^secretaria$/i.test(user.role.name) ? 2 :
+                                /^departamento$/i.test(user.role.name) ? 3 : 4)
                     }
                 },
                 enabled: user.enabled,
@@ -218,9 +234,9 @@ export const updateUser = async (user) => {
 };
 
 export const updatePassword = async (user) => {
-   
+
     const session = await getServerSession(authOptions);
-   
+
     const actualEncryptPass = await prisma.tab_user.findUnique({
         where: {
             id: session.user.id
@@ -229,7 +245,7 @@ export const updatePassword = async (user) => {
             password: true
         }
     })
-     
+
     const matchPassword = await bcrypt.compare(user.currentPassword, actualEncryptPass.password);
 
     if (!matchPassword) {
@@ -237,7 +253,7 @@ export const updatePassword = async (user) => {
     }
 
     const hashedPassword = await bcrypt.hash(user.newPassword, 10);
-    
+
     try {
         const updatedUser = await prisma.tab_user.update({
             where: {
