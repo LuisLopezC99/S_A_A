@@ -246,7 +246,7 @@ const EditUserModal = ({ isOpen, onClose, selectedUser, editUser }) => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 value={userData.role.name === 'admin' ? 1 : userData.role.name === 'secretaria' ? 2 : userData.role.name === 'departamento' ? 3 : userData.role.name === 'alcaldia' ? 4 : 5}
                 onChange={handleInputChange}
-                disabled={selectedUser.role.name === 'admin' || selectedUser.role.name === 'alcaldia' || selectedUser.role.name === 'externo'}
+                disabled={userData?.role?.name === 'admin' || userData?.role?.name === 'alcaldia' || userData?.role?.name === 'externo'}
                 required
               >
                 <option value="">Seleccionar Role</option>
