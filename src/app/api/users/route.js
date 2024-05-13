@@ -79,14 +79,6 @@ export const PUT = async (request) => {
     const { searchParams } = new URL(request.url);
     const isChangePass = searchParams.get("changepass");
 
-    // const session = await getServerSession(authOptions)
-
-    // if (!session) {
-    //   return NextResponse.json({ error: "No tienes permisos para realizar esta acción" }, { status: 403 });//verifies the session
-    // }
-    // if (session.user.role !== "admin" && session.user.name !== user.name) {
-    //   return NextResponse.json({ error: "No tienes permisos para realizar esta acción" }, { status: 403 });//verifies the user Role
-    // }
     let updatedUser = null
     if (isChangePass) {
       updatedUser = await updatePassword(user);

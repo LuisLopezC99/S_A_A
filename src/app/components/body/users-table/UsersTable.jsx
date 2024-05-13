@@ -97,41 +97,56 @@ const UsersTable = () => {
   };
 
   const handlePassword = (user) => () => {
-    const randomPassword = Math.random().toString(36).slice(-8);
-    fetch("/api/users", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...user, password: randomPassword }),
+    Swal.fire({
+      title: "¿Está seguro de cambiar la contraseña?",
+      text: "Una vez cambiada, deberá usar la contraseña provisional enviada al correo del usuario",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancelar',
     })
-      .then((response) =>
-        response.ok ? response.json() : Promise.reject(response)
-      )
-      .then(() =>
-        fetch("/api/send", {
-          method: "POST",
+    .then((result) => {
+      if (result.isConfirmed) {
+        const randomPassword = Math.random().toString(36).slice(-8);
+        fetch("/api/users", {
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            ...user,
-            password: randomPassword,
-            messageType: "reset",
-          }),
+          body: JSON.stringify({ ...user, password: randomPassword }),
         })
-      )
-      .then((response) =>
-        response.ok ? response.json() : Promise.reject(response)
-      )
-      .then(() => {
-        Swal.fire({
-          icon: 'success',
-          title: '¡Correo enviado!',
-          text: 'Se ha enviado un correo con la nueva contraseña',
-        });
-      })
-      .catch((error) => console.log("Error:", error));
+          .then((response) =>
+            response.ok ? response.json() : Promise.reject(response)
+          )
+          .then(() =>
+            fetch("/api/send", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                ...user,
+                password: randomPassword,
+                messageType: "reset",
+              }),
+            })
+          )
+          .then((response) =>
+            response.ok ? response.json() : Promise.reject(response)
+          )
+          .then(() => {
+            Swal.fire({
+              icon: 'success',
+              title: '¡Correo enviado!',
+              text: 'Se ha enviado un correo con la nueva contraseña',
+            });
+          })
+          .catch((error) => console.log("Error:", error));
+      } else if (result.isDismissed) {
+        Swal.fire({text : "No se ha cambiado la contraseña", icon: 'info'});
+      }
+    });
+
   };
 
   const handleEditUser = (user) => () => {
@@ -276,8 +291,8 @@ const UsersTable = () => {
                       <RiLockPasswordLine className="w-5 h-5 dark:text-green-600 text-gray-600" alt="Forgot" />
                     </button>
                   </td>
-                  <td className="py-2 px-4 border-b"> 
-                    <LogActionsReportButton 
+                  <td className="py-2 px-4 border-b">
+                    <LogActionsReportButton
                       userId={user.id}
                       icon={<IoDocumentTextSharp className="w-7 h-7 text-gray-500 dark:text-green-500" />}
                     >
