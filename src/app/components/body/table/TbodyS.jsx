@@ -85,7 +85,7 @@ const TbodyS = ({ rows = [], columns }) => {
               onDoubleClick={handleDoubleClick}
             >
                <td scope="row" className="px-2 py-4 text-center">
-               {`Sesion ${sessionId.type} No. ${calculateZeros(sessionId.consecutive, true)}${sessionId.consecutive}`}
+               {`Sesión ${sessionId.type} No. ${calculateZeros(sessionId.consecutive, true)}${sessionId.consecutive}`}
               </td>
               <td scope="row" className="px-2 py-4 text-center">
                 {crDate}

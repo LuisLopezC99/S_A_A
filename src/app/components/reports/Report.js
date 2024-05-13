@@ -151,6 +151,9 @@ const Report = async ({ rows, header, title, state, type, filter, sesion }) => {
         : rows.map((row) => {
             const consecutiveNumber = formatConsecutive(row.agreementId.consecutive);
             const agreementIdFormatted = `DSC-ACD-${consecutiveNumber}-${row.agreementId.month}-${row.agreementId.year}`;
+            const sesionAgreement = `${
+              row.session.type
+            } No.${formatConsecutive(row.session.sessionId.consecutive)}`;
             const topic = row.topic;
             const userName = row.users.name;
             const creationDate = castDateToCrDateString(row.creationDate);
@@ -159,6 +162,7 @@ const Report = async ({ rows, header, title, state, type, filter, sesion }) => {
 
             return [
               agreementIdFormatted,
+              sesionAgreement,
               topic,
               userName,
               creationDate,

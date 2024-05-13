@@ -64,7 +64,7 @@ export default async function Home({ searchParams }) {
           <Table
             columns={[
               "Oficio",
-              "Sesion",
+              "Sesión",
               "Tema",
               "Asignado",
               "Fecha de creación",
