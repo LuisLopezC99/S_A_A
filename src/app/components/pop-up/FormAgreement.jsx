@@ -42,10 +42,11 @@ import {
   putData,
 } from "@/app/requests/getRequests";
 import Swal from "sweetalert2";
+import { set } from "react-hook-form";
 
 const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
-  
-  const [isChecked, setIsChecked] = useState(false);
+
+  const [asignedto, setAssignedto] = useState('alcaldia');
   const [oficio, setOficio] = useState("");
   const [lastOficio, setLastOficio] = useState(-1);
   const [users, setUsers] = useState([]);
@@ -71,11 +72,11 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
     formData2.append("type", "Acuerdos");
     const topic = formData.get("topic");
     const description = formData.get("description");
-    const asignedTo = isChecked ? (users.find(user => user.role.name === "externo"))?.id : users.find(user => user.role.name === "alcaldia")?.id;
+    const asignedTo = asignedto === 'externo' ? (users.find(user => user.role.name === "externo"))?.id : users.find(user => user.role.name === "alcaldia")?.id;
     const deadlineDate = formData.get("deadline");
     const sessionId = Number(sessionid);
     const creationDate = new Date();
-    const state = isChecked ? "Externo" : "Pendiente";
+    const state = asignedto === 'externo' ? "Externo" : "Pendiente";
     const { name } = formData.get("file");
 
     const agreementData = {
@@ -147,15 +148,17 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
     });
   }, []);
 
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-  }
 
   const handleConsecutiveValue = (e) => {
     const actual = new Date();
     setLastOficio(Number(e.target.value));
     setOficio(`DSC-ACD-${e.target.value}-${actual.getMonth() + 1}-${actual.getFullYear()}`);
-    
+
+  }
+
+  const handleRadioChange = (e) => {
+    setAssignedto(e.target.value);
+    console.log(asignedto);
   }
 
   return (
@@ -221,53 +224,34 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
 
                 <div className="mb-4">
                   <div className="flex items-center mb-5 mt-10">
+
+                    <label
+                      className="block text-gray-700 text-sm font-bold dark:text-white"
+                      htmlFor="option"
+                    >
+                      Asignado a:
+                    </label>
+                    <div className="mx-2">
+                      <input
+                        type="radio"
+                        id="option1"
+                        name="option"
+                        value="alcaldia"
+                        defaultChecked
+                        onChange={handleRadioChange}
+                      />
+                      <label htmlFor="option1">Alcaldia</label>
+                    </div>
                     <div>
-                      <label
-                        className="block text-gray-700 text-sm font-bold dark:text-white"
-                        htmlFor="assignedTo"
-                      >
-                        Asignado a: {
-                          users.find(user => user.role.name === "alcaldia")?.name
-                        }
-                      </label>
-                      {/* <select
-                        className="custom-input"
-                        id="assignedTo"
-                        name="assignedTo"
-                        required
-                        disabled={isChecked}
-                      >
-                        <option value="">Seleccionar...</option>
-
-                        {users.map((user) => (
-                          user.role.name !== "externo" && (
-                            <option key={user.id} value={user.id}>
-                              {user.name}
-                            </option>
-                          )
-                        ))}
-                      </select> */}
+                      <input
+                        type="radio"
+                        id="option2"
+                        name="option"
+                        value="externo"
+                        onChange={handleRadioChange}
+                      />
+                      <label htmlFor="option2">Externo</label>
                     </div>
-
-                    <div className="ml-5 flex items-center "> {/* Cambiado mt-2 a mt-1 */}
-                      <label
-                        className="block text-gray-700 text-sm font-bold dark:text-white mr-2"
-                        htmlFor="external"
-                      >
-                        Externo
-                      </label>
-                      <div>
-                        <input
-                          type="checkbox"
-                          id="external"
-                          checked={isChecked}
-                          onChange={handleCheckboxChange}
-                        />
-                      </div>
-                    </div>
-
-
-
                   </div>
                   <div className="mt-17">
                     <label
