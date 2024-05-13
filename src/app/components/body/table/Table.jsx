@@ -142,6 +142,7 @@ export default async function Table({
           { value: "Por vencer", label: "Por vencer" },
           { value: "Vencido", label: "Vencidos" },
           { value: "Cumplido", label: "Cumplidos" },
+          { value: "Externo", label: "Externos" },
         ]}
         filterName={" Estado"}
         currentSelect={filterBox}
