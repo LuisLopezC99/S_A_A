@@ -141,20 +141,6 @@ export const getSecetariaUsers = async () => {
 export const createUser = async (userData) => {
     console.log(userData)
     try {
-        const userRole = await prisma.tab_role.findUnique({
-            where: {
-                id: parseInt(userData.role)
-            },
-            select: {
-                name: true
-            }
-        })
-
-        console.log(userRole)
-
-        if (userRole.name === 'admin' || userRole.name === 'externo' || userRole.name === 'alcaldia')
-            throw new Error(`Ya existe un usuario con rol ${userRole.name}`)
-
         const hashedPassword = await bcrypt.hash(userData.password, 10);
         userData.password
 
