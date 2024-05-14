@@ -98,8 +98,8 @@ export default function Pagination({ totalDocuments, cupage, items }) {
             <a
               onClick={handlePreviousClick}
               className={`inline-flex items-center px-3 py-1 text-sm font-semibold rounded-md ${currentPage === 1
-                  ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                  : "bg-white text-gray-700 hover:bg-gray-100 hover:text-green-500"
+                  ? "bg-gray-200 text-gray-500 dark:bg-gray-400 dark:text-gray-700 cursor-not-allowed"
+                  : "bg-white dark:bg-gray-300 dark:text-gray-500 dark:hover:text-green-500 text-gray-700 hover:bg-gray-100 hover:text-green-500"
                 }`}
               disabled={currentPage === 1}
             >
@@ -112,8 +112,8 @@ export default function Pagination({ totalDocuments, cupage, items }) {
                 key={pageNumber}
                 onClick={() => handlePageClick(pageNumber)}
                 className={`inline-flex items-center px-3 py-1 text-sm font-semibold rounded-md ${currentPage === pageNumber
-                    ? "bg-yellow-300 text-gray-800 dark:bg-yellow-500 dark:text-green-600"
-                    : "bg-white text-gray-700 hover:bg-gray-600 hover:text-green-500 dark:text-gray-600 dark:hover:text-green-500 dark:hover:bg-yellow-100"
+                    ? "bg-yellow-300 text-gray-800 dark:bg-yellow-400 dark:text-gray-500"
+                    : "bg-white dark:bg-gray-300 text-gray-700 hover:bg-gray-600 hover:text-green-500 dark:text-gray-600 dark:hover:text-green-500 dark:hover:bg-gray-300"
                   } ${currentPage === pageNumber ? 'active' : ''}`}
               >
                 {pageNumber}
@@ -123,8 +123,8 @@ export default function Pagination({ totalDocuments, cupage, items }) {
             <a
               onClick={handleNextClick}
               className={`inline-flex items-center px-3 py-1 text-sm font-semibold rounded-md ${currentPage === totalPages
-                  ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                  : "bg-white text-gray-700 hover:bg-gray-100 hover:text-green-500"
+                  ? "bg-gray-200 text-gray-500 dark:bg-gray-400 dark:text-gray-700 cursor-not-allowed"
+                  : "bg-white text-gray-700 dark:bg-gray-300 dark:text-gray-500 dark:hover:text-green-500 hover:bg-gray-100 hover:text-green-500"
                 }`}
               disabled={currentPage === totalPages}
             >
