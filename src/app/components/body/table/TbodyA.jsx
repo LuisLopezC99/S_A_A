@@ -116,6 +116,7 @@ const TbodyA = ({ rows = [], role = "" }) => {
             <td className="px-6 py-4 text-center">{users.name}</td>
             <td className="px-6 py-4 text-center">{creationDateCast}</td>
             <td className="px-6 py-4 text-center">{deadlineCast}</td>
+
             <td className="px-6 py-4 text-center">
               {state === "Vencido" ? (
                 <span className="estado estado-rojo"></span>
@@ -132,22 +133,23 @@ const TbodyA = ({ rows = [], role = "" }) => {
               ) : null}
               {state}
             </td>
-            <td className="text-center  sm:justify-center sm:items-center">
-              <DownloadButton
-                filename={report}
-                type="Acuerdos"
-                title="Abrir Acuerdo"
-                icon={<IoDocumentTextSharp className="w-7 h-7 text-gray-500 dark:text-green-500" />}
-              ></DownloadButton>
+            <td className="px-6 py-4 text-center">
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <DownloadButton
+                  filename={report}
+                  type="Acuerdos"
+                  title="Abrir Acuerdo"
+                  icon={<IoDocumentTextSharp className="w-7 h-7 text-gray-500 dark:text-green-500" />}
+                ></DownloadButton>
 
-              <DownloadButton
-                filename={reportCumplimiento}
-                type="Cumplidos"
-                title="Abrir Cumplido"
-                icon={<IoDocumentAttach  className="w-7 h-7 text-gray-500 dark:text-green-500" />}
-              ></DownloadButton>
-              <>
-                
+                <DownloadButton
+                  filename={reportCumplimiento}
+                  type="Cumplidos"
+                  title="Abrir Cumplido"
+                  icon={<IoDocumentAttach className="w-7 h-7 text-gray-500 dark:text-green-500" />}
+                ></DownloadButton>
+                <>
+
                   <CheckButton
                     agreementId={id}
                     data={{
@@ -167,32 +169,35 @@ const TbodyA = ({ rows = [], role = "" }) => {
                     }}
                     session_role={role}
                   ></CheckButton>
-              </>
-              {role !== "departamento" && (
-                <>
-                  <ButtonEdit
-                    title="agreement"
-                    data={{
-                      id,
-                      topic,
-                      asignedTo,
-                      creationDate,
-                      deadlineInputCast,
-                      sessionId,
-                      report,
-                      reportCumplimiento,
-                      description,
-                      state,
-                      agreementId,
-                      agreementIdConsecutive,
-                      users,
-                    }}
-                    session_role={role}
-                  >
-                    <MdEditSquare className = "w-7 h-7 text-gray-500 dark:text-green-500" alt="AcuerdoEdit" />
-                  </ButtonEdit>
                 </>
-              )}
+                {role !== "departamento" && (
+                  <>
+                    <ButtonEdit
+                      title="agreement"
+                      data={{
+                        id,
+                        topic,
+                        asignedTo,
+                        creationDate,
+                        deadlineInputCast,
+                        sessionId,
+                        report,
+                        reportCumplimiento,
+                        description,
+                        state,
+                        agreementId,
+                        agreementIdConsecutive,
+                        users,
+                      }}
+                      session_role={role}
+                    >
+                      <MdEditSquare className="w-7 h-7 text-gray-500 dark:text-green-500" alt="AcuerdoEdit" />
+                    </ButtonEdit>
+
+                  </>
+
+                )}
+              </div>
             </td>
           </tr>
         );
