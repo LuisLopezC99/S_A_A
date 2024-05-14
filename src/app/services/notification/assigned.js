@@ -37,22 +37,28 @@ import { transporter } from '../../components/tools/nodemailer.js';
 import { getUserById } from '../users/crud.js';
 import { getSecetariaUsers } from '../users/crud.js';
 
+// Sends an email notification for an assigned agreement to the relevant user or secretary.
 export const assignedEmail = async (agreement) => {
     const {topic, description, asignedTo, deadline} = agreement;
     
+    // Check if the agreement is not assigned to anyone
     if (!asignedTo) return;
+
+    // Retrieve user details based on the assignedTo ID
     const {name, email} = await getUserById(asignedTo);
     try {
+      // Send an email notification based on the user's role
         name !== "externo" ?
         sendAssignedEmail(topic, description, deadline, name, email) :
         sendEmailToSecretary(topic, description, deadline, sendAssignedEmail);
     } catch (error) {
         
-        throw new Error("Error al enviar el correo");
+        throw new Error("Error al enviar el correo"); // Throw an error if there's an issue with sending the email
     }
 
 }
 
+// Sends an email notification for an assigned agreement to the specified user.
 export const sendAssignedEmail = async (topic, description, deadline, name, email, isExternal = false) => {
     const mailOptions = {
         from: process.env.NOTIFIER_EMAIL,
@@ -90,10 +96,14 @@ export const sendAssignedEmail = async (topic, description, deadline, name, emai
           </div>
         `
     };
-    await transporter.sendMail(mailOptions);
+    await transporter.sendMail(mailOptions); // Sends the email using nodemailer transporter
 } 
 
+// Sends an email notification to the secretary or secretarial department users.
 export const sendEmailToSecretary = async (topic, description, deadline = "", emailFunction, isReminder = false) => {
+    // Retrieve secretary or secretarial department users
     const users = await getSecetariaUsers();
+    // Iterate through each user and send email notifications
+    // Send reminder email if isReminder is true, otherwise send regular email
     users.forEach( async (user) => !isReminder ? emailFunction(topic, description, deadline, user.name, user.email, true) : emailFunction(topic, description, user.name, user.email))
 }
