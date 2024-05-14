@@ -87,7 +87,7 @@ export const CheckModal = ({
       topic,
       asignedTo,
       report,
-      reportCumplimiento: name,
+      reportCumplimiento: name !== "" ? name : reportCumplimiento,
       deadline,
       sessionId: sessionId,
       description,
@@ -132,10 +132,9 @@ export const CheckModal = ({
                     Firmar Acuerdo
                   </h2>
                   <p className="dark:text-white">
-                    Yo, {session.user.name}, doy fe del cumplimiento de nuestra
-                    parte de los diferentes puntos abarcados en el acuerdo
-                    presente y por ende lo tramitamos a alcaldía para seguir su
-                    debido proceso.
+                    Yo, como el encarcado del departamento {session.user.name}, doy fe del cumplimiento 
+                    de nuestra parte de los diferentes puntos abarcados en el acuerdo presente 
+                    y por ende lo tramitamos  para seguir su debido proceso.
                   </p>
                   <div className="mb-4">
                     <label
@@ -172,7 +171,7 @@ export const CheckModal = ({
                 currentState === "Tramitado" ? (
                 <>
                   <h2 className="text-lg font-semibold mb-4 dark:text-white">
-                    Finalizar el cumplimiento del acuerdo
+                    Finalizar el cumplimiento del acuerdo.
                   </h2>
                   <p className="dark:text-white">
                     El acuerdo ha sido tramitado para confirmacion de
@@ -184,7 +183,7 @@ export const CheckModal = ({
                       className="bg-custom-green hover:bg-custom-green text-white font-bold py-2 px-4 rounded mr-4"
                       type="submit"
                     >
-                      Confirmar Acuerdo
+                      Confirmar Acuerdo.
                     </button>
                     <button
                       className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
@@ -202,7 +201,7 @@ export const CheckModal = ({
                     cumplimiento!
                   </h2>
                   <h3 className="text-lg font-semibold mb-4 dark:text-white">
-                    Finalizar el cumplimiento del acuerdo
+                    Finalizar el cumplimiento del acuerdo.
                   </h3>
                   <p className="dark:text-white">
                     El acuerdo no a terminado su proceso de cumplimiento pero puede finalizar y pasarlo a cumplido.
@@ -226,18 +225,18 @@ export const CheckModal = ({
               ) : (
                 <>
                   <h2 className="text-lg font-semibold mb-4 dark:text-white">
-                    Editar Firma del Acuerdo
+                    Modificar Firma del Acuerdo.
                   </h2>
                   <p className="dark:text-white">
                     El acuerdo se encuentra tramitado pero si desea puede
-                    cambiar el documento de cumplimiento
+                    cambiar el documento de cumplimiento.
                   </p>
                   <div className="mb-4">
                     <label
                       className="block text-gray-700 text-sm  mb-2 dark:text-white"
                       htmlFor="file"
                     >
-                      Editar Documento de Cumplimiento:
+                      Modificar Documento de Cumplimiento:
                     </label>
                     Archvio actual: {reportCumplimiento}
                     <input
