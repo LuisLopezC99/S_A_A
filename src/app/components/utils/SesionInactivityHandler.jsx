@@ -90,16 +90,16 @@ const AutoLogoutProvider = ({ timeoutMs = MAX_INACTIVITY_TIME, timeoutCheckMs = 
     const onUserActivity = () => {
         const now = activity();
 
-        if (debug)
-            console.log("activity - resetting last activity to ", now);
+        if (debug){}
         storage()?.setItem(_storageKey, now.toString());
         setLastActivity(now);
     };
 
     const onStorage = ({ key, storageArea, newValue }) => {
         if (key === _storageKey && storageArea === storage()) {
-            if (debug)
-                console.log("remote tab activity - resetting last activity to ", newValue);
+            if (debug){
+
+            }                
             const lastActivity = parseLastActivityString(newValue);
 
             if (lastActivity !== null) {
@@ -126,7 +126,6 @@ const AutoLogoutProvider = ({ timeoutMs = MAX_INACTIVITY_TIME, timeoutCheckMs = 
 
         if (lastActivity + timeoutMs < now) {
             if (debug)
-                console.log('User inactive======', lastActivity, now);
             signOut({ redirect: true })
             setLastActivity(now);
             return true;
