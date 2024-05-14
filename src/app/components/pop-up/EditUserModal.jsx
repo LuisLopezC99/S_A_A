@@ -52,7 +52,6 @@ const EditUserModal = ({ isOpen, onClose, selectedUser, editUser }) => {
 
   useEffect(() => {
     if (selectedUser) {
-      console.log(selectedUser);
       setUserData({
         id: selectedUser.id || '',
         email: selectedUser.email || '',

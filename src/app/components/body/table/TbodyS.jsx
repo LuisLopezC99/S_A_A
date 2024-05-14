@@ -51,7 +51,6 @@ const TbodyS = ({ rows = [], columns }) => {
   const filter = searchParams.get("filter") || "";
   const text = searchParams.get("searchText") || "";
   const [updateEditSession, setUpdateEditSession] = useState({});
-  console.log(rows);
   // Date castings
   const castDateToCrDate = (date) => {
     const dateCast = new Date(date);

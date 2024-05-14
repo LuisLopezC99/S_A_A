@@ -112,14 +112,11 @@ const PasswordModal = ({ user }) => {
           icon: 'error',
           confirmButtonText: 'Aceptar'
         });
-        console.log("Error:", error);
       });
 
-    console.log("Contraseña válida:", password);
   };
 
   const handleKeyPress = (event) => {
-    console.log(event.key);
     if (event.key === "Enter") {
       handleSubmit();
     }

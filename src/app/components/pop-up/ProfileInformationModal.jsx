@@ -86,7 +86,6 @@ const ProfileInformationModal = ({
   };
 
   const handleChangePassword = async (event) => {
-    console.log("Cambiando contraseña");
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const currentPassword = formData.get("currentPassword");
@@ -94,7 +93,6 @@ const ProfileInformationModal = ({
     const confirmPassword = formData.get("confirmPassword");
     const user = { currentPassword, newPassword };
     if (newPassword !== confirmPassword) {
-      console.log("Contraseñas no coinciden");
       const result = await Swal.fire({
         icon: "error",
         title: "Error en cambio de contraseña",
@@ -108,7 +106,6 @@ const ProfileInformationModal = ({
       });
 
       if (result.isConfirmed) {
-        console.log("Cerrando modal");
         // Se cierra el modal y se ejecuta el código siguiente
         return;
       }

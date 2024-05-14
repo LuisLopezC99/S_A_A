@@ -47,7 +47,6 @@ import { IoDocumentAttach } from "react-icons/io5";
 import { IoDocumentTextSharp } from "react-icons/io5";
 
 const TbodyA = ({ rows = [], role = "" }) => {
-  console.log("rows", rows);
   const [modalVisible, setModalVisible] = useState(false);
   const [row, setRows] = useState(rows);
   const [oficio, setOficio] = useState("");

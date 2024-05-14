@@ -131,7 +131,6 @@ const EditAgreement = ({
     formData2.append("type", "Acuerdos");
     formData2.append("currentNameFile", report);
     name !== "" && putDataFile("file", formData2);
-    console.log(agreementData);
     const put = putData("agreement", agreementData);
     put.then((response) => {
       response

@@ -70,7 +70,6 @@ const UsersTable = () => {
     })
       .then((response) => response.json())
       .then((_) => _)
-      .catch((error) => console.log("Error:", error));
   };
   const handleUpdate = (updatedUser) => {
     const userId = updatedUser.id;
@@ -141,7 +140,13 @@ const UsersTable = () => {
               text: 'Se ha enviado un correo con la nueva contraseña',
             });
           })
-          .catch((error) => console.log("Error:", error));
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "¡Error!",
+              text: "Hubo un problema al procesar la solicitud",
+            });
+          });
       } else if (result.isDismissed) {
         Swal.fire({text : "No se ha cambiado la contraseña", icon: 'info'});
       }

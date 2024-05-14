@@ -158,7 +158,6 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
 
   const handleRadioChange = (e) => {
     setAssignedto(e.target.value);
-    console.log(asignedto);
   }
 
   return (

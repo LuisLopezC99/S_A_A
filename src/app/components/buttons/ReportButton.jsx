@@ -39,7 +39,6 @@ import { FaRegFilePdf } from "react-icons/fa6";
 
 const ReportButton = ({ rows, header, title, state, type, filter, sesion }) => {
   const handleClick = () => {
-    console.log(rows);
     Report({ rows, header, title, state, type, filter, sesion });
 
   };

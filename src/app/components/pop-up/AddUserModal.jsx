@@ -83,7 +83,6 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
             const newUser = await response.json(); 
             if (!newUser.error) {
                 
-                console.log("New User", newUser);
                 // Call the function provided by the prop to add the user locally
                 addUser(newUser);
                 onClose();
