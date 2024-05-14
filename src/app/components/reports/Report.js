@@ -39,7 +39,6 @@ import { PDFDocument } from "pdf-lib";
 
 //Report function to generate a PDF document with the data of the report
 const Report = async ({ rows, header, title, state, type, filter, sesion }) => {
-  console.log(rows);
   // Function to convert a date to a specific string format
   const castDateToCrDateString = (date) => {
     const dateCast = new Date(date);

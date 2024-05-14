@@ -6,7 +6,6 @@ export const POST = async (request) => {
       const data = await request.formData();
       const image = data.get("image");
       const id = data.get("id");
-      console.log(image)
       const savedProfilePicture = await saveProfilePicture(image,id);
       return NextResponse.json(savedProfilePicture);
     } catch (error) {

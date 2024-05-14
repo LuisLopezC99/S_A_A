@@ -40,7 +40,6 @@ import { sendEmailToSecretary } from './assigned.js';
 
 const getAgreements = async () => {
   const response = await getTodayAgreements();
-  console.log(response);
   if (response.length > 0) {
     response.forEach(agreement => agreement.users.name !== "externo" ? sendEmail(agreement.topic, agreement.description, agreement.users.name, agreement.users.email)
     :
@@ -70,7 +69,7 @@ const sendEmail = async (topic, description, username, email) => {
     `
   };
   const info = await transporter.sendMail(mailOptions);
-  console.log(info);
+  
 }
 
 // Obvio aquí está por minuto pero en la documentación está la manera de configurarlo

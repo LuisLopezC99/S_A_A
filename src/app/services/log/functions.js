@@ -24,7 +24,7 @@ export const logUserAction = async (operationId, actionDescription) => {
         })
         return action
     } catch (error) {
-        console.log(error)
+        throw error;
     }
 }
 
@@ -32,7 +32,7 @@ export const getAllLoggedActions = async () => {
     try {
         return prisma.tab_log_operations.findMany()
     } catch(error) {
-        console.log(error)
+        throw error;
     }
 }
 
@@ -53,6 +53,6 @@ export const getLoggedActionsByUserId = async (userId) => {
         })
         return actions
     } catch(error) {
-        console.log(error)
+        throw error;
     }
 }

@@ -47,7 +47,7 @@ export const assignedEmail = async (agreement) => {
         sendAssignedEmail(topic, description, deadline, name, email) :
         sendEmailToSecretary(topic, description, deadline, sendAssignedEmail);
     } catch (error) {
-        console.log(error);
+        
         throw new Error("Error al enviar el correo");
     }
 

@@ -72,7 +72,7 @@ export const authenticateUser = async (email, password) => {
         return user
     }
     catch (e) {
-        console.log(e)
+        throw error;
     }
 }
 
@@ -85,7 +85,7 @@ export const getRoleById = async (Id) => {
         })
         return role
     } catch (error) {
-        console.log(error)
+        throw error;
     }
 }
 
@@ -115,7 +115,7 @@ export const getUsers = async () => {
         })
         return user
     } catch (error) {
-        console.log(error)
+        throw error;
     }
 }
 
@@ -134,12 +134,11 @@ export const getSecetariaUsers = async () => {
         })
         return user
     } catch (error) {
-        console.log(error)
+        throw error;
     }
 }
 
 export const createUser = async (userData) => {
-    console.log(userData)
     try {
         const hashedPassword = await bcrypt.hash(userData.password, 10);
         userData.password
@@ -266,7 +265,6 @@ export const getUserById = async (id) => {
             }
         })
     } catch (error) {
-        console.log(error)
         throw new Error('Error al obtener el usuario');
     }
 }

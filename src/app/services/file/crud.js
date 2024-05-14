@@ -51,7 +51,6 @@ export const saveFile = async (file, type) => {
 
 export const updateFile = async (file, type, currentNameFile) => {
   try {
-    console.log(type, currentNameFile);
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
@@ -68,7 +67,6 @@ export const updateFile = async (file, type, currentNameFile) => {
 
     return "archivo subido";
   } catch (error) {
-    console.log(error);
     throw new Error("Hubo un error al procesar la solicitud");
   }
 };

@@ -70,7 +70,6 @@ export const POST = async (request) => {
         await logUserAction(3, "Acuerdo creado, con ID " + newInsert.id)
         return NextResponse.json(newInsert);
     } catch (error) {
-        console.log(error)
         if( error.stack.includes("consecutive") )
             return NextResponse.json({ error: "Consecutivo Repetido" }) 
         return NextResponse.json({ error: "Error al crear el acuerdo, Vuelva a intentarlo" });   

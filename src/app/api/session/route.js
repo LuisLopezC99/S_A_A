@@ -47,7 +47,6 @@ export const GET = async (request) => {
         : await readSessions();
         return NextResponse.json(tab_session);
     } catch (error) {
-        console.log(error);
         return NextResponse.json({ error: "Hubo un error al procesar la solicitud" }, { status: 500 });
     }
 }
@@ -60,7 +59,6 @@ export const POST = async (request) => {
         await logUserAction(6, "Sesion creada, con ID " + newInsert.id)
         return NextResponse.json(newInsert)
     } catch (error) {
-        console.log(error)
         if(error.stack.includes("facebook")) 
             return NextResponse.json({ error: "Link de Facebook Repetido"})
 
@@ -78,7 +76,6 @@ export const PUT = async (request) => {
         await logUserAction(8, "Sesion actualizada, con ID " + newUpdate.id)
         return NextResponse.json(newUpdate)
     } catch (error) {
-        console.log(error)
         if(error.stack.includes("facebook")) 
         return NextResponse.json({ error: "Link de Facebook Repetido"})
     else if(error.message.includes("consecutive"))

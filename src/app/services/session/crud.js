@@ -53,7 +53,7 @@ export const createSession = async (session) => {
             }
         })
     } catch (error) {
-        throw error
+        throw error;
     }
 }
 
@@ -123,7 +123,7 @@ export const readFilterSession = async (filter) => {
 
     return sessions
     } catch (error) {
-        console.log(error)
+        throw error;
     }
 }
 
@@ -148,7 +148,6 @@ export const updateSession = async (session) => {
             }
         })
     } catch (error) {
-        console.log(error)
         throw error
     }
 }

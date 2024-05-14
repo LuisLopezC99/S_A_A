@@ -37,7 +37,6 @@ import prisma from "../../../libs/prisma.js"
 
 
 export const createAgreement = async (agreement, agrID) => {
-  console.log(agreement.deadline);
   const reminderDate = new Date(agreement.deadline);
   // Maes aquí definir la cantidad de días antes al deadline que queremos que notifique
   reminderDate.setDate(reminderDate.getDate() - 2);
@@ -141,9 +140,7 @@ export const updateReport = async (nameReport, agreementId) => {
   });
 };
 export const updateAgreement = async (agreement) => {
-  console.log(agreement);
   const { id, topic, description, asignedTo, report, reportCumplimiento, deadline, sessionId, agreementIdConsecutive, state } = agreement
-  console.log(description);
   try {
     const user = await prisma.tab_user.findUnique({
       where: {
@@ -257,7 +254,6 @@ export const getTotalAgrements = async () => {
 export const getTodayAgreements = async () => {
   const today = new Date();
   const todayUTC = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()));
-  console.log(today);
   try {
     const agreements = await prisma.tab_agreement.findMany({
       where: {
@@ -276,7 +272,6 @@ export const getTodayAgreements = async () => {
   
     return agreements;
   } catch (error) {
-    console.log(error);
     return [];
   }
 }
