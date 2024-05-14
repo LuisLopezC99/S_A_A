@@ -48,6 +48,8 @@ export default function Pagination({ totalDocuments, cupage, items }) {
   const totalPages = Math.ceil(totalDocuments / itemsPerPage);
   const text = "";
   const filter = searchParams.get("filter") || "";
+  const typeSesion = searchParams.get("type") || "";
+  const consecutiveSesion = searchParams.get("consecutive") || "";
 
   const router = useRouter();
 
@@ -69,6 +71,8 @@ export default function Pagination({ totalDocuments, cupage, items }) {
         searchText: text,
         page: pageNumber,
         items: itemsPerPage,
+        consecutive:consecutiveSesion,
+        type:typeSesion,
       })}`
     );
   };
