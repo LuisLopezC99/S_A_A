@@ -66,7 +66,8 @@ export default async function Table({
 
   let rows = await loadData(url);
   rows = rows ? rows : [];
-  rows = rows.reverse();
+  
+  rows =  rows.reverse();
 
   const filterRows =
     url === "session"

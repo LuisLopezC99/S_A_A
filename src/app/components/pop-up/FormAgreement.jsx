@@ -305,7 +305,7 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
                   id="file"
                   name="file"
                   type="file"
-                  accept=".pdf,.docx"
+                  accept=".pdf"
                   required
                 />
               </div>

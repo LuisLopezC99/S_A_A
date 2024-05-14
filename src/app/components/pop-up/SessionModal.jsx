@@ -257,6 +257,7 @@ const SessionModal = ({
                   id="file"
                   name="file"
                   type="file"
+                  accept=".pdf"
                   {...register("file")}
                 //required
                 />
