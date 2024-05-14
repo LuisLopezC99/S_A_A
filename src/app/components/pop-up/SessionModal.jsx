@@ -53,7 +53,7 @@ const SessionModal = ({
         setValue("type", sessionData.type),
         setValue("facebookUrl", sessionData.UrlVideo),
         setValue("consecutive", sessionData.sessionId.consecutive))
-      : console.log("No pasa nada");
+      : null;
   }, [sessionData]);
 
   const closeModal = () => {
@@ -72,10 +72,8 @@ const SessionModal = ({
       const type = data.type;
       const facebookUrl = data.facebookUrl;
       const consecutive = data.consecutive;
-      console.log(data.file[0])
       // Made some superficial changes for the report part while we implement module itself
       const name = data.file[0] !== undefined ? data.file[0].name : "";
-      console.log(name)
       if (data.file[0] !== undefined) {
         sessionData.report !== null ? putDataFile("file", formData) : postDataForm("file", formData);
       }
@@ -115,7 +113,6 @@ const SessionModal = ({
       const formData = new FormData();
       formData.append("file", data.file[0] !== undefined ? data.file[0] : null);
       formData.append("type", "Actas");
-      console.log(data.file)
       const simpleDate = data.date
       const date = simpleDate + "T00:00:00.000Z";
       const type = data.type
