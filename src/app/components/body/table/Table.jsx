@@ -93,7 +93,7 @@ export default async function Table({
     url === "session"
       ? "Sesiones"
       : isFilter
-        ? `Acuerdos de la Sesión ${idsession}`
+        ? `Acuerdos de la Sesión `
         : session_role !== "secretaria"
           ? "Mis Acuerdos Asignados"
           : "Acuerdos";
@@ -173,7 +173,7 @@ export default async function Table({
             state={filterBox}
             type={filterBox}
             filter={querySearh}
-            sesion={idsession}
+            
           />
         </div>
 

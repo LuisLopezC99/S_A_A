@@ -35,11 +35,18 @@
 
 "use client";
 import Report from "../reports/Report";
+import { useSearchParams } from "next/navigation";
 import { FaRegFilePdf } from "react-icons/fa6";
 
-const ReportButton = ({ rows, header, title, state, type, filter, sesion }) => {
+const ReportButton = ({ rows, header, title, state, type, filter}) => {
+  const searchParams = useSearchParams();
+  const typeSesion = searchParams.get("type") || "";
+  const consecutiveSesion = searchParams.get("consecutive") || "";
+  const sesionConsecutive = "";
+  const titleFil =  `${title} ${typeSesion} ${consecutiveSesion}`
+  console.log(titleFil);    
   const handleClick = () => {
-    Report({ rows, header, title, state, type, filter, sesion });
+    Report({ rows, header, title, state, type, filter, sesionConsecutive });
 
   };
   return (

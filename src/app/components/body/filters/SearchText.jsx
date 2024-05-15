@@ -44,7 +44,7 @@ import { useState } from "react";
 export default function SearchText({currentText}) {
     const router = useRouter();
     const [text, setText] = useState(currentText || "");
-    const searchParams = useSearchParams()
+    const searchParams = useSearchParams();
     const filter = searchParams.get("filter") || ""
     const page = 1;
     const itemsPerPage = Number(searchParams.get("items")) || "";

@@ -76,12 +76,16 @@ export const CheckModal = ({
     const { name } = formData.get("file") || currentState;
     const roleToSend =
       session_role === "departamento" ? "secretaria" : "secretaria";
+    
     const roleState =
       session_role === "secretaria"
         ? "Cumplido"
         : session_role === "departamento"
         ? "Tramitado"
         : "Finalizado";
+    const textToSend = session_role === "departamento" 
+    ? `El acuerdo a sido ${roleState} y enviado a ${roleToSend}.`
+    : `El acuerdo a sido ${roleState}`
     const agreementData = {
       id,
       topic,
@@ -107,7 +111,7 @@ export const CheckModal = ({
         ? Swal.fire({
             icon: "success",
             title: `Acuerdo ${roleState}`,
-            text: `El acuerdo a sido ${roleState} y enviado a ${roleToSend}.`,
+            text:textToSend,
           }).then(() => window.location.reload())
         : Swal.fire({
             icon: "error",
