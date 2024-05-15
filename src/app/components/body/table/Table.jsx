@@ -66,10 +66,10 @@ export default async function Table({
 
   let rows = await loadData(url);
   rows = rows ? rows : [];
-  
   rows =  rows.reverse();
 
   const rowsFil = url === "session" ?rows: filterState(rows);
+  
   const filterRows = 
     url === "session"
       ? filterRowS(rowsFil, filterBox, querySearh)

@@ -248,6 +248,7 @@ export const CheckModal = ({
                       id="file"
                       name="file"
                       type="file"
+                      accept=".pdf"
                       onChange={handleFileUpload}
                     />
                   </div>
