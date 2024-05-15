@@ -194,7 +194,6 @@ export const updateUser = async (user) => {
 
                 }
             })
-
             return updatedUser  // Return the updated user object
         }
         catch (error) {

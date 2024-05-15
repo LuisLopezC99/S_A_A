@@ -75,10 +75,10 @@ export const POST = async (request) => {
 // This is the route to update a user
 export const PUT = async (request) => {
   try {
+
     const user = await request.json();
     const { searchParams } = new URL(request.url);
     const isChangePass = searchParams.get("changepass");
-
     let updatedUser = null
     if (isChangePass) {
       updatedUser = await updatePassword(user);
@@ -86,9 +86,10 @@ export const PUT = async (request) => {
     else {
       updatedUser = await updateUser(user);
     }
-    await logUserAction(1, "Usuario actualizado, con ID " + updatedUser.id)
+   // await logUserAction(1, "Usuario actualizado, con ID " + updatedUser.id)
     return NextResponse.json(updatedUser, { status: 200 });
   } catch (error) {
+    console.log(error)
     return NextResponse.json({ error: error.message });
   }
 }
