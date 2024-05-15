@@ -43,6 +43,10 @@ const castDateToCrDateString = (date) => {
   const inputDate = dateCast.toLocaleDateString("en-CA", { timeZone: "UTC" });
   return inputDate;
 };
+export const filterState = (rows) => {
+  return rows.filter((row) => row.state !== 'Cumplido');
+};
+
 
 export const filterRowA = (rows, filter, searchText) => {
   return rows.filter((row) => {

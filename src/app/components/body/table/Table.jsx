@@ -41,7 +41,7 @@ import { getRequest } from "@/app/requests/getRequests";
 import ComboBox from "../filters/ComboBox";
 import SearchText from "../filters/SearchText";
 import { AddButton } from "../../buttons/AddButton";
-import { filterRowA, filterRowS } from "../../utils/filterRows";
+import { filterRowA, filterRowS,filterState } from "../../utils/filterRows";
 import ReportButton from "../../buttons/ReportButton";
 import Pagination from "../pagination/Pagination";
 import { HiDocumentAdd } from "react-icons/hi";
@@ -69,12 +69,13 @@ export default async function Table({
   
   rows =  rows.reverse();
 
-  const filterRows =
+  const rowsFil = url === "session" ?rows: filterState(rows);
+  const filterRows = 
     url === "session"
-      ? filterRowS(rows, filterBox, querySearh)
+      ? filterRowS(rowsFil, filterBox, querySearh)
       : isFilter
-        ? filterRowA(rows[0].agreements, filterBox, querySearh)
-        : filterRowA(rows, filterBox, querySearh);
+        ? filterRowA(rowsFil[0].agreements, filterBox, querySearh)
+        : filterRowA(rowsFil, filterBox, querySearh);
 
   const totalDocuments =
     querySearh != ""
