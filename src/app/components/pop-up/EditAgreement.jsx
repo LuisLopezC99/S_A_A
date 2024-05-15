@@ -64,7 +64,7 @@ const EditAgreement = ({
   );
   const [state, setState] = useState(agreementData.state);
   const [users, setUsers] = useState([]);
-  const[departmentUsers, setDepartmentUsers] = useState([]);
+  const [departmentUsers, setDepartmentUsers] = useState([]);
   const [actualUser, _] = useState(agreementData.users.name);
   const [isChecked, setIsChecked] = useState(assignedTo === "externo" ? true : false);
 
@@ -155,14 +155,14 @@ const EditAgreement = ({
       `DSC-ACD-${agreementId.consecutive}-${agreementId.month}-${agreementId.year}`
     );
   });
-  
+
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   }
 
   return (
     <div>
-      {isModalOpen && status === "authenticated" &&(
+      {isModalOpen && status === "authenticated" && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="absolute inset-0 bg-gray-800 opacity-75"></div>
           <div className="bg-white p-4 rounded shadow-lg z-10 dark:bg-gray-700">
@@ -251,22 +251,23 @@ const EditAgreement = ({
                         ))}
                       </select>
                     </div>
-
-                    <div className="ml-5 flex items-center mt-1"> {/* Cambiado mt-2 a mt-1 */}
-                      <label
-                        className="block text-gray-700 text-sm font-bold mb-2 dark:text-white mr-2"
-                        htmlFor="external"
-                      >
-                        Externo
-                      </label>
-                      <input
-                        type="checkbox"
-                        id="external"
-                        checked={isChecked}
-                        onChange={handleCheckboxChange}
-                        disabled={session.user.role === "alcaldia"}
-                      />
-                    </div>
+                    {session.user.role !== "alcaldia" &&(
+                      <div className="ml-5 flex items-center mt-1"> {/* Cambiado mt-2 a mt-1 */}
+                        <label
+                          className="block text-gray-700 text-sm font-bold mb-2 dark:text-white mr-2"
+                          htmlFor="external"
+                        >
+                          Externo
+                        </label>
+                        <input
+                          type="checkbox"
+                          id="external"
+                          checked={isChecked}
+                          onChange={handleCheckboxChange}
+                          disabled={session.user.role === "alcaldia"}
+                        />
+                      </div>
+                    )}
                   </div>
                   <div>
                     <label
