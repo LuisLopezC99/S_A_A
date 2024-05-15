@@ -83,6 +83,7 @@ export const PUT = async (request) => {
         await logUserAction(5, "Acuerdo actualizado, con ID " + newUpdate.id)
         return NextResponse.json(newUpdate)
     } catch (error) {
+        console.log(error)
         return NextResponse.json({ error: "Hubo un error al procesar la solicitud" }, { status: 500 });
     }
 }

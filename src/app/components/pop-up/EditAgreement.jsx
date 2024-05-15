@@ -63,13 +63,15 @@ const EditAgreement = ({
   );
   const [state, setState] = useState(agreementData.state);
   const [users, setUsers] = useState([]);
+  const[departmentUsers, setDepartmentUsers] = useState([]);
   const [actualUser, _] = useState(agreementData.users.name);
   const [isChecked, setIsChecked] = useState(assignedTo === "externo" ? true : false);
 
   useEffect(() => {
     const fetchUsers = async () => {
       const response = await getRequest("users");
-      setUsers(response.filter(user => user.role.name === "departamento"));
+      setUsers(response);
+      setDepartmentUsers(response.filter(user => user.role.name === "departamento"));
     };
 
     fetchUsers();
@@ -106,9 +108,10 @@ const EditAgreement = ({
 
     const topic = formData.get("topic");
     const description = formData.get("description");
+    console.log(users);
     const asignedTo = isChecked ? (users.find(user => user.role.name === "externo"))?.name : formData.get("assignedTo");
     const { name } = formData.get("file") ? formData.get("file") : { name: report };
-
+    console.log(asignedTo);
     const simpleDate = formData.get("deadline");
     const date = simpleDate + "T00:00:00.000Z";
     const deadline = new Date(date);
@@ -240,7 +243,7 @@ const EditAgreement = ({
                         disabled={isChecked}
                       >
                         <option value="">Seleccionar...</option>
-                        {users.map((user) => (
+                        {departmentUsers.map((user) => (
                           user.role.name !== "externo" && (
                             <option key={user.id} value={user.name}>
                               {user.name}
