@@ -36,9 +36,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import { FormEvent } from "react";
 import { putData, getRequest, putDataFile } from "@/app/requests/getRequests";
-import { set } from "react-hook-form";
+import { useSession } from "next-auth/react"
 
 const EditAgreement = ({
   isModalOpen,
@@ -46,6 +45,8 @@ const EditAgreement = ({
   agreementData,
   session_role = "",
 }) => {
+  const { data: session, status } = useSession()
+  console.log(session);
   const [file, setFile] = useState(null);
   const report = agreementData.report;
   const reportCumplimiento = agreementData.reportCumplimiento;
@@ -108,10 +109,8 @@ const EditAgreement = ({
 
     const topic = formData.get("topic");
     const description = formData.get("description");
-    console.log(users);
     const asignedTo = isChecked ? (users.find(user => user.role.name === "externo"))?.name : formData.get("assignedTo");
     const { name } = formData.get("file") ? formData.get("file") : { name: report };
-    console.log(asignedTo);
     const simpleDate = formData.get("deadline");
     const date = simpleDate + "T00:00:00.000Z";
     const deadline = new Date(date);
@@ -163,7 +162,7 @@ const EditAgreement = ({
 
   return (
     <div>
-      {isModalOpen && (
+      {isModalOpen && status === "authenticated" &&(
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="absolute inset-0 bg-gray-800 opacity-75"></div>
           <div className="bg-white p-4 rounded shadow-lg z-10 dark:bg-gray-700">
@@ -265,6 +264,7 @@ const EditAgreement = ({
                         id="external"
                         checked={isChecked}
                         onChange={handleCheckboxChange}
+                        disabled={session.user.role === "alcaldia"}
                       />
                     </div>
                   </div>
