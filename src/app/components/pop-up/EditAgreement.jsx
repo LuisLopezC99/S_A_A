@@ -118,7 +118,7 @@ const EditAgreement = ({
       id,
       topic,
       asignedTo,
-      report: name,
+      report: name !== "" ? name : report,
       reportCumplimiento,
       deadline,
       sessionId: sessionId,
@@ -298,6 +298,7 @@ const EditAgreement = ({
                   id="file"
                   name="file"
                   type="file"
+                  accept=".pdf"
                   onChange={handleFileUpload}
                   disabled={session_role !== "secretaria"}
                 //required

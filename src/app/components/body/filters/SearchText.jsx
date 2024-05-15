@@ -48,6 +48,8 @@ export default function SearchText({currentText}) {
     const filter = searchParams.get("filter") || ""
     const page = 1;
     const itemsPerPage = Number(searchParams.get("items")) || "";
+    const typeSesion = searchParams.get("type") || "";
+    const consecutiveSesion = searchParams.get("consecutive") || "";
     const handleOnChange = useDebouncedCallback((event) => {
       setText(event.target.value);
       router.push(
@@ -56,6 +58,8 @@ export default function SearchText({currentText}) {
           searchText: event.target.value,
           page: page,
           items: itemsPerPage,
+          consecutive:consecutiveSesion,
+          type:typeSesion,
         })}`
       );
     }, 1000);
