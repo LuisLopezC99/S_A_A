@@ -36,7 +36,6 @@
 "use client";
 import React, { useState } from "react";
 import SessionModal from "../pop-up/SessionModal";
-import EditSession from "../pop-up/EditSession";
 import EditAgreement from "../pop-up/EditAgreement";
 
 export const ButtonEdit = ({ title, children, data, session_role = "" }) => {
