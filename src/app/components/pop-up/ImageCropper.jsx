@@ -37,7 +37,7 @@ const ImageCropper = ({ imageSrc, onCropComplete }) => {
                     onZoomChange={onZoomChange}
                     onCropComplete={onCropCompleted}
                 />
-                <button onClick={handleConfirmCrop} className="absolute bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded shadow" >Confirmar Recorte</button>
+                <button onClick={handleConfirmCrop} className="absolute bottom-4 right-4 bg-yellow-300 text-gray-500 font-bold px-4 py-2 border border-yellow-400 rounded shadow" >Confirmar Recorte</button>
             </div>  
         </div>
     );

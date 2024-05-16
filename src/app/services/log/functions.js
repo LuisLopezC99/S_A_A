@@ -7,6 +7,7 @@ import { timeStamp } from "console";
 export const logUserAction = async (operationId, actionDescription) => {
     try {
         const session = await getServerSession(authOptions);
+        console.log(operationId, actionDescription)
         const action = await prisma.tab_log_operations.create({
             data: {
                 user: {
