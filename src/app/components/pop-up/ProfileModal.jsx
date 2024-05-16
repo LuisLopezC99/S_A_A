@@ -47,6 +47,7 @@ const ProfileModal = ({ isModalOpen, handleModalState, userData}) => {
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
   const router = useRouter();
   const ref = useRef(null);
+  const [imgSource, setImgSource] = useState(`/profile-pictures/${userData["id"]}.jpg`);
 
   useEffect(() => { 
     const handleOutSideClick = (event) => {
@@ -91,9 +92,10 @@ const ProfileModal = ({ isModalOpen, handleModalState, userData}) => {
               <Image
                 width={0}
                 height={0}
-                src={`/profile-pictures/${userData["id"]}.jpg`}
+                src={imgSource}
                 className="w-28 h-28 rounded-full object-cover text-green-600"
                 alt="Imagen de Perfil"
+                onError={() => setImgSource('/profile-pictures/image-placeholder.png')}
                 unoptimized
               >
               </Image>

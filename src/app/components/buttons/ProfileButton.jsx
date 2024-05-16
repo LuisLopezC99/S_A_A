@@ -41,6 +41,7 @@ import Image from "next/image";
 
 export const ProfileButton = ({ userData }) => {
   const [openModal, setOpenModal] = useState(false);
+  const [imgSource, setImgSource] = useState(`/profile-pictures/${userData["id"]}.jpg`);
 
   const handleClick = () => {
     !openModal ? setOpenModal(true) : setOpenModal(false);
@@ -56,9 +57,10 @@ export const ProfileButton = ({ userData }) => {
           <Image
                 width={0}
                 height={0}
-                src={`/profile-pictures/${userData["id"]}.jpg`}
+                src={imgSource}
                 className="w-11 h-11 rounded-full text-green-600"
                 alt="Imagen de Perfil"
+                onError={() => setImgSource('/profile-pictures/image-placeholder.png')}
                 unoptimized
               >
           </Image>
