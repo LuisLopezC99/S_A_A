@@ -68,7 +68,7 @@ export default async function Table({
   rows = rows ? rows : [];
   rows =  rows.reverse();
 
-  const rowsFil = url === "session" ?rows: filterState(rows);
+  const rowsFil = isFilter || url === "session" ? rows: filterState(rows);
   
   const filterRows = 
     url === "session"
