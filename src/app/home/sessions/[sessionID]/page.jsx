@@ -58,8 +58,8 @@ const SessionPage = async ({ params, searchParams }) => {
         <Table
           columns={[
             "Oficio",
+            "Sesión",
             "Tema",
-            "Sesion",
             "Asignado",
             "Fecha de creación",
             "Fecha de vencimiento",

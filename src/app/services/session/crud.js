@@ -35,38 +35,43 @@
 
 import prisma from "../../../libs/prisma.js"
 
+
+// Creates a new session record in the database.
 export const createSession = async (session) => {
+    // Create a new session record in the database
     try {
         return await prisma.tab_session.create({
             data: {
-                date: session.date,
-                report: session.report,
-                type: session.type,
-                UrlVideo: session.UrlVideo,
+                date: session.date, // Date of the session
+                report: session.report, // Report associated with the session
+                type: session.type, // Type of the session
+                UrlVideo: session.UrlVideo, // Video URL related to the session
                 sessionId: {
                     create: {
-                        consecutive: parseInt(session.sessionConsecutive),
-                        year: new Date().getFullYear(),
-                        type: session.type
+                        consecutive: parseInt(session.sessionConsecutive), // Consecutive session number
+                        year: new Date().getFullYear(), // Current year
+                        type: session.type // Type of the session (e.g., meeting, workshop)
                     }
                 }
             }
         })
     } catch (error) {
-        throw error
+        throw error; // Throw any error that occurs during the session creation process
     }
 }
 
+// Retrieves all session records from the database.
 export const readSessions = async () => {
-
+    // Retrieve all session records from the database including session IDs
     return await prisma.tab_session.findMany({
         include: {
-            sessionId: true
+            sessionId: true // Include session IDs in the retrieved session records
         }
     })
 
 }
 
+// Retrieves filtered session records from the database based on the provided filter.
 export const readFilterSession = async (filter) => {
     try {
     const sessions = await prisma.tab_session.findMany({
@@ -118,15 +123,16 @@ export const readFilterSession = async (filter) => {
                 },
             ]
         },
-        take: 30
+        take: 30 // Limit the number of retrieved records to 30
     })
 
-    return sessions
+    return sessions // Return the filtered session records
     } catch (error) {
-        console.log(error)
+        throw error; // Throw any error that occurs during the session retrieval process
     }
 }
 
+// Updates an existing session record in the database.
 export const updateSession = async (session) => {
     const { id, date, report, type, UrlVideo, consecutive } = session
     try {
@@ -135,24 +141,25 @@ export const updateSession = async (session) => {
                 id
             },
             data: {
-                date,
-                report,
-                type,
-                UrlVideo,
+                date, // Update the session date
+                report, // Update the session report
+                type, // Update the session type
+                UrlVideo, // Update the session video URL
                 sessionId: {
                     update: {
-                        consecutive: parseInt(consecutive),
-                        type: type
+                        consecutive: parseInt(consecutive), // Update the session consecutive 
+                        type: type // Update the session type in the session ID
                     }
                 }
             }
         })
     } catch (error) {
-        console.log(error)
-        throw error
+        throw error // Throw any error that occurs during the session update process
     }
 }
+
+// Retrieves the total count of session records from the database.
 export const getTotalSessions = async () => {
     const total = await prisma.tab_session.count();
-    return total;
+    return total; // Return the total count of session records
 }

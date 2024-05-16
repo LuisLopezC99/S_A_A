@@ -35,132 +35,153 @@
 
 import prisma from "../../../libs/prisma.js"
 
-
+// Creates a new agreement in the database using Prisma.
 export const createAgreement = async (agreement, agrID) => {
-  console.log(agreement.deadline);
+  // Calculate the reminder date by subtracting 2 days from the agreement deadline
   const reminderDate = new Date(agreement.deadline);
-  // Maes aquí definir la cantidad de días antes al deadline que queremos que notifique
   reminderDate.setDate(reminderDate.getDate() - 2);
   try {
+    // Try to create a new agreement in the database using Prisma
     return await prisma.tab_agreement.create({
       data: {
-        topic: agreement.topic,
-        description: agreement.description,
-        creationDate: agreement.creationDate,
-        deadline: agreement.deadline,
-        reminderDate: reminderDate,
-        report: agreement.report,
-        reportCumplimiento: agreement.reportCumplimiento,
+        // Agreement details
+        topic: agreement.topic, // Agreement topic
+        description: agreement.description, // Agreement description
+        creationDate: agreement.creationDate, // Agreement creation date
+        deadline: agreement.deadline, // Agreement deadline
+        reminderDate: reminderDate, // Calculated reminder date
+        report: agreement.report, // Report information associated with the agreement
+        reportCumplimiento: agreement.reportCumplimiento, // Report compliance
         session: {
-          connect: { id: agreement.sessionId }, // Conectar a la sesión existente por ID
+          connect: { id: agreement.sessionId }, // Connect to existing session by ID
         },
         users: {
-          connect: { id: agreement.asignedTo }, // Conectar al usuario existente por ID
+          connect: { id: agreement.asignedTo }, // Connect to existing user by ID
         },
         agreementId: {
           create: {
-            consecutive: agrID.consecutive, // Asegúrate de proveer un valor único
-            month: agrID.month, // Asegúrate de proveer un valor válido
-            year: agrID.year, // Asegúrate de proveer un valor válido
+            consecutive: agrID.consecutive, // Make sure you provide a unique value
+            month: agrID.month, // Make sure you provide a valid value
+            year: agrID.year, // Make sure you provide a valid value
           },
         },
-        state: agreement.state,
+        state: agreement.state, // Agreement state
       },
     });
   }
   catch (e) {
+    // Captures and throws any errors that occur during the process
     throw e
   }
 
 }
 
+//Reads and retrieves a list of agreements from the database using Prisma.
 export const readAgreement = async () => {
+  // Fetches all agreements from the database, including related data like agreementId, users, and session details
   const agreems = await prisma.tab_agreement.findMany({
     include: {
-      agreementId: true,
-      users: true,
+      agreementId: true, // Includes agreementId details in the retrieved agreements
+      users: true, // Includes users associated with the agreements
       session : {
         select: {
-          type: true,
+          type: true, // Selects the session type
           sessionId : {
             select: {
-              consecutive: true
+              consecutive: true // Selects the consecutive ID of the session
             }
           }
         }
       }
     }
   })
-  return agreems
+  return agreems // Returns the array of retrieved agreements
 }
+
+//Retrieves an agreement ID by its consecutive number from the database using Prisma.
 export const getAgreementConsecutive = async (consecutiveAgreement) => {
-  const consecutive = consecutiveAgreement;
+  const consecutive = consecutiveAgreement; // Assigns the consecutive number to a variable
   const agreementID = await prisma.tab_agreement_id.findUnique({
     where: {
+    // Specifies the condition to find a unique agreement ID based on certain criteria
+    }
+  });
+  return agreementID; // Returns the retrieved agreement ID
+}
 
-    }
-  });
-  return agreementID;
-}
+//Updates the report compliance and state of an agreement in the database using Prisma.
 export const updateCheck = async (nameReport, agreementId) => {
-  const id = agreementId;
-  const reportCumplimiento = nameReport;
-  const state = "tramitado";
+  const id = agreementId; // Assigns the agreement ID to a variable
+  const reportCumplimiento = nameReport; // Assigns the report compliance name to a variable
+  const state = "tramitado"; // Sets the state of the agreement to "tramitado" (processed)
+
+  // Updates the agreement in the database with the new report compliance and state
   return await prisma.tab_agreement.update({
     where: {
-      id,
+      id, // Specifies the agreement to update based on its ID
     },
     data: {
-      reportCumplimiento,
-      state,
+      reportCumplimiento, // Updates the report compliance field
+      state, // Updates the state field
     }
   });
 }
+
+//Updates the state of an agreement in the database using Prisma.
 export const updateState = async (newState, agreementId) => {
-  const state = newState;
-  const id = agreementId;
+  const state = newState; // Assigns the new state to a variable
+  const id = agreementId; // Assigns the agreement ID to a variable
+
+  // Updates the agreement in the database with the new state
   return await prisma.tab_agreement.update({
     where: {
-      id,
+      id, // Specifies the agreement to update based on its ID
     },
     data: {
-      state,
+      state, // Updates the state field
     },
   });
 }
+
+// Updates the report field of an agreement in the database using Prisma.
 export const updateReport = async (nameReport, agreementId) => {
-  const id = agreementId;
-  const report = nameReport;
+  const id = agreementId; // Assigns the agreement ID to a variable
+  const report = nameReport; // Assigns the report name to a variable
+
+  // Updates the agreement in the database with the new report name
   return await prisma.tab_agreement.update({
     where: {
-      id,
+      id, // Specifies the agreement to update based on its ID
     },
     data: {
-      report,
+      report, // Updates the report field
     },
   });
 };
+
+// Updates an existing agreement in the database using Prisma.
 export const updateAgreement = async (agreement) => {
-  console.log(agreement);
+  // Destructure the properties from the agreement object
   const { id, topic, description, asignedTo, report, reportCumplimiento, deadline, sessionId, agreementIdConsecutive, state } = agreement
-  console.log(description);
   try {
+    // Find the user ID based on the assignedTo property
     const user = await prisma.tab_user.findUnique({
       where: {
         name: asignedTo
       },
     });
 
+    // Update the agreement in the database with the new details
     return await prisma.tab_agreement.update({
       where: {
-        id
+        id // Specifies the agreement to update based on its ID
       },
       data: {
         topic,
         description,
         report,
         reportCumplimiento,
-        asignedTo: user.id,
+        asignedTo: user.id, // Assigns the user ID to the agreement's assignedTo field
         deadline,
         sessionId,
         agreementIdConsecutive,
@@ -168,115 +189,128 @@ export const updateAgreement = async (agreement) => {
       }
     })
   } catch (e) {
+    // Throws any error that occurs during the update process
      throw e
   }
 }
+
+// Counts the number of agreements that match the provided filter criteria in the database using Prisma.
 export const countFilteredAgreements = async (filter) => {
+  // Fetches agreements that match the filter criteria from the database
   const agreements = await prisma.tab_agreement.findMany({
     where: {
       OR: [
         {
-          topic: filter,
+          topic: filter, // Matches agreements with the provided topic
         },
         {
-          description: filter,
+          description: filter, // Matches agreements with the provided description
         },
         {
-          sessionId: Number(filter) ? Number(filter) : -1,
+          sessionId: Number(filter) ? Number(filter) : -1, // Matches agreements with the provided session ID (if numeric)
         },
         {
           users: {
-            name: filter,
+            name: filter, // Matches agreements with users having the provided name
           },
         },
       ],
     },
     include: {
-      agreementId: true,
-      users: true,
+      agreementId: true, // Includes agreementId details in the retrieved agreements
+      users: true, // Includes users associated with the agreements
     },
   });
-  return agreements.length;
+  return agreements.length; // Returns the count of filtered agreements
 };
+
+// Filters agreements based on the provided filter criteria in the database using Prisma.
 export const filterAgreement = async (filter) => {
+  // Retrieves agreements that match the filter criteria from the database
   return await prisma.tab_agreement.findMany({
     where: {
       OR: [
         {
-          topic: filter
+          topic: filter // Matches agreements with the provided topic
         },
         {
-          description: filter
+          description: filter // Matches agreements with the provided description
         },
         {
-          sessionId: Number(filter) ? Number(filter) : -1
+          sessionId: Number(filter) ? Number(filter) : -1 // Matches agreements with the provided session ID (if numeric)
         },
         {
           users: {
-            name: filter
+            name: filter // Matches agreements with users having the provided name
           }
         }
       ]
     },
     include: {
-      agreementId: true,
-      users: true,
+      agreementId: true, // Includes agreementId details in the retrieved agreements
+      users: true, // Includes users associated with the agreements
       session : {
         select: {
-          type: true,
+          type: true, // Selects the session type
           sessionId : {
             select: {
-              consecutive: true
+              consecutive: true // Selects the consecutive ID of the session
             }
           }
         }
       }
     },
-    take: 30
+    take: 30 // Limits the number of retrieved agreements to 30
   })
 }
 
+// Retrieves the last (most recent) agreement from the database using Prisma.
 export const getLastAgreement = async () => {
+  // Retrieves the last agreement based on the consecutive ID in descending order
   return await prisma.tab_agreement.findMany({
     orderBy: {
       agreementId: {
-        consecutive: 'desc',
+        consecutive: 'desc', // Orders by consecutive ID in descending order (most recent first)
       },
     },
     select: {
-      agreementId: true,
+      agreementId: true, // Selects the agreementId details in the retrieved agreements
     },
-    take: 1,
+    take: 1, // Retrieves only the last agreement
   });
 }
+
+// Retrieves the total number of agreements from the database using Prisma.
 export const getTotalAgrements = async () => {
+  // Counts the total number of agreements in the database
   const total = await prisma.tab_agreement.count();
-  return total;
+  return total; // Returns the total number of agreements
 }
 
+// Retrieves agreements with reminder dates set to today from the database using Prisma.
 export const getTodayAgreements = async () => {
+  // Get the current date in the UTC timezone
   const today = new Date();
   const todayUTC = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()));
-  console.log(today);
   try {
+    // Retrieve agreements with reminder dates set to today
     const agreements = await prisma.tab_agreement.findMany({
       where: {
-        reminderDate: todayUTC,
+        reminderDate: todayUTC, // Filter agreements by reminder date set to today
       },
       include: {
-        agreementId: true,
+        agreementId: true, // Include agreementId details in the retrieved agreement
         users: {
           select: {
-            name: true,
-            email: true,
+            name: true, // Select the user's name
+            email: true, // Select the user's email
           },
         },
       },
     });
   
-    return agreements;
+    return agreements; // Return the array of agreements with reminder dates set to today
   } catch (error) {
-    console.log(error);
-    return [];
+    return []; // Return an empty array if an error occurs
   }
 }

@@ -35,7 +35,6 @@
 
 "use client";
 import { useState } from "react";
-import FormSession from "../pop-up/FormSession";
 import FormAgreement from "../pop-up/FormAgreement";
 import SessionModal from "../pop-up/SessionModal";
 

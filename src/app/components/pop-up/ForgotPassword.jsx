@@ -57,15 +57,18 @@ const ForgotPassword = ({ showForgotPasswordModal, setShowForgotPasswordModal })
         body: JSON.stringify({ ...user, password: randomPassword }),
       }))
       .then((response) => (response.ok ? response.json() : Promise.reject(response)))
-      .then((user) => fetch('/api/send', {
+      .then((user) =>{ 
+        fetch('/api/send', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ ...user, password: randomPassword, subject: 'Recuperar contraseña'}),
-      }))
-      .then((response) => (response.ok ? Swal.fire('¡Correo Enviado!', 'Se ha enviado un correo con la nueva contraseña', 'success') : Promise.reject(response)))
-      .catch((error) => Swal.fire('Error', 'Ha ocurrido un error al enviar el correo', 'error',error));
+      })})
+      .then((_) => (Swal.fire('¡Correo Enviado!', 'Se ha enviado un correo con la nueva contraseña', 'success')))
+      .catch((error) => {
+        Swal.fire('Error', 'Ha ocurrido un error al enviar el correo', 'error',error)
+      });
 
     setShowForgotPasswordModal(false);
 

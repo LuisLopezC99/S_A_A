@@ -36,22 +36,22 @@
 import path, { resolve } from "path";
 import { writeFile, createReadStream, unlink } from "fs/promises";
 
+// Saves a file to the specified location based on the file type.
 export const saveFile = async (file, type) => {
   try {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
     const filePath = path.join(`${process.env.FILES_LOCATION}${type}`, file.name);
     await writeFile(filePath, buffer);
-    return "archivo subido";
+    return "archivo subido"; // File uploaded successfully message
   } catch (error) {
-    throw new Error("Hubo un error al procesar la solicitud");
+    throw new Error("Hubo un error al procesar la solicitud"); // Error handling message
   }
 };
 
-
+// Updates a file by replacing the existing file with the new file.
 export const updateFile = async (file, type, currentNameFile) => {
   try {
-    console.log(type, currentNameFile);
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
@@ -63,12 +63,11 @@ export const updateFile = async (file, type, currentNameFile) => {
       `${process.env.FILES_LOCATION}${type}`,
       currentNameFile
     );
-    await unlink(currentFilePath);
-    await writeFile(filePath, buffer);
+    await unlink(currentFilePath); // Delete the current file
+    await writeFile(filePath, buffer); // Write the new file
 
-    return "archivo subido";
+    return "archivo subido"; // File uploaded successfully message
   } catch (error) {
-    console.log(error);
-    throw new Error("Hubo un error al procesar la solicitud");
+    throw new Error("Hubo un error al procesar la solicitud"); // Error handling message
   }
 };

@@ -41,13 +41,13 @@ import { NextResponse } from "next/server";
 
 export async function POST(request) {
   try {
-
+  
     const { name, email, password, subject } = await request.json();
 
     if (!email || !name) {
       return NextResponse.json({ error: 'Correo electrónico de destino no proporcionado' }, { status: 400 });
     }
-
+    
     const info = await transporter.sendMail({
       from: process.env.NOTIFIER_EMAIL,
       to: email,
@@ -71,22 +71,11 @@ export async function POST(request) {
         <button>
         <a href="http://localhost:3000/">Ingresar a la página</a>
         </button>
-
-        
       `
     });
     return NextResponse.json(info);
   }
-    
-  // const data = await resend.emails.send({
-  //   from: 'Municipalidad de Tibas <onboarding@resend.dev>',
-  //   to: [email],
-  //   subject: subject,
-  //   react: EmailTemplate({ firstName: name, temporalPassword: password, messageType: messageType }),
-  //   text: '',
-  // });
   catch (error) {
-    console.error('Error al procesar la solicitud POST:', error);
     return NextResponse.json({ error });
   }
 }

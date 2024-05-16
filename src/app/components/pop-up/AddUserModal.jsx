@@ -69,11 +69,9 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const randomPassword = Math.random().toString(36).slice(-8);
-        console.log(randomPassword);
 
         try {
             const userDataWithPassword = { ...userData, password: randomPassword };
-            console.log("All data", userDataWithPassword);
             // Send a POST request to the server
             const response = await fetch('/api/users', {
                 method: 'POST',
@@ -82,10 +80,9 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
                 },
                 body: JSON.stringify(userDataWithPassword),
             });
-
-            if (response.ok) {
-                const newUser = await response.json();
-                console.log("New User", newUser);
+            const newUser = await response.json(); 
+            if (!newUser.error) {
+                
                 // Call the function provided by the prop to add the user locally
                 addUser(newUser);
                 onClose();
@@ -116,7 +113,7 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
                     title: "Added"
                 });
 
-                const sentEmail = await fetch('/api/send', {
+                await fetch('/api/send', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -137,11 +134,10 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
                 });
                 Toast.fire({
                     icon: "error",
-                    title: "Error on the data"
+                    title: newUser.error
                 });
                 console.error('Error al agregar el nuevo usuario');
             }
-            console.log(response);
         } catch (error) {
             console.error('Error de red:', error);
         }
@@ -231,10 +227,8 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
                                 required
                             >
                                 <option value="">Seleccionar Role</option>
-                                <option value="1">Admin</option>
                                 <option value="2">Secretaria</option>
                                 <option value="3">Departamento</option>
-                                <option value="4">Alcaldia</option>
                             </select>
                         </div>
                     </div>

@@ -68,26 +68,17 @@ export const POST = async (request) => {
     await logUserAction(1, "Usuario creado, con ID " + newUser.id)
     return NextResponse.json(newUser, { status: 201 });
   } catch (error) {
-    console.error('Error al procesar la solicitud POST:', error);
-    return NextResponse.json('Error al procesar la solicitud POST', { status: 500 });
+    return NextResponse.json({ error: error.message });
   }
 };
 
 // This is the route to update a user
 export const PUT = async (request) => {
   try {
+
     const user = await request.json();
     const { searchParams } = new URL(request.url);
     const isChangePass = searchParams.get("changepass");
-
-    // const session = await getServerSession(authOptions)
-
-    // if (!session) {
-    //   return NextResponse.json({ error: "No tienes permisos para realizar esta acción" }, { status: 403 });//verifies the session
-    // }
-    // if (session.user.role !== "admin" && session.user.name !== user.name) {
-    //   return NextResponse.json({ error: "No tienes permisos para realizar esta acción" }, { status: 403 });//verifies the user Role
-    // }
     let updatedUser = null
     if (isChangePass) {
       updatedUser = await updatePassword(user);
@@ -95,9 +86,10 @@ export const PUT = async (request) => {
     else {
       updatedUser = await updateUser(user);
     }
-    await logUserAction(1, "Usuario actualizado, con ID " + updatedUser.id)
+   // await logUserAction(1, "Usuario actualizado, con ID " + updatedUser.id)
     return NextResponse.json(updatedUser, { status: 200 });
   } catch (error) {
-    return NextResponse.json('Error al procesar la solicitud PUT', { status: 500 });
+    console.log(error)
+    return NextResponse.json({ error: error.message });
   }
 }

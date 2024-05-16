@@ -39,7 +39,6 @@ import { PDFDocument } from "pdf-lib";
 
 //Report function to generate a PDF document with the data of the report
 const Report = async ({ rows, header, title, state, type, filter, sesion }) => {
-  console.log(rows);
   // Function to convert a date to a specific string format
   const castDateToCrDateString = (date) => {
     const dateCast = new Date(date);
@@ -55,6 +54,12 @@ const Report = async ({ rows, header, title, state, type, filter, sesion }) => {
     return consecutive;
   };
 
+  // Function to format a month number
+  const formatMonth = (month) => {
+    month = month.toString();
+    month = month.padStart(2, "0");
+    return month;
+  };
 
   // Constants for image dimensions and margin
   const imgWidth = 15;
@@ -119,10 +124,7 @@ const Report = async ({ rows, header, title, state, type, filter, sesion }) => {
     doc.text(`Filtrado: `, 15, 40);
     doc.setFont("normal");
     doc.text(`${fil}`, 29, 40);
-    sesion !== "" &&
-      (doc.text(`Sesión: `, 15, 45), doc.text(`${sesion}`, 28, 45));
-    doc.setFontSize(8);
-    doc.setTextColor(3, 85, 229);
+    
     doc.text(
       "Fecha de emisión del reporte: ",
       doc.internal.pageSize.getWidth() - 35,
@@ -150,7 +152,11 @@ const Report = async ({ rows, header, title, state, type, filter, sesion }) => {
           })
         : rows.map((row) => {
             const consecutiveNumber = formatConsecutive(row.agreementId.consecutive);
-            const agreementIdFormatted = `DSC-ACD-${consecutiveNumber}-${row.agreementId.month}-${row.agreementId.year}`;
+            const monthNumber = formatMonth(row.agreementId.month);
+            const agreementIdFormatted = `DSC-ACD-${consecutiveNumber}-${monthNumber}-${row.agreementId.year}`;
+            const sesionAgreement = `${
+              row.session.type
+            } No.${formatConsecutive(row.session.sessionId.consecutive)}`;
             const topic = row.topic;
             const userName = row.users.name;
             const creationDate = castDateToCrDateString(row.creationDate);
@@ -159,6 +165,7 @@ const Report = async ({ rows, header, title, state, type, filter, sesion }) => {
 
             return [
               agreementIdFormatted,
+              sesionAgreement,
               topic,
               userName,
               creationDate,

@@ -62,7 +62,6 @@ const Report = async ({ userId }) => {
               userAction.description
             ];
           });
-    console.log(modifiedRows)
     doc.autoTable({
       head: [['Tiempo', 'Accion de Sistema', 'Descripcion']],
       body: modifiedRows,

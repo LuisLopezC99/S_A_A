@@ -35,19 +35,18 @@
 
 "use client";
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import {
   getRequest,
   postData,
   postDataForm,
   putData,
 } from "@/app/requests/getRequests";
-import { FormEvent } from "react";
 import Swal from "sweetalert2";
+import { set } from "react-hook-form";
 
 const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
-  
-  const [isChecked, setIsChecked] = useState(false);
+
+  const [asignedto, setAssignedto] = useState('alcaldia');
   const [oficio, setOficio] = useState("");
   const [lastOficio, setLastOficio] = useState(-1);
   const [users, setUsers] = useState([]);
@@ -73,11 +72,11 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
     formData2.append("type", "Acuerdos");
     const topic = formData.get("topic");
     const description = formData.get("description");
-    const asignedTo = isChecked ? (users.find(user => user.role.name === "externo"))?.id : Number(formData.get("assignedTo"));
+    const asignedTo = asignedto === 'externo' ? (users.find(user => user.role.name === "externo"))?.id : users.find(user => user.role.name === "alcaldia")?.id;
     const deadlineDate = formData.get("deadline");
     const sessionId = Number(sessionid);
     const creationDate = new Date();
-    const state = isChecked ? "Externo" : "Pendiente";
+    const state = asignedto === 'externo' ? "Externo" : "Pendiente";
     const { name } = formData.get("file");
 
     const agreementData = {
@@ -129,7 +128,6 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
   useEffect(() => {
     const promise = getRequest("agreement?add=Hola");
     promise.then((response) => {
-      console.log(response);
       if (response[0]) {
         const actual = new Date();
         actual.getFullYear() === response[0].agreementId.year
@@ -150,15 +148,16 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
     });
   }, []);
 
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-  }
 
   const handleConsecutiveValue = (e) => {
     const actual = new Date();
     setLastOficio(Number(e.target.value));
     setOficio(`DSC-ACD-${e.target.value}-${actual.getMonth() + 1}-${actual.getFullYear()}`);
-    
+
+  }
+
+  const handleRadioChange = (e) => {
+    setAssignedto(e.target.value);
   }
 
   return (
@@ -223,54 +222,37 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
                 </div>
 
                 <div className="mb-4">
-                  <div className="flex items-center">
+                  <div className="flex items-center mb-5 mt-10">
+
+                    <label
+                      className="block text-gray-700 text-sm font-bold dark:text-white"
+                      htmlFor="option"
+                    >
+                      Asignado a:
+                    </label>
+                    <div className="mx-2">
+                      <input
+                        type="radio"
+                        id="option1"
+                        name="option"
+                        value="alcaldia"
+                        defaultChecked
+                        onChange={handleRadioChange}
+                      />
+                      <label htmlFor="option1">Alcaldia</label>
+                    </div>
                     <div>
-                      <label
-                        className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
-                        htmlFor="assignedTo"
-                      >
-                        Asignado a:
-                      </label>
-                      <select
-                        className="custom-input"
-                        id="assignedTo"
-                        name="assignedTo"
-                        required
-                        disabled={isChecked}
-                      >
-                        <option value="">Seleccionar...</option>
-
-                        {users.map((user) => (
-                          user.role.name !== "externo" && (
-                            <option key={user.id} value={user.id}>
-                              {user.name}
-                            </option>
-                          )
-                        ))}
-                      </select>
+                      <input
+                        type="radio"
+                        id="option2"
+                        name="option"
+                        value="externo"
+                        onChange={handleRadioChange}
+                      />
+                      <label htmlFor="option2">Externo</label>
                     </div>
-
-                    <div className="ml-5 flex items-center mt-1"> {/* Cambiado mt-2 a mt-1 */}
-                      <label
-                        className="block text-gray-700 text-sm font-bold mb-2 dark:text-white mr-2"
-                        htmlFor="external"
-                      >
-                        Externo
-                      </label>
-                      <div>
-                        <input
-                          type="checkbox"
-                          id="external"
-                          checked={isChecked}
-                          onChange={handleCheckboxChange}
-                        />
-                      </div>
-                    </div>
-
-
-
                   </div>
-                  <div>
+                  <div className="mt-17">
                     <label
                       className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                       htmlFor="deadline"
@@ -323,7 +305,7 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
                   id="file"
                   name="file"
                   type="file"
-                  accept=".pdf,.docx"
+                  accept=".pdf"
                   required
                 />
               </div>

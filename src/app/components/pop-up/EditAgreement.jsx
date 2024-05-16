@@ -36,9 +36,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import { FormEvent } from "react";
 import { putData, getRequest, putDataFile } from "@/app/requests/getRequests";
-import { set } from "react-hook-form";
+import { useSession } from "next-auth/react"
 
 const EditAgreement = ({
   isModalOpen,
@@ -46,6 +45,8 @@ const EditAgreement = ({
   agreementData,
   session_role = "",
 }) => {
+  const { data: session, status } = useSession()
+  console.log(session);
   const [file, setFile] = useState(null);
   const report = agreementData.report;
   const reportCumplimiento = agreementData.reportCumplimiento;
@@ -63,6 +64,7 @@ const EditAgreement = ({
   );
   const [state, setState] = useState(agreementData.state);
   const [users, setUsers] = useState([]);
+  const [departmentUsers, setDepartmentUsers] = useState([]);
   const [actualUser, _] = useState(agreementData.users.name);
   const [isChecked, setIsChecked] = useState(assignedTo === "externo" ? true : false);
 
@@ -70,6 +72,7 @@ const EditAgreement = ({
     const fetchUsers = async () => {
       const response = await getRequest("users");
       setUsers(response);
+      setDepartmentUsers(response.filter(user => user.role.name === "departamento"));
     };
 
     fetchUsers();
@@ -108,7 +111,6 @@ const EditAgreement = ({
     const description = formData.get("description");
     const asignedTo = isChecked ? (users.find(user => user.role.name === "externo"))?.name : formData.get("assignedTo");
     const { name } = formData.get("file") ? formData.get("file") : { name: report };
-
     const simpleDate = formData.get("deadline");
     const date = simpleDate + "T00:00:00.000Z";
     const deadline = new Date(date);
@@ -118,7 +120,7 @@ const EditAgreement = ({
       id,
       topic,
       asignedTo,
-      report: name,
+      report: name !== "" ? name : report,
       reportCumplimiento,
       deadline,
       sessionId: sessionId,
@@ -131,7 +133,6 @@ const EditAgreement = ({
     formData2.append("type", "Acuerdos");
     formData2.append("currentNameFile", report);
     name !== "" && putDataFile("file", formData2);
-    console.log(agreementData);
     const put = putData("agreement", agreementData);
     put.then((response) => {
       response
@@ -154,9 +155,6 @@ const EditAgreement = ({
       `DSC-ACD-${agreementId.consecutive}-${agreementId.month}-${agreementId.year}`
     );
   });
-  const currentName = () => {
-    return users.map((user) => (user.id === assignedTo ? user.name : ""));
-  };
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
@@ -164,7 +162,7 @@ const EditAgreement = ({
 
   return (
     <div>
-      {isModalOpen && (
+      {isModalOpen && status === "authenticated" && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="absolute inset-0 bg-gray-800 opacity-75"></div>
           <div className="bg-white p-4 rounded shadow-lg z-10 dark:bg-gray-700">
@@ -244,7 +242,7 @@ const EditAgreement = ({
                         disabled={isChecked}
                       >
                         <option value="">Seleccionar...</option>
-                        {users.map((user) => (
+                        {departmentUsers.map((user) => (
                           user.role.name !== "externo" && (
                             <option key={user.id} value={user.name}>
                               {user.name}
@@ -253,21 +251,23 @@ const EditAgreement = ({
                         ))}
                       </select>
                     </div>
-
-                    <div className="ml-5 flex items-center mt-1"> {/* Cambiado mt-2 a mt-1 */}
-                      <label
-                        className="block text-gray-700 text-sm font-bold mb-2 dark:text-white mr-2"
-                        htmlFor="external"
-                      >
-                        Externo
-                      </label>
-                      <input
-                        type="checkbox"
-                        id="external"
-                        checked={isChecked}
-                        onChange={handleCheckboxChange}
-                      />
-                    </div>
+                    {session.user.role !== "alcaldia" &&(
+                      <div className="ml-5 flex items-center mt-1"> {/* Cambiado mt-2 a mt-1 */}
+                        <label
+                          className="block text-gray-700 text-sm font-bold mb-2 dark:text-white mr-2"
+                          htmlFor="external"
+                        >
+                          Externo
+                        </label>
+                        <input
+                          type="checkbox"
+                          id="external"
+                          checked={isChecked}
+                          onChange={handleCheckboxChange}
+                          disabled={session.user.role === "alcaldia"}
+                        />
+                      </div>
+                    )}
                   </div>
                   <div>
                     <label
@@ -302,6 +302,7 @@ const EditAgreement = ({
                   id="file"
                   name="file"
                   type="file"
+                  accept=".pdf"
                   onChange={handleFileUpload}
                   disabled={session_role !== "secretaria"}
                 //required

@@ -45,6 +45,9 @@ const PaginationComboBox = ({ itemsPerPage }) => {
   const searchParams = useSearchParams();
   const text = "";
   const filter = searchParams.get("filter") || "";
+  const typeSesion = searchParams.get("type") || "";
+  const consecutiveSesion = searchParams.get("consecutive") || "";
+  console.log(consecutiveSesion,typeSesion);
   const page = 1;
   const router = useRouter();
   const handleItemsPerPageChange = (event) => {
@@ -57,6 +60,8 @@ const PaginationComboBox = ({ itemsPerPage }) => {
         searchText: text,
         page: page,
         items: newItemsPerPage,
+        consecutive:consecutiveSesion,
+        type:typeSesion,
       })}`
     );
   };

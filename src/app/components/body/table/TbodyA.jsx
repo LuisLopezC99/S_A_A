@@ -45,9 +45,11 @@ import { CheckButton } from "../../buttons/CheckButton";
 import { MdEditSquare } from "react-icons/md";
 import { IoDocumentAttach } from "react-icons/io5";
 import { IoDocumentTextSharp } from "react-icons/io5";
+import { usePathname } from "next/navigation";
+
 
 const TbodyA = ({ rows = [], role = "" }) => {
-  console.log("rows", rows);
+  const pathname = usePathname()
   const [modalVisible, setModalVisible] = useState(false);
   const [row, setRows] = useState(rows);
   const [oficio, setOficio] = useState("");
@@ -61,22 +63,12 @@ const TbodyA = ({ rows = [], role = "" }) => {
     });
     return crDate;
   };
-  const handleOpenModal = () => {
-    setModalVisible(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalVisible(false);
-  };
   const castDateToInputDate = (date) => {
     const dateCast = new Date(date);
     const inputDate = dateCast.toLocaleDateString("en-CA", { timeZone: "UTC" });
     return inputDate;
-  };
-  const [updateFormAgreement, setUpdateFormAgreement] = useState({});
+  }
   const searchParams = useSearchParams();
-  const filter = searchParams.get("filter") || "";
-  const text = searchParams.get("searchText") || "";
   return (
     <tbody>
       {row.map((row, index) => {
@@ -99,105 +91,108 @@ const TbodyA = ({ rows = [], role = "" }) => {
         const creationDateCast = castDateToCrDate(new Date(creationDate));
         const deadlineCast = castDateToCrDate(new Date(deadline));
         const deadlineInputCast = castDateToInputDate(new Date(deadline));
+        {
+          if (pathname.includes("/home/sessions") || state !== "Cumplido") {
+            return (
+              <tr
+                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                key={`agree-${index}`}
+              >
+                <td scope="row" className="px-6 py-4 text-center">
+                  {
+                    `DSC-ACD-${calculateZeros(agreementId.consecutive, true)}${agreementId.consecutive}-${calculateZeros(agreementId.month)}${agreementId.month}-${agreementId.year}`
+                  }
+                </td>
+                <td className="px-6 py-4 text-center">{`Sesión ${session.type} N.${session.sessionId.consecutive}`}</td>
+                <td className="px-6 py-4 text-center">{topic}</td>
+                <td className="px-6 py-4 text-center">{users.name}</td>
+                <td className="px-6 py-4 text-center">{creationDateCast}</td>
+                <td className="px-6 py-4 text-center">{deadlineCast}</td>
 
-        return (
-          <tr
-            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-            key={`agree-${index}`}
-          >
-            <td scope="row" className="px-6 py-4 text-center">
-              {
+                <td className="px-6 py-4 text-center">
+                  {state === "Vencido" ? (
+                    <span className="estado estado-rojo"></span>
+                  ) : state === "Cumplido" ? (
+                    <span className="estado estado-verde"></span>
+                  ) : state === "Por vencer" ? (
+                    <span className="estado estado-naranja"></span>
+                  ) : state === "Pendiente" ? (
+                    <span className="estado estado-amarillo"></span>
+                  ) : state === "Tramitado" ? (
+                    <span className="estado estado-azul"></span>
+                  ) : state === "Externo" ? (
+                    <span className="estado estado-morado"></span>
+                  ) : null}
+                  {state}
+                </td>
+                <td className="px-6 py-4 text-center">
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <DownloadButton
+                      filename={report}
+                      type="Acuerdos"
+                      title="Abrir Acuerdo"
+                      icon={<IoDocumentTextSharp className="w-7 h-7 text-gray-500 dark:text-green-500" />}
+                    ></DownloadButton>
 
-                `DSC-ACD-${calculateZeros(agreementId.consecutive, true)}${agreementId.consecutive}-${calculateZeros(agreementId.month)}${agreementId.month}-${agreementId.year}`
-              }
-            </td>
-            <td className="px-6 py-4 text-center">{`Sesion ${session.type} N.${session.sessionId.consecutive}`}</td>
-            <td className="px-6 py-4 text-center">{topic}</td>
-            <td className="px-6 py-4 text-center">{users.name}</td>
-            <td className="px-6 py-4 text-center">{creationDateCast}</td>
-            <td className="px-6 py-4 text-center">{deadlineCast}</td>
-            <td className="px-6 py-4 text-center">
-              {state === "Vencido" ? (
-                <span className="estado estado-rojo"></span>
-              ) : state === "Cumplido" ? (
-                <span className="estado estado-verde"></span>
-              ) : state === "Por vencer" ? (
-                <span className="estado estado-naranja"></span>
-              ) : state === "Pendiente" ? (
-                <span className="estado estado-amarillo"></span>
-              ) : state === "Tramitado" ? (
-                <span className="estado estado-azul"></span>
-              ) : state === "Externo" ? (
-                <span className="estado estado-morado"></span>
-              ) : null}
-              {state}
-            </td>
-            <td className="text-center  sm:justify-center sm:items-center">
-              <DownloadButton
-                filename={report}
-                type="Acuerdos"
-                title="Abrir Acuerdo"
-                icon={<IoDocumentTextSharp className="w-7 h-7 text-gray-500 dark:text-green-500" />}
-              ></DownloadButton>
+                    <DownloadButton
+                      filename={reportCumplimiento}
+                      type="Cumplidos"
+                      title="Abrir Cumplido"
+                      icon={<IoDocumentAttach className="w-7 h-7 text-gray-500 dark:text-green-500" />}
+                    ></DownloadButton>
 
-              <DownloadButton
-                filename={reportCumplimiento}
-                type="Cumplidos"
-                title="Abrir Cumplido"
-                icon={<IoDocumentAttach  className="w-7 h-7 text-gray-500 dark:text-green-500" />}
-              ></DownloadButton>
-              <>
-                
-                  <CheckButton
-                    agreementId={id}
-                    data={{
-                      id,
-                      topic,
-                      asignedTo,
-                      creationDate,
-                      deadlineInputCast,
-                      sessionId,
-                      report,
-                      reportCumplimiento,
-                      description,
-                      state,
-                      agreementId,
-                      agreementIdConsecutive,
-                      users,
-                    }}
-                    session_role={role}
-                  ></CheckButton>
-              </>
-              {role !== "departamento" && (
-                <>
-                  <ButtonEdit
-                    title="agreement"
-                    data={{
-                      id,
-                      topic,
-                      asignedTo,
-                      creationDate,
-                      deadlineInputCast,
-                      sessionId,
-                      report,
-                      reportCumplimiento,
-                      description,
-                      state,
-                      agreementId,
-                      agreementIdConsecutive,
-                      users,
-                    }}
-                    session_role={role}
-                  >
-                    <MdEditSquare className = "w-7 h-7 text-gray-500 dark:text-green-500" alt="AcuerdoEdit" />
-                  </ButtonEdit>
-                </>
-              )}
-            </td>
-          </tr>
-        );
+                    <CheckButton
+                      agreementId={id}
+                      data={{
+                        id,
+                        topic,
+                        asignedTo,
+                        creationDate,
+                        deadlineInputCast,
+                        sessionId,
+                        report,
+                        reportCumplimiento,
+                        description,
+                        state,
+                        agreementId,
+                        agreementIdConsecutive,
+                        users,
+                      }}
+                      session_role={role}
+                    ></CheckButton>
+
+                    {role !== "departamento" && state !== "Tramitado" && (
+                      <ButtonEdit
+                        title="agreement"
+                        data={{
+                          id,
+                          topic,
+                          asignedTo,
+                          creationDate,
+                          deadlineInputCast,
+                          sessionId,
+                          report,
+                          reportCumplimiento,
+                          description,
+                          state,
+                          agreementId,
+                          agreementIdConsecutive,
+                          users,
+                        }}
+                        session_role={role}
+                      >
+                        <MdEditSquare className="w-7 h-7 text-gray-500 dark:text-green-500" alt="AcuerdoEdit" />
+                      </ButtonEdit>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            );
+          } 
+        }
       })}
     </tbody>
+
   );
 };
 

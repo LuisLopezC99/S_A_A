@@ -41,20 +41,21 @@ import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 
 const ComboBox = ({ options, filterName,currentSelect }) => {
+  
   const router = useRouter();
   const [selected, setSelected] = useState(currentSelect || '')
-
   const searchParams = useSearchParams()
   const text = searchParams.get("searchText") || ""
   const page = 1;
   const itemsPerPage = Number(searchParams.get("items")) || "";
   const currentSelect2 = Number(searchParams.get("filter")) || "";
-
+  const typeSesion = searchParams.get("type") || "";
+  const consecutiveSesion = searchParams.get("consecutive") || "";
 
   const handleOnChange = (event) => {
     const value = event.target.value
     setSelected(value)
-    router.push(`?${new URLSearchParams({filter:value, searchText : text,page: page,items: itemsPerPage})}`)
+    router.push(`?${new URLSearchParams({filter:value, searchText : text,page: page,items: itemsPerPage,consecutive:consecutiveSesion,type:typeSesion,})}`)
   }
 
   return (

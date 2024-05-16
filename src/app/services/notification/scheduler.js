@@ -38,17 +38,21 @@ import { transporter } from '../../components/tools/nodemailer.js';
 import cron from 'node-cron';
 import { sendEmailToSecretary } from './assigned.js';
 
+// Retrieves agreements for the current day and sends email notifications based on user roles.
 const getAgreements = async () => {
+  // Retrieve agreements for the current day
   const response = await getTodayAgreements();
-  console.log(response);
+  // Check if there are agreements to process
   if (response.length > 0) {
+    // Iterate through each agreement and send emails based on user roles
+    // Send email to internal user or secretary based on user role
     response.forEach(agreement => agreement.users.name !== "externo" ? sendEmail(agreement.topic, agreement.description, agreement.users.name, agreement.users.email)
     :
     sendEmailToSecretary(agreement.topic, agreement.description, agreement.users.name, sendEmail, true) )
   }
 }
 
-
+// Sends an email notification about agreements soon to expire to the specified user.
 const sendEmail = async (topic, description, username, email) => {
   const mailOptions = {
     from: process.env.NOTIFIER_EMAIL,
@@ -69,12 +73,11 @@ const sendEmail = async (topic, description, username, email) => {
       </div>
     `
   };
-  const info = await transporter.sendMail(mailOptions);
-  console.log(info);
+  const info = await transporter.sendMail(mailOptions); // Return a promise that resolves after sending the email
+  
 }
 
-// Obvio aquí está por minuto pero en la documentación está la manera de configurarlo
-// en caso de que se requiera cada día o cuando lo determinemos
+// Schedule a cron job to run the getAgreements function every minute.
 cron.schedule('* * * * *', () => {
   getAgreements();
 });

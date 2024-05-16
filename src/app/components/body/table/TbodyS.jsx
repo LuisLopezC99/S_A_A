@@ -51,7 +51,6 @@ const TbodyS = ({ rows = [], columns }) => {
   const filter = searchParams.get("filter") || "";
   const text = searchParams.get("searchText") || "";
   const [updateEditSession, setUpdateEditSession] = useState({});
-  console.log(rows);
   // Date castings
   const castDateToCrDate = (date) => {
     const dateCast = new Date(date);
@@ -85,7 +84,7 @@ const TbodyS = ({ rows = [], columns }) => {
               onDoubleClick={handleDoubleClick}
             >
                <td scope="row" className="px-2 py-4 text-center">
-               {`Sesion ${sessionId.type} No. ${calculateZeros(sessionId.consecutive, true)}${sessionId.consecutive}`}
+               {`Sesión ${sessionId.type} No. ${calculateZeros(sessionId.consecutive, true)}${sessionId.consecutive}`}
               </td>
               <td scope="row" className="px-2 py-4 text-center">
                 {crDate}
