@@ -127,41 +127,8 @@ const TbodyA = ({ rows = [], role = "" }) => {
                 </td>
                 <td className="px-6 py-4 text-center">
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <DownloadButton
-                      filename={report}
-                      type="Acuerdos"
-                      title="Abrir Acuerdo"
-                      icon={<IoDocumentTextSharp className="w-7 h-7 text-gray-500 dark:text-green-500" />}
-                    ></DownloadButton>
 
-                    <DownloadButton
-                      filename={reportCumplimiento}
-                      type="Cumplidos"
-                      title="Abrir Cumplido"
-                      icon={<IoDocumentAttach className="w-7 h-7 text-gray-500 dark:text-green-500" />}
-                    ></DownloadButton>
-
-                    <CheckButton
-                      agreementId={id}
-                      data={{
-                        id,
-                        topic,
-                        asignedTo,
-                        creationDate,
-                        deadlineInputCast,
-                        sessionId,
-                        report,
-                        reportCumplimiento,
-                        description,
-                        state,
-                        agreementId,
-                        agreementIdConsecutive,
-                        users,
-                      }}
-                      session_role={role}
-                    ></CheckButton>
-
-                    {role !== "departamento" && state !== "Tramitado" && (
+                  {role !== "departamento" && state !== "Tramitado" && (
                       <ButtonEdit
                         title="agreement"
                         data={{
@@ -184,6 +151,41 @@ const TbodyA = ({ rows = [], role = "" }) => {
                         <MdEditSquare className="w-7 h-7 text-gray-500 dark:text-green-500" alt="AcuerdoEdit" />
                       </ButtonEdit>
                     )}
+
+                    <DownloadButton
+                      filename={reportCumplimiento}
+                      type="Cumplidos"
+                      title="Abrir Cumplido"
+                      icon={<IoDocumentAttach className="w-7 h-7 text-gray-500 dark:text-green-500" />}
+                    ></DownloadButton>
+
+                    <DownloadButton
+                      filename={report}
+                      type="Acuerdos"
+                      title="Abrir Acuerdo"
+                      icon={<IoDocumentTextSharp className="w-7 h-7 text-gray-500 dark:text-green-500" />}
+                    ></DownloadButton>
+                    
+                    <CheckButton
+                        agreementId={id}
+                        data={{
+                              id,
+                              topic,
+                              asignedTo,
+                              creationDate,
+                              deadlineInputCast,
+                              sessionId,
+                              report,
+                              reportCumplimiento,
+                              description,
+                              state,
+                              agreementId,
+                              agreementIdConsecutive,
+                              users,
+                          }}
+                        session_role={role}
+                    ></CheckButton>
+
                   </div>
                 </td>
               </tr>
