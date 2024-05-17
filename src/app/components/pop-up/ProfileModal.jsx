@@ -127,7 +127,8 @@ const ProfileModal = ({ isModalOpen, handleModalState, userData}) => {
                 </li>
                 <li className="mt-1 mb-2">
                   <a
-                    href="#"
+                    href="/manual-usuario/MUBeta1.pdf"
+                    download="Manual de Usuario.pdf"
                     className="md:hover:text-green-500 dark:text-white"
                   >
                     Manual de Usuario
