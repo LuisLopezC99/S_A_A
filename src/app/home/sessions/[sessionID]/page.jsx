@@ -39,16 +39,16 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Suspense } from "react";
 import Loading from "../../../components/utils/Loading";
-// Agreement page of a session
 
+// Agreement page of a session
 const SessionPage = async ({ params, searchParams }) => {
-  const session = await getServerSession(authOptions);
-  let currentPage = Number(searchParams?.page) || 1;
-  let itemsPerPage = Number(searchParams?.items) || 5;
-  let filterBox = searchParams?.filter || "";
-  let query = searchParams?.searchText || "";
-  let type = searchParams?.type || "";
-  let consecutive = searchParams?.consecutive || "";
+  const session = await getServerSession(authOptions); // Get the session information from the server
+  let currentPage = Number(searchParams?.page) || 1; // Current page number, defaulting to 1
+  let itemsPerPage = Number(searchParams?.items) || 5; // Number of items per page, defaulting to 5
+  let filterBox = searchParams?.filter || ""; // Filter box value
+  let query = searchParams?.searchText || ""; // Search query
+  let type = searchParams?.type || ""; // Type of session
+  let consecutive = searchParams?.consecutive || ""; // Consecutive number of the session
   return (
     <div className="flex-grow">
       <Suspense
@@ -81,4 +81,4 @@ const SessionPage = async ({ params, searchParams }) => {
   );
 };
 
-export default SessionPage;
+export default SessionPage; // Export the SessionPage component

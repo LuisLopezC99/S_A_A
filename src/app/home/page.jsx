@@ -40,17 +40,18 @@ import { Suspense } from "react";
 import Loading from "../components/utils/Loading";
 import CreatePassword from "../components/pop-up/CreatePassword";
 
+// Home page component
 export default async function Home({ searchParams }) {
-  const session = await getServerSession(authOptions);
-  let url = "";
+  const session = await getServerSession(authOptions); // Get the current session
+  let url = ""; // Determine the URL based on the user's role
   session.user.role !== "secretaria"
-    ? (url = `agreement/${session.user.name}`)
-    : (url = "agreement");
+    ? (url = `agreement/${session.user.name}`) // If not a secretary, use the agreement URL with username
+    : (url = "agreement"); // If a secretary, use the general agreement URL
  
-  let currentPage = Number(searchParams?.page) || 1;
-  let itemsPerPage = Number(searchParams?.items) || 5;
-  let filterBox = (searchParams?.filter) || "";
-  let query = (searchParams?.searchText) || "";
+  let currentPage = Number(searchParams?.page) || 1; // Current page number, defaulting to 1
+  let itemsPerPage = Number(searchParams?.items) || 5; // Number of items per page, defaulting to 5
+  let filterBox = (searchParams?.filter) || ""; // Filter box value
+  let query = (searchParams?.searchText) || ""; // Search query
 
   
 
@@ -58,7 +59,7 @@ export default async function Home({ searchParams }) {
     <div className="flex-grow">
       <Suspense
         key={currentPage + itemsPerPage + filterBox + query}
-        fallback={<Loading />}
+        fallback={<Loading />} // Show loading component while data is loading
       >
         {
           <Table
@@ -71,15 +72,15 @@ export default async function Home({ searchParams }) {
               "Fecha de vencimiento",
               "Estado",
               "Acuerdo",
-            ]}
-            title="Acuerdos Asignados"
-            url={url}
-            isFilter={false}
-            session_role={session.user.role}
-            filterBox={filterBox}
-            querySearh={query}
-            currentPage={currentPage}
-            itemsPerPage={itemsPerPage}
+            ]} // Define the columns for the table
+            title="Acuerdos Asignados" // Title for the table
+            url={url} // URL to fetch data for the table
+            isFilter={false} // Disable filter option in the table
+            session_role={session.user.role} // Pass user role to the table
+            filterBox={filterBox} // Filter box value
+            querySearh={query} // Search query
+            currentPage={currentPage} // Current page number
+            itemsPerPage={itemsPerPage} // Items per page
           />
         }
       </Suspense>

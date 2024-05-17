@@ -39,6 +39,7 @@ import { getServerSession } from "next-auth/next";
 
 // Admin page
 export default async function Admin() {
+  // Retrieve session information from the server
   const session = await getServerSession(authOptions);
 
   return (

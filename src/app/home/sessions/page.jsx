@@ -36,18 +36,20 @@
 import Table from "../../components/body/table/Table";
 import { Suspense } from "react";
 import Loading from "../../components/utils/Loading";
+
+// Home page component
 export default async function Home({ searchParams }) {
-  let url = "session";
+  let url = "session"; // Define the URL for fetching session data
   
-  let currentPage = Number(searchParams?.page) || 1;
-  let itemsPerPage = Number(searchParams?.items) || 5;
-  let filterBox = searchParams?.filter || "";
-  let query = searchParams?.searchText || "";
+  let currentPage = Number(searchParams?.page) || 1; // Current page number, defaulting to 1
+  let itemsPerPage = Number(searchParams?.items) || 5; // Number of items per page, defaulting to 5
+  let filterBox = searchParams?.filter || ""; // Filter box value
+  let query = searchParams?.searchText || ""; // Search query
   return (
     <div className="flex-grow">
       <Suspense
         key={currentPage + itemsPerPage + filterBox + query}
-        fallback={<Loading />}
+        fallback={<Loading />} // Show loading component while data is loading
       >
         <Table
           columns={[
@@ -57,13 +59,13 @@ export default async function Home({ searchParams }) {
             "Link de Facebook",
             "Session",
           ]}
-          title={`Sesiones`}
-          url={url}
-          isFilter={false}
-          filterBox={filterBox}
-          querySearh={query}
-          currentPage={currentPage}
-          itemsPerPage={itemsPerPage}
+          title={`Sesiones`} // Title for the table
+          url={url} // URL to fetch data for the table
+          isFilter={false} // Disable filter option in the table
+          filterBox={filterBox} // Filter box value
+          querySearh={query} // Search query
+          currentPage={currentPage} // Current page number
+          itemsPerPage={itemsPerPage} // Items per page
         />
       </Suspense>
     </div>

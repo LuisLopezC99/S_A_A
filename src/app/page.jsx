@@ -36,18 +36,19 @@ import { authOptions } from "./api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 
+// Home page component
 export default async function Home() {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions); // Get the current session
   return (
     <>
-      {!session ? (
+      {!session ? ( // If no session, render the Login component
         <div>
           <Login />
         </div>
-      ) : session.user.role === "admin" ? (
+      ) : session.user.role === "admin" ? ( // If user role is admin, redirect to /admin
         redirect("/admin")
       ) : (
-        redirect("/home")
+        redirect("/home") // Otherwise, redirect to /home
       )}
     </>
   );
