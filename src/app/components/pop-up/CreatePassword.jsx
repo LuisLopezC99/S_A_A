@@ -46,6 +46,16 @@ const PasswordModal = ({ user }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [correcto, setCorrecto] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordpl, setShowPasswordpl] = useState(false);
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleToggle = () => {
+    setShowPasswordpl(!showPasswordpl);
+  };
 
   const handleSubmit = () => {
     const verifyPass = verifyPassword(password, setError);
@@ -140,22 +150,70 @@ const PasswordModal = ({ user }) => {
               <li>Debe incluir al menos un número</li>
               <li>Debe incluir al menos un carácter especial</li>
             </ul>
-            <input
-              type="password"
-              placeholder="Contraseña"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 dark:text-black border rounded-md mb-4 dark:bg-white"
-              onKeyDown={handleKeyPress}
-            />
-            <input
-              type="password"
-              placeholder="Confirmar Contraseña"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-3 py-2 border dark:text-black rounded-md mb-4 dark:bg-white"
-              onKeyDown={handleKeyPress}
-            />
+
+            <div className="relative">
+              <input
+                type={showPasswordpl ? 'text' : 'password'}
+
+                placeholder="Contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-3 py-2 dark:text-black border rounded-md mb-4 dark:bg-white"
+                onKeyDown={handleKeyPress}
+              />
+              <div
+                className="absolute inset-y-1 right-0 flex items-center pr-2 text-gray-500 focus:outline-none focus:text-gray-600 hover:text-gray-600 top-0 -mt-1"
+                onClick={handleToggle}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6 cursor-pointer"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+
+            </div>
+
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Confirmar Contraseña"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full px-3 py-2 border dark:text-black rounded-md mb-4 dark:bg-white"
+              />
+              <div
+                className="absolute inset-y-1 right-0 flex items-center pr-2 text-gray-500 focus:outline-none focus:text-gray-600 hover:text-gray-600 top-0 -mt-1"
+                onClick={handleTogglePassword}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-6 h-6 cursor-pointer"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+            </div>
+
             {error && (
               <p className="text-red-500 mb-4 dark:text-red-400">{error}</p>
             )}
