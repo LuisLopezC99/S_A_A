@@ -69,12 +69,13 @@ const EditUserModal = ({ isOpen, onClose, selectedUser, editUser }) => {
   const handleInputChange = (e) => {
     // Get the tag name and value of the input that triggered the event
     const { name, value } = e.target;
-
     // Check if the field being updated is 'role'
     if (name === 'role') {
       // Get the role name based on the value
       const roleName = value == 1 ? 'admin' : value == 2 ? 'secretaria' :
         value == 3 ? 'departamento' : value == 4 ? 'alcaldia' : 'externo'
+
+      
 
       // Update the state of the user data by providing a new object for the 'role' field
       setUserData({
@@ -90,6 +91,7 @@ const EditUserModal = ({ isOpen, onClose, selectedUser, editUser }) => {
         [name]: value,
       }));
     }
+
 
   };
 

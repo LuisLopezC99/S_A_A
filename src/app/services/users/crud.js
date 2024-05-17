@@ -179,6 +179,7 @@ export const createUser = async (userData) => {
 
 // Updates an existing user in the database based on the provided user data.
 export const updateUser = async (user) => {
+
     if (user.password) {
         // If the user provided a new password, hash it before updating
         const hashedPassword = await bcrypt.hash(user.password, 10);
@@ -216,15 +217,16 @@ export const updateUser = async (user) => {
                         // Connect user to a role based on role name (case-insensitive)
                         id: parseInt(/^admin$/i.test(user.role.name) ? 1 :
                             /^secretaria$/i.test(user.role.name) ? 2 :
-                                /^departamento$/i.test(user.role.name) ? 3 : 4)
+                                /^departamento$/i.test(user.role.name) ? 3 : /^alcaldia$/i.test(user.role.name)? 4 : 5)
                     }
                 },
                 enabled: user.enabled, // Update user's enabled status
                 FirstTime: user.FirstTime, // Update FirstTime flag
             }
         })
+       
         return updatedUser // Return the updated user object
-
+        
     } catch (error) {
         console.error('Error al actualizar contrasena:', error);
         throw new Error('Error al actualizar la contrasena'); // Throw an error if updating password fails

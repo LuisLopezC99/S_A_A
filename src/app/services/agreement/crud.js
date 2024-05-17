@@ -33,7 +33,7 @@
  *   - ID: 116590034
  */
 
-import prisma from "../../../libs/prisma.js"
+import prisma from "../../../libs/prisma"
 
 // Creates a new agreement in the database using Prisma.
 export const createAgreement = async (agreement, agrID) => {

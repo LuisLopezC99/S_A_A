@@ -26,11 +26,6 @@ VALUES
 
 -- Usuarios Necesarios
 
-INSERT INTO s_a_a.tab_role
-(name)
-VALUES
-('externo');
-
 INSERT INTO s_a_a.tab_user
 (name,
 email,
@@ -44,7 +39,37 @@ VALUES
 "123",
 5,
 0,
-0);
+1);
+
+INSERT INTO s_a_a.tab_user
+(name,
+email,
+password,
+role_id,
+enabled,
+FirstTime)
+VALUES
+("Alcaldia",
+"andres62010@hotmail.es", -- Cambiar por el correo de la alcaldia
+"123",
+4,
+1,
+1);
+
+INSERT INTO s_a_a.tab_user
+(name,
+email,
+password,
+role_id,
+enabled,
+FirstTime)
+VALUES
+("Administrador",
+"leonorozcoandres@gmail.com", -- Cambiar por el correo del administrador
+"123",
+1,
+1,
+1);
 
 -- Operations
 
