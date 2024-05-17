@@ -38,18 +38,30 @@ import { NextRequest, NextResponse } from "next/server";
 import { countFilteredAgreements, filterAgreement } from "@/app/services/agreement/crud";
 import { completeAgreements } from "@/app/business/agreement/logic";
 
+
+// Handles GET requests to retrieve agreements based on filters or counts.
 export const GET = async (request, { params }) => {
   try {
+    // Parse the URL and get search parameters from the request
     const { searchParams } = new URL(request.url);
+    // Check if the 'count' search parameter is present
     const lengthAgrement = searchParams.get("count");
     if(lengthAgrement){
+      // If 'count' is present, count the filtered agreements
         const totalDocuments = await countFilteredAgreements(lengthAgrement);
-        return NextResponse.json(totalDocuments);
+        return NextResponse.json(totalDocuments); // Return the count as JSON response
     }
+
+    // If 'count' is not present, filter agreements based on the provided filter
     const agreements = await filterAgreement(params.filter);
+    // Apply additional logic to complete the agreements (business logic)
+
     completeAgreements(agreements);
+
+    // Return the filtered and processed agreements as JSON response
     return NextResponse.json(agreements);
   } catch (error) {
+    // Return an error response with status 500 in case of any error
     return NextResponse.json(
       { error: "Hubo un error al procesar la solicitud" },
       { status: 500 }

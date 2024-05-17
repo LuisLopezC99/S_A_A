@@ -48,10 +48,11 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Correo electrónico de destino no proporcionado' }, { status: 400 });
     }
     
+    // Configure the email options based on the subject
     const info = await transporter.sendMail({
-      from: process.env.NOTIFIER_EMAIL,
-      to: email,
-      subject,
+      from: process.env.NOTIFIER_EMAIL, // Sender email address
+      to: email, // Recipient email address
+      subject, // Email subject
       html: `
         <div>
           <h1>Hola, ${name}!</h1>
@@ -73,9 +74,9 @@ export async function POST(request) {
         </button>
       `
     });
-    return NextResponse.json(info);
+    return NextResponse.json(info); // Return the response containing the email information
   }
   catch (error) {
-    return NextResponse.json({ error });
+    return NextResponse.json({ error }); // Return an error response
   }
 }

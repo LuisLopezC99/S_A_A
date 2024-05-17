@@ -41,13 +41,13 @@ import { getServerSession } from "next-auth/next"
 import { authOptions } from "../auth/[...nextauth]/route";
 
 
-// This is the route to get all the users
+// Handler for fetching users data
 export const GET = async (request) => {
   try {
-    const users = await getUsers()
-    return NextResponse.json(users)
+    const users = await getUsers() // Fetch users data from the database
+    return NextResponse.json(users) // Return users data as JSON response
   } catch (error) {
-    return NextResponse.json({ error: "Hubo un error al procesar la solicitud" }, { status: 500 });
+    return NextResponse.json({ error: "Hubo un error al procesar la solicitud" }, { status: 500 }); // Return an error response with status code 500
   }
 }
 
@@ -55,18 +55,11 @@ export const GET = async (request) => {
 // Remember to change the FirsTime to firstTime
 export const POST = async (request) => {
   try {
-    // const session = await getServerSession(authOptions)
-    // if (!session) {
-    //   return NextResponse.json({ error: "No tienes permisos para realizar esta acción" }, { status: 403 }); //verifies session
-    // }
-    // if (session.user.role !== "admin") {
-    //   return NextResponse.json({ error: "No tienes permisos para realizar esta acción" }, { status: 403 }); //verifies the user Role
-    // }
+    // Parse the request body to extract user data
     const { name, email, password, role, enabled, FirstTime } = await request.json();
-
-    const newUser = await createUser({ name, email, password, role, enabled, FirstTime });
-    await logUserAction(1, "Usuario creado, con ID " + newUser.id)
-    return NextResponse.json(newUser, { status: 201 });
+    const newUser = await createUser({ name, email, password, role, enabled, FirstTime }); // Create a new user in the database
+    await logUserAction(1, "Usuario creado, con ID " + newUser.id) // Log the user creation action
+    return NextResponse.json(newUser, { status: 201 });  // Return the newly created user as a JSON response with a status code of 201 (Created)
   } catch (error) {
     return NextResponse.json({ error: error.message });
   }
@@ -76,20 +69,20 @@ export const POST = async (request) => {
 export const PUT = async (request) => {
   try {
 
-    const user = await request.json();
-    const { searchParams } = new URL(request.url);
-    const isChangePass = searchParams.get("changepass");
+    const user = await request.json(); // Extract JSON data from the request
+    const { searchParams } = new URL(request.url); // Extract query parameters from the request URL
+    const isChangePass = searchParams.get("changepass"); // Check if "changepass" parameter is present in the URL
     let updatedUser = null
     if (isChangePass) {
-      updatedUser = await updatePassword(user);
+      updatedUser = await updatePassword(user); // If "changepass" parameter is present, update the user's password
     }
     else {
-      updatedUser = await updateUser(user);
+      updatedUser = await updateUser(user); // Otherwise, update other user details
     }
    // await logUserAction(1, "Usuario actualizado, con ID " + updatedUser.id)
-    return NextResponse.json(updatedUser, { status: 200 });
+    return NextResponse.json(updatedUser, { status: 200 }); // Return a JSON response with the updated user data and a status code of 200 (OK)
   } catch (error) {
     console.log(error)
-    return NextResponse.json({ error: error.message });
+    return NextResponse.json({ error: error.message }); // Return a JSON response with the error message and an appropriate status code
   }
 }

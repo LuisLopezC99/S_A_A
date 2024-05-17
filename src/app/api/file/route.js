@@ -39,11 +39,17 @@ import { logUserAction } from "@/app/services/log/functions.js";
 import path from "path";
 import fs from 'fs';
 
+// GET handler to fetch a file based on query parameters.
 export const GET = async (request) => {
+  // Extracting search parameters from the request URL
   const searchParams = request.nextUrl.searchParams;
-  const filename = searchParams.get("filename");
-  const type = searchParams.get("type");
+  const filename = searchParams.get("filename"); // Get the filename parameter
+  const type = searchParams.get("type"); // Get the type parameter
+
+  // Construct the file path using the provided type and filename
 	const filePath = path.join(`${process.env.FILES_LOCATION}${type}`, filename);
+
+  // Check if the file exists at the specified path
 	const fileExists = fs.existsSync(filePath);
   if (!fileExists) {
     throw new Error('PDF file not found');
@@ -56,32 +62,42 @@ export const GET = async (request) => {
 	});
 }
 
+// POST handler to save a new file.
 export const POST = async (request) => {
   try {
+    // Parse the form data from the request
     const data = await request.formData();
-    const file = data.get("file");
-    const type= data.get("type");
+    const file = data.get("file"); // Get the file from the form data
+    const type= data.get("type");  // Get the type from the form data
     const saveFiles = saveFile(file,type);
     await logUserAction(type === 'Actas' ? 8 : 5, "Agregando archivo PDF de nombre: " + file.name)
     return NextResponse.json(saveFiles);
   } catch (error) {
     return NextResponse.json(
+      // Return a 500 error response if there was an issue processing the request
       { error: "Hubo un error al procesar la solicitud" },
       { status: 500 }
     );
   }
 };
 
+
+// PUT handler to update an existing file.
 export const PUT = async (request) => {
   try {
+    // Parse the form data from the request
     const data = await request.formData();
-    const file = data.get("file");
-    const type = data.get("type");
-    const currentNameFile = data.get("currentNameFile");
+    const file = data.get("file"); // Get the new file from the form data
+    const type = data.get("type"); // Get the new type from the form data
+    const currentNameFile = data.get("currentNameFile"); // Get the current file name from the form data
+    // Call the updateFile function to update the existing file on the server
     const updateFiles = updateFile(file, type, currentNameFile);
+    // Log the user action indicating that a file has been updated
     await logUserAction(type === 'Actas' ? 8 : 5, "Actualizando archivo PDF de nombre " + currentNameFile + " con " + file.name)
+    // Return the result of the update operation
     return NextResponse.json(updateFiles);
   } catch (error) {
+    // Log the error to the console for debugging purposes
     return NextResponse.json(
       { error: "Hubo un error al procesar la solicitud" },
       { status: 500 }

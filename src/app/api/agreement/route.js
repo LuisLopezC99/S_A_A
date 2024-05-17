@@ -41,7 +41,7 @@ import { getServerSession } from "next-auth/next"
 import { authOptions } from "../auth/[...nextauth]/route";
 import { assignedEmail } from "@/app/services/notification/assigned";
 
-
+// GET handler to fetch agreements based on query parameters.
 export const GET = async (request) => {
     //const session = await getServerSession(authOptions)
     
@@ -62,6 +62,7 @@ export const GET = async (request) => {
     }
 }
 
+// POST handler to create a new agreement
 export const POST = async (request) => {
     try {
         const { agreement, agreementID } = await request.json();
@@ -76,6 +77,7 @@ export const POST = async (request) => {
     }
 }
 
+// PUT handler to update an existing agreement.
 export const PUT = async (request) => {
     try {
         const newUpdate = await updateAgreement(await request.json())

@@ -40,16 +40,18 @@ import { readFilterSession } from "@/app/services/session/crud";
 import { completeAgreements } from "@/app/business/agreement/logic";
 import { GetAgreement } from "@/app/services/agreement/crud";
 
+// Handler for GET requests
 export const GET = async (_,{params}) => {
     try{ 
-        const sessions = await readFilterSession(params.filter) //get the sessions that matches with filters
+        // Read sessions based on the provided filter
+        const sessions = await readFilterSession(params.filter) //Get the sessions that matches with filters
         
         sessions.forEach(session => {
-            completeAgreements(session.agreements) //establisg the status of the agreements
+            completeAgreements(session.agreements) //Establisg the status of the agreements
         });
-        sessions ? sessions : [] 
-        return NextResponse.json(sessions)
+        sessions ? sessions : []  // Check if sessions are present, if not return an empty array
+        return NextResponse.json(sessions)  // Return the sessions as a JSON response
     }catch(error){
-        return NextResponse.json({ error: "Hubo un error al procesar la solicitud" }, { status: 500 });
+        return NextResponse.json({ error: "Hubo un error al procesar la solicitud" }, { status: 500 }); // Return an error response
     }
 }
