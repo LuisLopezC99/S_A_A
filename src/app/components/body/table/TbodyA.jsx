@@ -128,7 +128,7 @@ const TbodyA = ({ rows = [], role = "" }) => {
                 <td className="px-6 py-4 text-center">
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
 
-                  {role !== "departamento" && state !== "Tramitado" && (
+                    {role !== "departamento" && (
                       <ButtonEdit
                         title="agreement"
                         data={{
@@ -165,32 +165,32 @@ const TbodyA = ({ rows = [], role = "" }) => {
                       title="Abrir Acuerdo"
                       icon={<IoDocumentTextSharp className="w-7 h-7 text-gray-500 dark:text-green-500" />}
                     ></DownloadButton>
-                    
-                    <CheckButton
+                    {role !== "alcaldia" && (
+                      <CheckButton
                         agreementId={id}
                         data={{
-                              id,
-                              topic,
-                              asignedTo,
-                              creationDate,
-                              deadlineInputCast,
-                              sessionId,
-                              report,
-                              reportCumplimiento,
-                              description,
-                              state,
-                              agreementId,
-                              agreementIdConsecutive,
-                              users,
-                          }}
+                          id,
+                          topic,
+                          asignedTo,
+                          creationDate,
+                          deadlineInputCast,
+                          sessionId,
+                          report,
+                          reportCumplimiento,
+                          description,
+                          state,
+                          agreementId,
+                          agreementIdConsecutive,
+                          users,
+                        }}
                         session_role={role}
-                    ></CheckButton>
-
+                      ></CheckButton>
+                    )}
                   </div>
                 </td>
               </tr>
             );
-          } 
+          }
         }
       })}
     </tbody>

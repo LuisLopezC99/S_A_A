@@ -46,7 +46,6 @@ const EditAgreement = ({
   session_role = "",
 }) => {
   const { data: session, status } = useSession()
-  console.log(session);
   const [file, setFile] = useState(null);
   const report = agreementData.report;
   const reportCumplimiento = agreementData.reportCumplimiento;
@@ -114,7 +113,7 @@ const EditAgreement = ({
     const simpleDate = formData.get("deadline");
     const date = simpleDate + "T00:00:00.000Z";
     const deadline = new Date(date);
-    const newState = isChecked ? "Externo" : ["Cumplido", "Tramitado", "Vencido"].includes(state) ? state : "Pendiente";
+    const newState = isChecked ? "Externo" : ["Cumplido", "Vencido"].includes(state) ? state : "Pendiente";
     setState(newState);
     const agreementData = {
       id,
