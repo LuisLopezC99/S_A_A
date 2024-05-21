@@ -99,7 +99,7 @@ const UsersTable = () => {
   const handlePassword = (user) => () => {
     Swal.fire({
       title: "¿Está seguro de cambiar la contraseña?",
-      text: "Una vez cambiada, deberá usar la contraseña provisional enviada al correo del usuario",
+      text: "Una vez cambiada, deberá usar la contraseña provisional enviada al correo del usuario.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: 'OK',
@@ -138,18 +138,18 @@ const UsersTable = () => {
             Swal.fire({
               icon: 'success',
               title: '¡Correo enviado!',
-              text: 'Se ha enviado un correo con la nueva contraseña',
+              text: 'Se ha enviado un correo con la nueva contraseña.',
             });
           })
           .catch((error) => {
             Swal.fire({
               icon: "error",
               title: "¡Error!",
-              text: "Hubo un problema al procesar la solicitud",
+              text: "Hubo un problema al procesar la solicitud.",
             });
           });
       } else if (result.isDismissed) {
-        Swal.fire({text : "No se ha cambiado la contraseña", icon: 'info'});
+        Swal.fire({text : "No se ha cambiado la contraseña.", icon: 'info'});
       }
     });
 
@@ -181,6 +181,14 @@ const UsersTable = () => {
       .then((data) => (data.error ? setUsers([]) : setUsers(data)))
       .catch((error) => setUsers([]));
   }, []);
+
+  const capitalize = str => {
+    if (typeof str === 'string') {
+      return str.replace(/^\w/, c => c.toUpperCase())
+    } else {
+      return ''
+    }
+  }
 
   return (
     <div className="container mx-auto p-4 dark:bg-gray-800 min-h-screen">
@@ -232,7 +240,7 @@ const UsersTable = () => {
                 Correo
               </th>
               <th className="py-2 px-4 border-b text-left dark:text-black">
-                Role
+                Rol
               </th>
               <th className="py-2 px-4 border-b text-left dark:text-black">
                 Estado
@@ -260,7 +268,7 @@ const UsersTable = () => {
                 <tr key={user.name}>
                   <td className="py-2 px-4 border-b">{user.name}</td>
                   <td className="py-2 px-4 border-b">{user.email}</td>
-                  <td className="py-2 px-4 border-b">{user.role.name}</td>
+                  <td className="py-2 px-4 border-b">{capitalize(user.role.name)}</td>
                   <td className="py-2 px-4 border-b">
                     <label className="inline-flex items-center me-5 cursor-pointer">
                       <input
@@ -275,7 +283,7 @@ const UsersTable = () => {
                         className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"
                         style={{ width: "60px" }}
                       >
-                        {user.enabled ? "Activo" : "Desactivo"}
+                        {user.enabled ? "Activo" : "Desactivado"}
                       </span>
                     </label>
                   </td>

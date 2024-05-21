@@ -71,7 +71,7 @@ export default async function Home({ searchParams }) {
               "Fecha de creación",
               "Fecha de vencimiento",
               "Estado",
-              "Acuerdo",
+              "Opciones de Acuerdo",
             ]} // Define the columns for the table
             title="Acuerdos Asignados" // Title for the table
             url={url} // URL to fetch data for the table

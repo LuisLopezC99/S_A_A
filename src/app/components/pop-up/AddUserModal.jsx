@@ -216,7 +216,7 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
                                 htmlFor="role"
                                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                             >
-                                Role:
+                                Rol:
                             </label>
                             <select
                                 name="role"
@@ -226,8 +226,8 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
                                 onChange={handleInputChange}
                                 required
                             >
-                                <option value="">Seleccionar Role</option>
-                                <option value="2">Secretaria</option>
+                                <option value="">Seleccionar Rol</option>
+                                <option value="2">Secretaría</option>
                                 <option value="3">Departamento</option>
                             </select>
                         </div>

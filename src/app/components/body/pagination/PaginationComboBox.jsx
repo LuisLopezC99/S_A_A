@@ -67,7 +67,7 @@ const PaginationComboBox = ({ itemsPerPage }) => {
   };
   return (
     <div className="text-gray-500 mx-4 dark:text-gray-400 flex flex-col sm:flex-row items-center justify-center sm:justify-start">
-      <span className="mr-2">Items per page:</span>
+      <span className="mr-2">Ítems por página:</span>
       <select
         className="text-green-700 dark:bg-gray-800 dark:text-white border rounded my-2 sm:my-0 sm:ml-2"
         value={selectedItemsPerPage}

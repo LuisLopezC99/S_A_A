@@ -89,11 +89,11 @@ export default function Pagination({ totalDocuments, cupage, items }) {
     }
   };
   return (
-    <div className="flex items-center justify-between border-t border-gray-400 px-4 py-3 sm:px-6">
+    <div className="flex items-center justify-between  px-4 py-3 sm:px-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full">
         <div className="flex flex-col sm:flex-row sm:items-center">
           <div className="mb-2 sm:mb-0 sm:mr-4">
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-gray-500 dark:text-gray-400">
               <span className="font-medium">{totalDocuments}</span> resultados
             </p>
           </div>

@@ -85,7 +85,7 @@ export const Login = () => {
     if (payload.email.trim() === "" || payload.password.trim() === "") {
       Swal.fire({
         icon: "error",
-        title: "Por favor, ingresa tu correo y contraseña",
+        title: "Por favor ingrese su correo y contraseña.",
         confirmButtonText: "Aceptar",
       });
       return;
@@ -101,12 +101,12 @@ export const Login = () => {
       res.error === "User is not enabled"
         ? Swal.fire({
             icon: "error",
-            title: "Usuario no habilitado",
+            title: "Usuario no habilitado.",
             confirmButtonText: "Aceptar",
           })
         : Swal.fire({
             icon: "error",
-            title: "Error de autenticacion",
+            title: "Error de autenticación.",
             confirmButtonText: "Aceptar",
           });
     } else if (!showForgotPasswordModal) {
@@ -136,12 +136,12 @@ export const Login = () => {
                           alt="Municipalidad Logo"
                         />
                         <h1 className="mt-5 mb-5 text-xl font-bold">
-                          Sistema de Control y Seguimiento de Actas y Acuerdos
+                          Sistema de Acuerdos y Actas
                         </h1>
                       </div>
 
                       <form onSubmit={handleLogin}>
-                        <p className="mb-4">Ingresa los datos de su cuenta</p>
+                        <p className="mb-4">Ingrese los datos de su cuenta</p>
                         <div className="mb-4">
                           <input
                             type="email"
@@ -194,7 +194,7 @@ export const Login = () => {
                             className="text-green-500 hover:underline"
                             type="button"
                           >
-                            ¿Se te olvidó tu contraseña?
+                            ¿Olvidó su contraseña?
                           </button>
                         </div>
 
@@ -212,17 +212,17 @@ export const Login = () => {
                   <div className="max-w-xl">
                     <div className="text-white px-3 py-4 md:px-8 md:py-8">
                       <h4 className="mb-4 text-2xl md:text-3xl ">
-                        Municipalidad de Tibas
+                        Municipalidad de Tibás
                       </h4>
                       <p className="text-sm md:text-base mb-4 ">
                         La misión es el propósito o la razón de ser de la
                         organización, conforme al principio de legalidad y el
-                        marco normativo y de políticas públicas, que establece
+                        marco normativo y de políticas públicas que establece
                         las competencias de la institución.
                       </p>
                       <p className="text-sm md:text-base">
                         Por su parte, la visión recoge las aspiraciones de las
-                        personas colaboradoras en la institución, con el fin de
+                        personas colaboradoras en la institución con el fin de
                         alcanzar el perfil organizacional requerido para cumplir
                         los objetivos de desarrollo plasmados en la visión de
                         largo plazo cantonal.

@@ -94,8 +94,8 @@ const SessionModal = ({
 
         Swal.fire({
           icon: "success",
-          title: "Sesión actualizada",
-          text: "La solicitud ha sido exitosa!.",
+          title: "¡Sesión Actualizada!",
+          text: "La solicitud ha sido exitosa.",
         })
         router.refresh()
          
@@ -141,8 +141,8 @@ const SessionModal = ({
         router.refresh();
         Swal.fire({
           icon: "success",
-          title: "Sesión agregada",
-          text: "La solicitud ha sido exitosa!",
+          title: "¡Sesión Agregada!",
+          text: "La solicitud ha sido exitosa.",
         });
 
 
@@ -232,7 +232,7 @@ const SessionModal = ({
                   className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                   htmlFor="consecutive"
                 >
-                  Consecutivo
+                  Consecutivo:
                 </label>
                 <input
                   className="custom-input"

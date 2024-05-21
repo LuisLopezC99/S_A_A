@@ -16,7 +16,7 @@ export const ProfilePictureButton = ({ userId }) => {
                     className="md:hover:text-green-500 dark:text-white"
                     onClick={handleClick}
                 >
-                    Actualizar foto de perfil
+                    Actualizar Foto de Perfil
                 </button>
             </div>
             {

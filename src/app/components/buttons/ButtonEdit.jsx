@@ -49,7 +49,7 @@ export const ButtonEdit = ({ title, children, data, session_role = "" }) => {
     <>
       <button
         className="  font-bold py-2 px-4 "
-        title={`Editar ${title}`}
+        title={`Editar ${'session' === title ? 'Sesión' : 'Acuerdo'}`}
         onClick={handleClick}
       >
         {children}

@@ -239,7 +239,7 @@ const EditUserModal = ({ isOpen, onClose, selectedUser, editUser }) => {
                 htmlFor="role"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Role:
+                Rol:
               </label>
               <select
                 name="role"
@@ -250,11 +250,11 @@ const EditUserModal = ({ isOpen, onClose, selectedUser, editUser }) => {
                 disabled={userData?.role?.name === 'admin' || userData?.role?.name === 'alcaldia' || userData?.role?.name === 'externo'}
                 required
               >
-                <option value="">Seleccionar Role</option>
+                <option value="">Seleccionar Rol</option>
                 <option value="1">Admin</option>
-                <option value="2">Secretaria</option>
+                <option value="2">Secretaría</option>
                 <option value="3">Departamento</option>
-                <option value="4">Alcaldia</option>
+                <option value="4">Alcaldía</option>
                 <option value="5">Externo</option>
               </select>
             </div>

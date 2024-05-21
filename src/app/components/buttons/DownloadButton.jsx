@@ -59,7 +59,7 @@ export const DownloadButton = ({ filename, type, title, icon }) => {
             Swal.fire({
                 icon: "error",
                 title: "Error en el archivo",
-                text: "Entrada no posee un archivo asociado aun.",
+                text: "El elemento no posee un archivo asociado aún.",
             })
         } else {
         const blob = await response.blob();

@@ -38,8 +38,8 @@ const ProfilePictureModal = ({ isModalOpen, handleModalState, userId }) => {
     
         Swal.fire({
         icon: "success",
-        title: "Foto de perfil actualizada",
-        text: "La solicitud ha sido exitosa!",
+        title: "¡Foto de perfil actualizada!",
+        text: "La solicitud ha sido exitosa.",
         });
         handleModalState()
         location.reload()

@@ -100,7 +100,7 @@ const Report = async ({ rows, header, title, state, type, filter, sesion }) => {
       }
     );
     doc.setTextColor(3, 85, 229);
-    doc.text("Municipalidad de Tibas", margin + imgWidth + 5, margin + 12, {
+    doc.text("Municipalidad de Tibás", margin + imgWidth + 5, margin + 12, {
       align: "left",
     });
   };

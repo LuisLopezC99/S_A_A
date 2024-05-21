@@ -138,12 +138,12 @@ const EditAgreement = ({
         ? Swal.fire({
           icon: "success",
           title: "Acuerdo actualizado",
-          text: "La solicitud ha sido exitosa!.",
+          text: "¡La solicitud ha sido exitosa!",
         }).then(() => window.location.reload())
         : (Swal.fire({
           icon: "error",
           title: "Error en el acuerdo",
-          text: "No se pudo procesar la actualizacion. Revise sus datos.",
+          text: "No se pudo procesar la actualización. Revise sus datos.",
         }), window.location.reload());
     });
     closeModal();
@@ -175,7 +175,7 @@ const EditAgreement = ({
                     className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                     htmlFor="agreementId"
                   >
-                    Oficio#
+                    Número Oficio:
                   </label>
                   <input
                     className="custom-input"
@@ -273,7 +273,7 @@ const EditAgreement = ({
                       className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                       htmlFor="deadline"
                     >
-                      Fecha límite:
+                      Fecha Límite:
                     </label>
 
                     <input

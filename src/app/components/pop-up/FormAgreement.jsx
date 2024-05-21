@@ -108,8 +108,8 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
       await postDataForm("file", formData2);
       Swal.fire({
         icon: "success",
-        title: "Acuerdo agregado",
-        text: "La solicitud ha sido exitosa!.",
+        title: "¡Acuerdo Agregado!",
+        text: "La solicitud ha sido exitosa.",
       }).then(() => {
         closeModal();
         window.location.reload()
@@ -118,7 +118,7 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
     } catch (error) {
       Swal.fire({
         icon: "error",
-        title: "Error en el acuerdo",
+        title: "Error en el Acuerdo",
         text: error.message || "Ha ocurrido un error.",
       })
     }
@@ -176,7 +176,7 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
                     className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                     htmlFor="agreementId"
                   >
-                    Oficio#
+                    Número Oficio:
                   </label>
                   <input
                     className="custom-input"
@@ -239,7 +239,7 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
                         defaultChecked
                         onChange={handleRadioChange}
                       />
-                      <label htmlFor="option1">Alcaldia</label>
+                      <label htmlFor="option1">Alcaldía</label>
                     </div>
                     <div>
                       <input
@@ -257,7 +257,7 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
                       className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                       htmlFor="deadline"
                     >
-                      Fecha límite:
+                      Fecha Límite:
                     </label>
 
                     <input
@@ -277,7 +277,7 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
                   className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                   htmlFor="consecutive"
                 >
-                  Consecutivo
+                  Consecutivo:
                 </label>
                 <input
                   className="custom-input"

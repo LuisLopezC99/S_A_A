@@ -85,6 +85,14 @@ const ProfileInformationModal = ({
     setShowChangePassword(show);
   };
 
+  const capitalize = str => {
+    if (typeof str === 'string') {
+      return str.replace(/^\w/, c => c.toUpperCase())
+    } else {
+      return ''
+    }
+  }
+
   const handleChangePassword = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -95,8 +103,8 @@ const ProfileInformationModal = ({
     if (newPassword !== confirmPassword) {
       const result = await Swal.fire({
         icon: "error",
-        title: "Error en cambio de contraseña",
-        text: "La nueva contraseña y la confirmación no coinciden. Intente de nuevo.",
+        title: "Error al cambiar contraseña",
+        text: "La nueva contraseña y la confirmación de contraseña no coinciden. Intente de nuevo.",
         button: {
           text: "Aceptar",
           closeModal: true,
@@ -114,7 +122,7 @@ const ProfileInformationModal = ({
     if (!verifyPass) {
       const result = await Swal.fire({
         icon: "error",
-        title: "Error en cambio de contraseña",
+        title: "Error al cambiar contraseña",
         text: "La contraseña no cumple con las especificaciones. Intente de nuevo.",
         button: {
           text: "Aceptar",
@@ -134,7 +142,7 @@ const ProfileInformationModal = ({
       Swal.fire({
         icon: "success",
         title: "Cambio de Contraseña",
-        text: "La contraseña ha sido cambiada exitosamente, Vuelva a iniciar sesion.",
+        text: "La contraseña ha sido cambiada exitosamente. Vuelva a iniciar sesión.",
       }).then(() => {
         signOut({ redirect: true });
         setVisible(false);
@@ -142,8 +150,8 @@ const ProfileInformationModal = ({
     } else {
       Swal.fire({
         icon: "error",
-        title: "Error en cambio de contraseña",
-        text: "La contraseña actual digitada no coincide con el usuario en sesion. Intente de nuevo.",
+        title: "Error al cambiar contraseña",
+        text: "La contraseña digitada no coincide con el usuario en sesión. Intente de nuevo.",
       });
     }
   };
@@ -191,7 +199,7 @@ const ProfileInformationModal = ({
                     </div>
                     <div className="mb-4">
                       <label className="block text-sm font-medium text-gray-700 dark:text-white">
-                        Correo Electronico:
+                        Correo Electrónico:
                       </label>
                       <p className="text-gray-500">{userData["email"]}</p>
                     </div>
@@ -199,7 +207,7 @@ const ProfileInformationModal = ({
                       <label className="block text-sm font-medium text-gray-700 dark:text-white">
                         Rol de Usuario:
                       </label>
-                      <p className="text-gray-500">{userData["role"]}</p>
+                      <p className="text-gray-500">{capitalize(userData["role"])}</p>
                     </div>
                   </div>
                 </div>
@@ -259,17 +267,17 @@ const ProfileInformationModal = ({
                       validaciones:
                     </p>
                     <ul className="list-disc pl-6 mb-4 dark:text-white">
-                      <li>Debe tener al menos 8 caracteres</li>
-                      <li>Debe incluir al menos una letra en mayúscula</li>
-                      <li>Debe incluir al menos una letra en minúscula</li>
-                      <li>Debe incluir al menos un número</li>
-                      <li>Debe incluir al menos un carácter especial</li>
+                      <li>Debe tener al menos 8 caracteres.</li>
+                      <li>Debe incluir al menos una letra en mayúscula.</li>
+                      <li>Debe incluir al menos una letra en minúscula.</li>
+                      <li>Debe incluir al menos un número.</li>
+                      <li>Debe incluir al menos un carácter especial.</li>
                     </ul>
                     <div>
                       {visible && (
                         <span style={{ color: "red" }}>
-                          La contraseña no cumple con las especificaciones,
-                          Intentelo de nuevo
+                          La contraseña no cumple con las especificaciones.
+                          Inténtelo de nuevo.
                         </span>
                       )}
                     </div>

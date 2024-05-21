@@ -61,7 +61,7 @@ const sendEmail = async (topic, description, username, email) => {
     html: `
       <div>
         <h1>Acuerdos pronto a vencer</h1>
-        <p>Buenos días, ${username}</p>
+        <p>Buenos días, ${username}.</p>
         <p>Se le recuerda que tiene un acuerdo pronto a vencer.</p>
         <p><strong>Datos del acuerdo:</strong></p>
         <ul>
@@ -69,7 +69,7 @@ const sendEmail = async (topic, description, username, email) => {
           <li><strong>Descripción:</strong> ${description}</li>
         </ul>
         <p>Saludos cordiales,</p>
-        <p><strong>Municipalidad de Tibás</strong></p>
+        <p><strong>Municipalidad de Tibás.</strong></p>
       </div>
     `
   };

@@ -64,7 +64,7 @@ const SessionPage = async ({ params, searchParams }) => {
             "Fecha de creación",
             "Fecha de vencimiento",
             "Estado",
-            "Acuerdo",
+            "Opciones de Acuerdo",
           ]}
           url={`session/${params.sessionID}`}
           title={`Sesión ${type} No. ${consecutive}`}

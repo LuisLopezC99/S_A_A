@@ -65,9 +65,9 @@ const ForgotPassword = ({ showForgotPasswordModal, setShowForgotPasswordModal })
         },
         body: JSON.stringify({ ...user, password: randomPassword, subject: 'Recuperar contraseña'}),
       })})
-      .then((_) => (Swal.fire('¡Correo Enviado!', 'Se ha enviado un correo con la nueva contraseña', 'success')))
+      .then((_) => (Swal.fire('¡Correo Enviado!', 'Se ha enviado un correo con la nueva contraseña.', 'success')))
       .catch((error) => {
-        Swal.fire('Error', 'Ha ocurrido un error al enviar el correo', 'error',error)
+        Swal.fire('Error', 'Ha ocurrido un error al enviar el correo.', 'error',error)
       });
 
     setShowForgotPasswordModal(false);
@@ -82,8 +82,8 @@ const ForgotPassword = ({ showForgotPasswordModal, setShowForgotPasswordModal })
     // Por simplicidad, aquí solo mostramos un mensaje de éxito
     Swal.fire({
       icon: 'success',
-      title: '¡Contraseña Cambiada!',
-      text: 'Tu contraseña ha sido cambiada con éxito.',
+      title: '¡Contraseña Actualizada!',
+      text: 'Su contraseña ha sido cambiada con éxito.',
     });
     // Cierra ambos modales después de cambiar la contraseña
     setShowForgotPasswordModal(false);
@@ -95,8 +95,8 @@ const ForgotPassword = ({ showForgotPasswordModal, setShowForgotPasswordModal })
       {showForgotPasswordModal && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-8 rounded-md">
-          <h2 className="text-lg font-semibold mb-4 dark:text-black">¿Olvidaste tu contraseña?</h2>
-            <p className="mb-4 dark:text-black">Ingresa tu correo electrónico y te enviaremos instrucciones para restablecer tu contraseña.</p>
+          <h2 className="text-lg font-semibold mb-4 dark:text-black">¿Olvidó su contraseña?</h2>
+            <p className="mb-4 dark:text-black">Ingrese su correo electrónico y le enviaremos instrucciones para restablecer su contraseña.</p>
             <input type="email" placeholder="Correo Electrónico" className="w-full px-3 py-2 border rounded-md mb-4 dark:bg-white dark:text-black" onChange={(e) => setEmail(e.target.value)}/>
             <div className="flex justify-end">
               <button className="px-4 py-2 bg-gradient-to-r from-green-800 to-yellow-300 text-white rounded-md mr-2" onClick={enviarCorreo}>Enviar</button>

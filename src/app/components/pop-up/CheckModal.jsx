@@ -116,7 +116,7 @@ export const CheckModal = ({
         : Swal.fire({
             icon: "error",
             title: "Error en el acuerdo",
-            text: "No se pudo procesar la actualizacion. Revise sus datos.",
+            text: "No se pudo procesar la actualización. Revise sus datos.",
           });
     });
 
@@ -202,15 +202,15 @@ export const CheckModal = ({
                 currentState !== "Tramitado" ? (
                 <>
                   <h2 className="text-lg font-semibold mb-4 dark:text-white">
-                    !Alerta esta por finalizar un acuerdo en proceso de
-                    cumplimiento!
+                  ¡Alerta! Está por finalizar un acuerdo en proceso de
+                    cumplimiento.
                   </h2>
                   <h3 className="text-lg font-semibold mb-4 dark:text-white">
                     Finalizar el cumplimiento del acuerdo.
                   </h3>
                   <p className="dark:text-white">
-                    El acuerdo no a terminado su proceso de cumplimiento pero puede finalizar y pasarlo a cumplido.
-                    Si esta seguro de finalizar el acuerdo presione confirmar.
+                    El acuerdo no ha terminado su proceso de cumplimiento pero puede finalizar y pasarlo a cumplido.
+                    Si está seguro de finalizar el acuerdo presione confirmar.
                   </p>
                   <div className="flex justify-between my-4">
                     <button

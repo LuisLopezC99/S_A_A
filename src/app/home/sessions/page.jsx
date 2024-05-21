@@ -54,10 +54,10 @@ export default async function Home({ searchParams }) {
         <Table
           columns={[
             "Consecutivo",
-            "Fecha De Sesion",
+            "Fecha De Sesión",
             "Tipo de sesión",
             "Link de Facebook",
-            "Session",
+            "Opciones de Sesión",
           ]}
           title={`Sesiones`} // Title for the table
           url={url} // URL to fetch data for the table

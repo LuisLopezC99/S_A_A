@@ -79,6 +79,14 @@ const ProfileModal = ({ isModalOpen, handleModalState, userData}) => {
     setIsAboutModalOpen(false);
   };
 
+  const capitalize = str => {
+    if (typeof str === 'string') {
+      return str.replace(/^\w/, c => c.toUpperCase())
+    } else {
+      return ''
+    }
+  }
+
   return (
     <div>
       {isModalOpen && (
@@ -107,7 +115,7 @@ const ProfileModal = ({ isModalOpen, handleModalState, userData}) => {
               </p>
               <p className="text-sm text-gray-500">{userData["email"]}</p>
               <p className="inline-block border-b px-1 bg-gray-600 mt-1 text-sm text-white">
-                {userData["role"]}
+                {capitalize(userData["role"])}
               </p>
             </div>
             <div className="mt-4 border-t border-b border-gray-350">

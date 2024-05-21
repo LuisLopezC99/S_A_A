@@ -67,7 +67,7 @@ export const sendAssignedEmail = async (topic, description, deadline, name, emai
         html: !isExternal ? `
           <div>
             <h1>Acuerdo asignado</h1>
-            <p>Buen día, ${name}</p>
+            <p>Buen día, ${name}.</p>
             <p>Se le ha asignado un nuevo acuerdo.</p>
             <p><strong>Datos del acuerdo:</strong></p>
             <ul>
@@ -76,14 +76,14 @@ export const sendAssignedEmail = async (topic, description, deadline, name, emai
               <li><strong>Fecha límite:</strong> ${deadline}</li>
             </ul>
             <p>Saludos cordiales,</p>
-            <p><strong>Municipalidad de Tibás</strong></p>
+            <p><strong>Municipalidad de Tibás.</strong></p>
           </div>
         `
         :
         `
           <div>
             <h1>Acuerdo asignado a Externo</h1>
-            <p>Buen día, ${name}</p>
+            <p>Buen día, ${name}.</p>
             <p>Se ha asignado un nuevo acuerdo a un departamento externo.</p>
             <p><strong>Datos del acuerdo:</strong></p>
             <ul>
@@ -92,7 +92,7 @@ export const sendAssignedEmail = async (topic, description, deadline, name, emai
               <li><strong>Fecha límite:</strong> ${deadline}</li>
             </ul>
             <p>Saludos cordiales,</p>
-            <p><strong>Municipalidad de Tibás</strong></p>
+            <p><strong>Municipalidad de Tibás.</strong></p>
           </div>
         `
     };

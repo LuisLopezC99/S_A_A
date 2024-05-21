@@ -107,7 +107,7 @@ const PasswordModal = ({ user }) => {
       .then(() => {
         Swal.fire({
           title: 'Contraseña cambiada',
-          text: 'Se ha cambiado la contraseña correctamente y se ha enviado un correo de confirmación',
+          text: 'Se ha cambiado la contraseña correctamente y se ha enviado un correo de confirmación.',
           icon: 'success',
           confirmButtonText: 'Aceptar'
         }).then(() => {
@@ -118,7 +118,7 @@ const PasswordModal = ({ user }) => {
         // Si hay un error
         Swal.fire({
           title: 'Error',
-          text: 'Hubo un problema al cambiar la contraseña. Por favor, inténtalo de nuevo más tarde.',
+          text: 'Hubo un problema al cambiar la contraseña. Por favor inténtalo de nuevo más tarde.',
           icon: 'error',
           confirmButtonText: 'Aceptar'
         });
@@ -144,11 +144,11 @@ const PasswordModal = ({ user }) => {
               Favor crear su nueva contraseña con las siguientes validaciones:
             </p>
             <ul className="list-disc pl-6 mb-4 dark:text-black">
-              <li>Debe tener al menos 8 caracteres</li>
-              <li>Debe incluir al menos una letra en mayúscula</li>
-              <li>Debe incluir al menos una letra en minúscula</li>
-              <li>Debe incluir al menos un número</li>
-              <li>Debe incluir al menos un carácter especial</li>
+              <li>Debe tener al menos 8 caracteres.</li>
+              <li>Debe incluir al menos una letra en mayúscula.</li>
+              <li>Debe incluir al menos una letra en minúscula.</li>
+              <li>Debe incluir al menos un número.</li>
+              <li>Debe incluir al menos un carácter especial.</li>
             </ul>
 
             <div className="relative">
