@@ -31,6 +31,24 @@ export const logUserAction = async (operationId, actionDescription) => {
     }
 }
 
+export const deleteLogs = async () => {
+    try {
+        const howFarBeyond = 3; // Define how far back you want the deleter to go 
+        const currentDate = new Date();
+        const dateFilter = currentDate.setMonth(currentDate.getMonth() - howFarBeyond); 
+        const action = await prisma.tab_log_operations.deleteMany({
+            where: {
+              timestamp: {
+                lte: dateFilter
+              },
+            },
+          })
+        return action 
+    } catch (error) {
+        throw error; 
+    }
+}
+
 // Retrieves all logged actions from the database.
 export const getAllLoggedActions = async () => {
     try {
