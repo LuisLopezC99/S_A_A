@@ -36,30 +36,34 @@
 import { transporter } from '../../components/tools/nodemailer.js';
 import { getUserById } from '../users/crud.js';
 import { getSecetariaUsers } from '../users/crud.js';
+import path from "path";
+import calculateZeros from "../../components/utils/addZeros.js";
 
 // Sends an email notification for an assigned agreement to the relevant user or secretary.
 export const assignedEmail = async (agreement) => {
-    const {topic, description, asignedTo, deadline} = agreement;
-    
+    const {topic, description, asignedTo, deadline, agreementID, typeFile, report} = agreement;
+
+    const filePath = path.join(`${process.env.FILES_LOCATION}${typeFile}`, report);
+
     // Check if the agreement is not assigned to anyone
     if (!asignedTo) return;
 
     // Retrieve user details based on the assignedTo ID
-    const {name, email} = await getUserById(asignedTo);
+    const {name, email, role} = await getUserById(asignedTo);
     try {
-      // Send an email notification based on the user's role
-        name !== "externo" ?
-        sendAssignedEmail(topic, description, deadline, name, email) :
-        sendEmailToSecretary(topic, description, deadline, sendAssignedEmail);
+        role.name !== "externo" ?
+        sendAssignedEmail(topic, description, deadline, name, email, false, report, filePath, agreementID) :
+        sendEmailToSecretary(topic, description, deadline, sendAssignedEmail, false, report, filePath, agreementID);
     } catch (error) {
-        
+      
         throw new Error("Error al enviar el correo"); // Throw an error if there's an issue with sending the email
     }
 
 }
 
 // Sends an email notification for an assigned agreement to the specified user.
-export const sendAssignedEmail = async (topic, description, deadline, name, email, isExternal = false) => {
+export const sendAssignedEmail = async (topic, description, deadline, name, email, isExternal = false, report = "", filePath = "", agreementID = {}) => {
+    let agreementInfo = agreementID ? `<li><strong>Oficio:</strong> DSC-ACD-${calculateZeros(agreementID.consecutive, true)}${agreementID.consecutive}-${calculateZeros(agreementID.month)}${agreementID.month}-${agreementID.year}</li>` : '';
     const mailOptions = {
         from: process.env.NOTIFIER_EMAIL,
         to: email,
@@ -71,6 +75,7 @@ export const sendAssignedEmail = async (topic, description, deadline, name, emai
             <p>Se le ha asignado un nuevo acuerdo.</p>
             <p><strong>Datos del acuerdo:</strong></p>
             <ul>
+              ${agreementInfo}
               <li><strong>Tema:</strong> ${topic}</li>
               <li><strong>Descripción:</strong> ${description}</li>
               <li><strong>Fecha límite:</strong> ${deadline}</li>
@@ -87,6 +92,7 @@ export const sendAssignedEmail = async (topic, description, deadline, name, emai
             <p>Se ha asignado un nuevo acuerdo a un departamento externo.</p>
             <p><strong>Datos del acuerdo:</strong></p>
             <ul>
+              ${agreementInfo}
               <li><strong>Tema:</strong> ${topic}</li>
               <li><strong>Descripción:</strong> ${description}</li>
               <li><strong>Fecha límite:</strong> ${deadline}</li>
@@ -94,16 +100,22 @@ export const sendAssignedEmail = async (topic, description, deadline, name, emai
             <p>Saludos cordiales,</p>
             <p><strong>Municipalidad de Tibás.</strong></p>
           </div>
-        `
+        `,
+        attachments: [
+          {
+            filename: report,
+            path: filePath
+          }
+        ]
     };
     await transporter.sendMail(mailOptions); // Sends the email using nodemailer transporter
 } 
 
 // Sends an email notification to the secretary or secretarial department users.
-export const sendEmailToSecretary = async (topic, description, deadline = "", emailFunction, isReminder = false) => {
+export const sendEmailToSecretary = async (topic, description, deadline = "", emailFunction, isReminder = false, report = "", filePath = "", agreementID = "") => {
     // Retrieve secretary or secretarial department users
     const users = await getSecetariaUsers();
     // Iterate through each user and send email notifications
     // Send reminder email if isReminder is true, otherwise send regular email
-    users.forEach( async (user) => !isReminder ? emailFunction(topic, description, deadline, user.name, user.email, true) : emailFunction(topic, description, user.name, user.email))
+    users.forEach( async (user) => !isReminder ? emailFunction(topic, description, deadline, user.name, user.email, true, report, filePath, agreementID) : emailFunction(topic, description, user.name, user.email))
 }

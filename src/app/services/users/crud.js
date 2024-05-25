@@ -287,6 +287,12 @@ export const getUserById = async (id) => {
             select: {
                 name: true, // Include the user's name in the retrieved data
                 email: true, // Include the user's email in the retrieved data
+                role: {
+                    // Include the role details in the retrieved user data
+                    select: {
+                        name: true, // Include the role name in the retrieved data
+                    }
+                }
             }
         })
     } catch (error) {

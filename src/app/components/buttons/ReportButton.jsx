@@ -43,8 +43,7 @@ const ReportButton = ({ rows, header, title, state, type, filter}) => {
   const typeSesion = searchParams.get("type") || "";
   const consecutiveSesion = searchParams.get("consecutive") || "";
   const sesionConsecutive = "";
-  const titleFil =  `${title} ${typeSesion} ${consecutiveSesion}`
-  console.log(titleFil);    
+  const titleFil =  `${title} ${typeSesion} ${consecutiveSesion}`   
   const handleClick = () => {
     Report({ rows, header, title, state, type, filter, sesionConsecutive });
 

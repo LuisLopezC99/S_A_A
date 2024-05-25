@@ -95,6 +95,7 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
         month: creationDate.getMonth() + 1,
         year: creationDate.getFullYear(),
       },
+      typeFile : "Acuerdos"
     };
 
     const minimumDate = new Date();
@@ -265,7 +266,6 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
                       id="deadline"
                       name="deadline"
                       type="date"
-                      min={new Date().toISOString().split("T")[0]}
                       required
                     />
                   </div>

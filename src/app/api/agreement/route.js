@@ -65,9 +65,9 @@ export const GET = async (request) => {
 // POST handler to create a new agreement
 export const POST = async (request) => {
     try {
-        const { agreement, agreementID } = await request.json();
+        const { agreement, agreementID, typeFile } = await request.json();
         const newInsert = await createAgreement(agreement, agreementID);
-        await assignedEmail(newInsert);
+        await assignedEmail({...newInsert, agreementID, typeFile});
         await logUserAction(3, "Acuerdo creado, con ID " + newInsert.id)
         return NextResponse.json(newInsert);
     } catch (error) {
