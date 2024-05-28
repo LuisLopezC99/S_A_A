@@ -55,9 +55,9 @@ export const createAgreement = async (agreement, agrID) => {
         session: {
           connect: { id: agreement.sessionId }, // Connect to existing session by ID
         },
-        users: {
-          connect: { id: agreement.asignedTo }, // Connect to existing user by ID
-        },
+        users: agreement.asignedTo 
+        ? { connect: { id: agreement.asignedTo } } // Connect to existing user by ID if assignedTo is not null
+        : undefined,
         agreementId: {
           create: {
             consecutive: agrID.consecutive, // Make sure you provide a unique value
@@ -70,7 +70,7 @@ export const createAgreement = async (agreement, agrID) => {
     });
   }
   catch (e) {
-    // Captures and throws any errors that occur during the process
+    console.log(e)
     throw e
   }
 
@@ -165,11 +165,11 @@ export const updateAgreement = async (agreement) => {
   const { id, topic, description, asignedTo, report, reportCumplimiento, deadline, sessionId, agreementIdConsecutive, state } = agreement
   try {
     // Find the user ID based on the assignedTo property
-    const user = await prisma.tab_user.findUnique({
+    const user = asignedTo ? await prisma.tab_user.findUnique({
       where: {
         name: asignedTo
       },
-    });
+    }) : undefined
 
     // Update the agreement in the database with the new details
     return await prisma.tab_agreement.update({
@@ -181,7 +181,7 @@ export const updateAgreement = async (agreement) => {
         description,
         report,
         reportCumplimiento,
-        asignedTo: user.id, // Assigns the user ID to the agreement's assignedTo field
+        asignedTo: user ? user.id : undefined, // Assigns the user ID to the agreement's assignedTo field
         deadline,
         sessionId,
         agreementIdConsecutive,

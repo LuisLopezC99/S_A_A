@@ -42,7 +42,6 @@ import calculateZeros from "../../components/utils/addZeros.js";
 // Sends an email notification for an assigned agreement to the relevant user or secretary.
 export const assignedEmail = async (agreement) => {
     const {topic, description, asignedTo, deadline, agreementID, typeFile, report} = agreement;
-
     const filePath = path.join(`${process.env.FILES_LOCATION}${typeFile}`, report);
 
     // Check if the agreement is not assigned to anyone
@@ -55,7 +54,7 @@ export const assignedEmail = async (agreement) => {
         sendAssignedEmail(topic, description, deadline, name, email, false, report, filePath, agreementID) :
         sendEmailToSecretary(topic, description, deadline, sendAssignedEmail, false, report, filePath, agreementID);
     } catch (error) {
-      
+
         throw new Error("Error al enviar el correo"); // Throw an error if there's an issue with sending the email
     }
 

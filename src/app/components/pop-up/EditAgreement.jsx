@@ -53,7 +53,7 @@ const EditAgreement = ({
   const [id, setId] = useState(agreementData.id);
   const [topic, setTopic] = useState(agreementData.topic);
   const [description, setDescription] = useState(agreementData.description);
-  const [assignedTo, setAssignedTo] = useState(agreementData.users.name);
+  const [assignedTo, setAssignedTo] = useState(agreementData.users ? agreementData.users.name : "");
   const [assignedToName, setAssignedToName] = useState("");
   const [deadline, setDeadline] = useState(agreementData.deadlineInputCast);
   const [sessionId, setSessionId] = useState(agreementData.sessionId);
@@ -63,19 +63,17 @@ const EditAgreement = ({
   );
   const [state, setState] = useState(agreementData.state);
   const [users, setUsers] = useState([]);
-  const [departmentUsers, setDepartmentUsers] = useState([]);
-  const [actualUser, _] = useState(agreementData.users.name);
-  const [isChecked, setIsChecked] = useState(assignedTo === "externo" ? true : false);
 
-  // useEffect(() => {
-  //   const fetchUsers = async () => {
-  //     const response = await getRequest("users");
-  //     setUsers(response);
-  //     setDepartmentUsers(response.filter(user => user.role.name === "departamento"));
-  //   };
+  const [userSelected, setUserSelected] = useState(assignedTo === "externo" ? "externo" : assignedTo === "Alcaldia" ? "alcaldia" : assignedTo === "Auditoria" ? "auditoria" : null);
 
-  //   fetchUsers();
-  // }, []);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await getRequest("users");
+      setUsers(response);
+    };
+
+    fetchUsers();
+  }, []);
 
   const closeModal = () => {
     setTopic(agreementData.topic);
@@ -108,12 +106,14 @@ const EditAgreement = ({
 
     const topic = formData.get("topic");
     const description = formData.get("description");
-    const asignedTo = isChecked ? (users.find(user => user.role.name === "externo"))?.name : formData.get("assignedTo");
+    const asignedTo = userSelected == "externo" ? (users.find(user => user.role.name === "externo"))?.name : 
+    userSelected == "alcaldia" ? (users.find(user => user.role.name === "alcaldia"))?.name : 
+    userSelected == "auditoria" ? (users.find(user => user.role.name === "auditoria"))?.name : null;
     const { name } = formData.get("file") ? formData.get("file") : { name: report };
     const simpleDate = formData.get("deadline");
     const date = simpleDate + "T00:00:00.000Z";
     const deadline = new Date(date);
-    const newState = isChecked ? "Externo" : ["Cumplido", "Vencido"].includes(state) ? state : "Pendiente";
+    const newState = userSelected == "externo" ? "Externo" : ["Cumplido", "Vencido"].includes(state) ? state : "Pendiente";
     setState(newState);
     const agreementData = {
       id,
@@ -125,7 +125,13 @@ const EditAgreement = ({
       sessionId: sessionId,
       description,
       agreementIdConsecutive,
-      state: newState
+      state: newState,
+      agreementID: {
+        consecutive: agreementId.consecutive,
+        month: agreementId.month,
+        year: agreementId.year,
+      },
+      typeFile: "Acuerdos"
     };
     const formData2 = new FormData();
     formData2.append("file", file);
@@ -155,8 +161,10 @@ const EditAgreement = ({
     );
   });
 
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
+  const handleRadioChange = (event) => {
+    setUserSelected(event.target.value === "externo" ? "externo" : 
+    event.target.value === "alcaldia" ? "alcaldia" :
+    event.target.value === "auditoria" ? "auditoria" : null);
   }
 
   return (
@@ -203,7 +211,7 @@ const EditAgreement = ({
                     value={topic}
                     onChange={handleInputChange}
                     required
-                    readOnly={session_role !== "secretaria"}
+                  
                   />
                 </div>
 
@@ -218,55 +226,67 @@ const EditAgreement = ({
                     className="custom-input h-32"
                     id="description"
                     name="description"
-                    readOnly={session_role !== "secretaria"}
+                    
                   >
                     {description}
                   </textarea>
                 </div>
 
                 <div className="mb-4">
-                  <div className="flex items-center">
-                    <div>
-                      <label
-                        className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
-                        htmlFor="assignedTo"
-                      >
-                        Asignado a:
-                      </label>
-                      <select
-                        className="custom-input"
-                        id="assignedTo"
-                        name="assignedTo"
-                        required
-                        disabled={isChecked}
-                      >
-                        <option value="">Seleccionar...</option>
-                        {departmentUsers.map((user) => (
-                          user.role.name !== "externo" && (
-                            <option key={user.id} value={user.name}>
-                              {user.name}
-                            </option>
-                          )
-                        ))}
-                      </select>
+                  <div className="flex items-center mb-5 mt-5">
+                    <label
+                      className="block text-gray-700 text-sm font-bold dark:text-white"
+                      htmlFor="option"
+                    >
+                      Asignado a:
+                    </label>
+                    <div className="mx-2">
+                      <input
+                        type="radio"
+                        id="option1"
+                        name="option"
+                        value="alcaldia"
+                        defaultChecked = {userSelected === "alcaldia"}
+                        onChange={handleRadioChange}
+                      />
+                      <label htmlFor="option1" className="ml-1">Alcaldía</label>
                     </div>
-                    {session.user.role !== "alcaldia" &&(
-                      <div className="ml-5 flex items-center mt-1"> {/* Cambiado mt-2 a mt-1 */}
-                        <label
-                          className="block text-gray-700 text-sm font-bold mb-2 dark:text-white mr-2"
-                          htmlFor="external"
-                        >
-                          Externo
-                        </label>
-                        <input
-                          type="checkbox"
-                          id="external"
-                          checked={isChecked}
-                          onChange={handleCheckboxChange}
-                          disabled={session.user.role === "alcaldia"}
-                        />
-                      </div>
-                    )}
+                    <div>
+                      <input
+                        type="radio"
+                        id="option2"
+                        name="option"
+                        value="externo"
+                        onChange={handleRadioChange}
+                        defaultChecked = {userSelected === "externo"}
+                      />
+                      <label htmlFor="option2" className="ml-1">Externo</label>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center mb-3">
+                    <div className="mx-5">
+                      <input
+                        type="radio"
+                        id="option3"
+                        name="option"
+                        value="auditoria"
+                        defaultChecked = {userSelected === "auditoria"}
+                        onChange={handleRadioChange}
+                      />
+                      <label htmlFor="option3" className="ml-1">Auditoria</label>
+                    </div>
+                    <div>
+                      <input
+                        type="radio"
+                        id="option4"
+                        name="option"
+                        value="ninguno"
+                        onChange={handleRadioChange}
+                        defaultChecked = {userSelected === null}
+                      />
+                      <label htmlFor="option4" className="ml-1">Ninguno</label>
+                    </div>
                   </div>
                   <div>
                     <label
@@ -284,7 +304,7 @@ const EditAgreement = ({
                       value={deadline}
                       onChange={handleInputChange}
                       required
-                      readOnly={session_role !== "secretaria"}
+                      
                     />
                   </div>
                 </div>
@@ -303,8 +323,7 @@ const EditAgreement = ({
                   type="file"
                   accept=".pdf"
                   onChange={handleFileUpload}
-                  disabled={session_role !== "secretaria"}
-                //required
+                
                 />
               </div>
               Archivo actual: <br />

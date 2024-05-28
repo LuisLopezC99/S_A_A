@@ -67,7 +67,7 @@ export const POST = async (request) => {
     try {
         const { agreement, agreementID, typeFile } = await request.json();
         const newInsert = await createAgreement(agreement, agreementID);
-        await assignedEmail({...newInsert, agreementID, typeFile});
+        newInsert.asignedTo !== null && await assignedEmail({...newInsert, agreementID, typeFile});
         await logUserAction(3, "Acuerdo creado, con ID " + newInsert.id)
         return NextResponse.json(newInsert);
     } catch (error) {
@@ -80,8 +80,13 @@ export const POST = async (request) => {
 // PUT handler to update an existing agreement.
 export const PUT = async (request) => {
     try {
-        const newUpdate = await updateAgreement(await request.json())
-        await assignedEmail(newUpdate);
+        const updatedAgreement = await request.json()
+        const newUpdate = await updateAgreement(updatedAgreement)
+        newUpdate.asignedTo !== null ? await assignedEmail({
+            ...newUpdate,
+            agreementID: updatedAgreement.agreementID,
+            typeFile: updatedAgreement.typeFile
+        }) : null;
         await logUserAction(5, "Acuerdo actualizado, con ID " + newUpdate.id)
         return NextResponse.json(newUpdate)
     } catch (error) {

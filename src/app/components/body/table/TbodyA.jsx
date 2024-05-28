@@ -105,7 +105,7 @@ const TbodyA = ({ rows = [], role = "" }) => {
                 </td>
                 <td className="px-6 py-4 text-center">{`Sesión ${session.type} N.${session.sessionId.consecutive}`}</td>
                 <td className="px-6 py-4 text-center">{topic}</td>
-                <td className="px-6 py-4 text-center">{users.name}</td>
+                <td className="px-6 py-4 text-center">{users ? users.name : "Sin Asignar"}</td>
                 <td className="px-6 py-4 text-center">{creationDateCast}</td>
                 <td className="px-6 py-4 text-center">{deadlineCast}</td>
 

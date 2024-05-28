@@ -72,7 +72,7 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
     formData2.append("type", "Acuerdos");
     const topic = formData.get("topic");
     const description = formData.get("description");
-    const asignedTo = asignedto === 'externo' ? (users.find(user => user.role.name === "externo"))?.id : users.find(user => user.role.name === "alcaldia")?.id;
+    const asignedTo = asignedto === 'externo' ? (users.find(user => user.role.name === "externo"))?.id : asignedto === 'alcaldia' ? users.find(user => user.role.name === "alcaldia")?.id : asignedto === 'auditoria' ? users.find(user => user.role.name === "auditoria")?.id : null;
     const deadlineDate = formData.get("deadline");
     const sessionId = Number(sessionid);
     const creationDate = new Date();
@@ -95,7 +95,7 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
         month: creationDate.getMonth() + 1,
         year: creationDate.getFullYear(),
       },
-      typeFile : "Acuerdos"
+      typeFile: "Acuerdos"
     };
 
     const minimumDate = new Date();
@@ -216,15 +216,14 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
                     Descripción:
                   </label>
                   <textarea
-                    className="custom-input h-32"
+                    className="custom-input h-36"
                     id="description"
                     name="description"
                   ></textarea>
                 </div>
 
                 <div className="mb-4">
-                  <div className="flex items-center mb-5 mt-10">
-
+                  <div className="flex items-center mb-5 mt-5">
                     <label
                       className="block text-gray-700 text-sm font-bold dark:text-white"
                       htmlFor="option"
@@ -240,7 +239,7 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
                         defaultChecked
                         onChange={handleRadioChange}
                       />
-                      <label htmlFor="option1">Alcaldía</label>
+                      <label htmlFor="option1" className="ml-1">Alcaldía</label>
                     </div>
                     <div>
                       <input
@@ -250,7 +249,30 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
                         value="externo"
                         onChange={handleRadioChange}
                       />
-                      <label htmlFor="option2">Externo</label>
+                      <label htmlFor="option2" className="ml-1">Externo</label>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center mb-3">
+                    <div className="mx-5">
+                      <input
+                        type="radio"
+                        id="option3"
+                        name="option"
+                        value="auditoria"
+                        onChange={handleRadioChange}
+                      />
+                      <label htmlFor="option3" className="ml-1">Auditoria</label>
+                    </div>
+                    <div>
+                      <input
+                        type="radio"
+                        id="option4"
+                        name="option"
+                        value="ninguno"
+                        onChange={handleRadioChange}
+                      />
+                      <label htmlFor="option4" className="ml-1">Ninguno</label>
                     </div>
                   </div>
                   <div className="mt-17">

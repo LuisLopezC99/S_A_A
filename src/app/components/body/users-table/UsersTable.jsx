@@ -75,7 +75,7 @@ const UsersTable = () => {
     const userId = updatedUser.id;
     const role = updatedUser.roleid == 1 ? "admin" :
       updatedUser.roleid == 2 ? "secretaria" :
-        updatedUser.roleid == 3 ? "departamento" : 
+        updatedUser.roleid == 3 ? "auditoria" : 
           updatedUser.roleid == 4 ? "alcaldia" : "externo";
     // Update the user in the local state
     setUsers((prevUsers) =>

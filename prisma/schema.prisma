@@ -27,7 +27,7 @@ model tab_agreement {
   description            String
   report                 String
   reportCumplimiento     String?           @unique
-  asignedTo              Int               @map("asigned_to")
+  asignedTo              Int?               @map("asigned_to")
   creationDate           DateTime          @db.Date
   deadline               DateTime          @db.Date
   reminderDate           DateTime          @db.Date
@@ -36,7 +36,7 @@ model tab_agreement {
   agreementId            tab_agreement_id? @relation(fields: [agreementIdConsecutive], references: [id])
   agreementIdConsecutive Int               @unique
   state                  String?
-  users                  tab_user          @relation(fields: [asignedTo], references: [id])
+  users                  tab_user?          @relation(fields: [asignedTo], references: [id])
 }
 
 model tab_agreement_id {

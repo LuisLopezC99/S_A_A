@@ -12,7 +12,7 @@ VALUES
 INSERT INTO `s_a_a`.`tab_role`
 (`name`)
 VALUES
-('departamento');
+('auditoria');
 
 INSERT INTO `s_a_a`.`tab_role`
 (`name`)
@@ -68,6 +68,21 @@ VALUES
 "leonorozcoandres@gmail.com", -- Cambiar por el correo del administrador
 "123",
 1,
+1,
+1);
+
+INSERT INTO s_a_a.tab_user
+(name,
+email,
+password,
+role_id,
+enabled,
+FirstTime)
+VALUES
+("Auditoria",
+"auditoria@auditoria.com", -- Cambiar por el correo del administrador
+"123",
+3,
 1,
 1);
 

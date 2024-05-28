@@ -37,13 +37,13 @@
 import { useState, useRef } from "react";
 import Swal from "sweetalert2"
 import { IoDocumentTextSharp } from "react-icons/io5";
+import { getRequest } from "@/app/requests/getRequests";
 
 export const DownloadButton = ({ filename, type, title, icon }) => {
-	
+
     const handleDownload = async () => {
         
-        // Code for displaying on new tab.
-        const response = await fetch(`http://192.168.0.7:3000/api/file?filename=${filename}&type=${type}`);
+        const response = await fetch(`http://192.168.100.112:3000/api/file?filename=${filename}&type=${type}`);
         if (!response.ok) {
             Swal.fire({
                 icon: "error",
@@ -51,19 +51,19 @@ export const DownloadButton = ({ filename, type, title, icon }) => {
                 text: "El elemento no posee un archivo asociado aún.",
             })
         } else {
-        const blob = await response.blob();
-        const file = new Blob([blob], {
-            type: "application/pdf",
-          });
-          const fileURL = URL.createObjectURL(file);
-          window.open(fileURL);
+            const blob = await response.blob();
+            const file = new Blob([blob], {
+                type: "application/pdf",
+            });
+            const fileURL = URL.createObjectURL(file);
+            window.open(fileURL);
         }
-	}
+    }
 
     return (
         <>
             <button
-                className=" font-bold py-2 px-4 text-center "  
+                className=" font-bold py-2 px-4 text-center "
                 onClick={handleDownload}
                 title={title}
             >
