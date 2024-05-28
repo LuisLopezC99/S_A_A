@@ -37,18 +37,18 @@ import { NextResponse } from "next/server"
 export default withAuth(
     function middleware(request){
         if(request?.nextauth?.token?.exp < Date.now() / 1000){
-            return NextResponse.redirect("/login")
+            return NextResponse.rewrite(`${process.env.NEXTAUTH_URL}/login`)
         }
         if(request.nextUrl.pathname.startsWith("/home")
         && request.nextauth?.token?.user?.role === "admin"){
             return NextResponse.rewrite(
-                new URL("http://localhost:3000/admin")
+                new URL(`${process.env.NEXTAUTH_URL}/admin`)
             )
         }
         if(request.nextUrl.pathname.startsWith("/admin")
         && request.nextauth?.token?.user?.role !== "admin"){
             return NextResponse.rewrite(
-                new URL("http://localhost:3000/home")
+                new URL(`${process.env.NEXTAUTH_URL}/home`)
             )
         }
     }

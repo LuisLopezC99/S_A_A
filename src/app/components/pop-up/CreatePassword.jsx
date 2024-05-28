@@ -112,6 +112,11 @@ const PasswordModal = ({ user }) => {
           confirmButtonText: 'Aceptar'
         }).then(() => {
           router.push("/");
+
+          // const {protocol, host} = window.location;
+          // const port = process.env.NEXT_PUBLIC_PORT ? `:${process.env.NEXT_PUBLIC_PORT}` : '';
+          // const url = `${protocol}//${host}${port}`;
+          // router.push(url);
         });
       })
       .catch((error) => {

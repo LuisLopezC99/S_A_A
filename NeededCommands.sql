@@ -35,7 +35,7 @@ enabled,
 FirstTime)
 VALUES
 ("externo",
-"externo@externo",
+"eduardo.ojeda.paladino@est.una.ac.cr",
 "123",
 5,
 0,
@@ -50,7 +50,7 @@ enabled,
 FirstTime)
 VALUES
 ("Alcaldia",
-"andres62010@hotmail.es", -- Cambiar por el correo de la alcaldia
+"eduardoaojedap@gmail.com", -- Cambiar por el correo de la alcaldia
 "123",
 4,
 1,
@@ -65,7 +65,7 @@ enabled,
 FirstTime)
 VALUES
 ("Administrador",
-"leonorozcoandres@gmail.com", -- Cambiar por el correo del administrador
+"peleojeda@gmail.com", -- Cambiar por el correo del administrador
 "123",
 1,
 1,
