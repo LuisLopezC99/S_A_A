@@ -67,15 +67,15 @@ const EditAgreement = ({
   const [actualUser, _] = useState(agreementData.users.name);
   const [isChecked, setIsChecked] = useState(assignedTo === "externo" ? true : false);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const response = await getRequest("users");
-      setUsers(response);
-      setDepartmentUsers(response.filter(user => user.role.name === "departamento"));
-    };
+  // useEffect(() => {
+  //   const fetchUsers = async () => {
+  //     const response = await getRequest("users");
+  //     setUsers(response);
+  //     setDepartmentUsers(response.filter(user => user.role.name === "departamento"));
+  //   };
 
-    fetchUsers();
-  }, []);
+  //   fetchUsers();
+  // }, []);
 
   const closeModal = () => {
     setTopic(agreementData.topic);

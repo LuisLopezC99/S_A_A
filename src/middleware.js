@@ -37,7 +37,7 @@ import { NextResponse } from "next/server"
 export default withAuth(
     function middleware(request){
         if(request?.nextauth?.token?.exp < Date.now() / 1000){
-            return NextResponse.rewrite(`${process.env.NEXTAUTH_URL}/login`)
+            return NextResponse.rewrite(new URL(`${process.env.NEXTAUTH_URL}/login`))
         }
         if(request.nextUrl.pathname.startsWith("/home")
         && request.nextauth?.token?.user?.role === "admin"){

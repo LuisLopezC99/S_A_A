@@ -34,7 +34,7 @@
 
 export const getRequest = async (URL) => {
   try {
-      const response = await fetch(`http://localhost:3000/api/${URL}`, {
+      const response = await fetch(`${process.env.NEXTAUTH_URL}api/${URL}`, {
           method: "GET",
           next : {revalidate : 0}
       })
@@ -50,7 +50,7 @@ export const getRequest = async (URL) => {
 }
 export const postDataForm = async (URL, formData) => {
 try {
-  const response = await fetch(`/api/${URL}`, {
+  const response = await fetch(`${process.env.NEXTAUTH_URL}api/${URL}`, {
     method: "POST",
     body: formData,
   });
@@ -67,7 +67,7 @@ try {
 export const postData = async (URL, formData) => {
   
   try {
-      const response = await fetch(`/api/${URL}`, {
+      const response = await fetch(`${process.env.NEXTAUTH_URL}api/${URL}`, {
           headers: {
           'Content-Type': 'application/json'
           },
@@ -90,7 +90,7 @@ export const postData = async (URL, formData) => {
 
 export const putData=async(URL,formData)=>{
   try{
-      const response = await fetch(`/api/${URL}`, {
+      const response = await fetch(`${process.env.NEXTAUTH_URL}api/${URL}`, {
           headers: {
           'Content-Type': 'application/json'
           },
@@ -108,7 +108,7 @@ export const putData=async(URL,formData)=>{
 }
 export const putDataFile = async (URL, formData) => {
   try {
-    const response = await fetch(`/api/${URL}`, {
+    const response = await fetch(`${process.env.NEXTAUTH_URL}$api/${URL}`, {
       method: "PUT",
       body: formData,
     });
