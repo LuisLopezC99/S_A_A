@@ -128,8 +128,9 @@ export const CheckModal = ({
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
           <div className="bg-white p-8 max-w-md rounded-lg shadow-lg relative dark:bg-gray-700">
             <form onSubmit={handleSubmit}>
-              {session_role === "alcaldia" &&
-              currentState !== "Tramitado" ? (
+              {(session_role === "alcaldia" &&
+              currentState !== "Tramitado") || (session_role === "secretaria" &&
+              currentState === "Externo") ? (
                 <>
                   <h2 className="text-lg font-semibold mb-4 dark:text-white">
                     Firmar Acuerdo
@@ -197,10 +198,6 @@ export const CheckModal = ({
                     </button>
                   </div>
                 </>
-              ) : session_role === "secretaria" &&
-              currentState === "Externo" ? (
-              <>
-              </>
               ): session_role === "secretaria" &&
                 currentState !== "Tramitado" ? (
                 <>
