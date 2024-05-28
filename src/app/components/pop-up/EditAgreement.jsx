@@ -53,7 +53,7 @@ const EditAgreement = ({
   const [id, setId] = useState(agreementData.id);
   const [topic, setTopic] = useState(agreementData.topic);
   const [description, setDescription] = useState(agreementData.description);
-  const [assignedTo, setAssignedTo] = useState(agreementData.users ? agreementData.users.name : "");
+  const [assignedTo, setAssignedTo] = useState(agreementData.users !== null ? agreementData.users.name : "");
   const [assignedToName, setAssignedToName] = useState("");
   const [deadline, setDeadline] = useState(agreementData.deadlineInputCast);
   const [sessionId, setSessionId] = useState(agreementData.sessionId);
