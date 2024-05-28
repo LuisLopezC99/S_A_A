@@ -165,7 +165,6 @@ const TbodyA = ({ rows = [], role = "" }) => {
                       title="Abrir Acuerdo"
                       icon={<IoDocumentTextSharp className="w-7 h-7 text-gray-500 dark:text-green-500" />}
                     ></DownloadButton>
-                    {role !== "alcaldia" && (
                       <CheckButton
                         agreementId={id}
                         data={{
@@ -185,7 +184,6 @@ const TbodyA = ({ rows = [], role = "" }) => {
                         }}
                         session_role={role}
                       ></CheckButton>
-                    )}
                   </div>
                 </td>
               </tr>

@@ -69,21 +69,20 @@ export const CheckModal = ({
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
   };
-
-  const handleSubmit = async (event) => {
+  const roleSta = () => {
+    let rState;
+    currentState === "Externo" || session_role === "alcaldia"
+    ? rState = "Tramitado"
+    : rState = "Cumplido";
+    return rState;
+  }
+    const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const { name } = formData.get("file") || currentState;
-    const roleToSend =
-      session_role === "departamento" ? "secretaria" : "secretaria";
-    
-    const roleState =
-      session_role === "secretaria"
-        ? "Cumplido"
-        : session_role === "departamento"
-        ? "Tramitado"
-        : "Finalizado";
-    const textToSend = session_role === "departamento" 
+    const roleToSend = "secretaria";
+    const roleState = roleSta();
+    const textToSend = session_role === "alcaldia" 
     ? `El acuerdo a sido ${roleState} y enviado a ${roleToSend}.`
     : `El acuerdo a sido ${roleState}`
     const agreementData = {
@@ -129,14 +128,14 @@ export const CheckModal = ({
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
           <div className="bg-white p-8 max-w-md rounded-lg shadow-lg relative dark:bg-gray-700">
             <form onSubmit={handleSubmit}>
-              {session_role === "departamento" &&
+              {session_role === "alcaldia" &&
               currentState !== "Tramitado" ? (
                 <>
                   <h2 className="text-lg font-semibold mb-4 dark:text-white">
                     Firmar Acuerdo
                   </h2>
                   <p className="dark:text-white">
-                    Yo, como el encarcado del departamento {session.user.name}, doy fe del cumplimiento 
+                    Yo, como el encarcado de {session.user.name}, doy fe del cumplimiento 
                     de nuestra parte de los diferentes puntos abarcados en el acuerdo presente 
                     y por ende lo tramitamos  para seguir su debido proceso.
                   </p>
@@ -180,7 +179,7 @@ export const CheckModal = ({
                   </h2>
                   <p className="dark:text-white">
                     El acuerdo ha sido tramitado para confirmacion de
-                    cumplimiento por el departamento correspondinte. Al aceptar
+                    cumplimiento por el alcaldia correspondinte. Al aceptar
                     se da por cumplido y finalizado el dicho acuerdo.
                   </p>
                   <div className="flex justify-between my-4">
@@ -199,6 +198,10 @@ export const CheckModal = ({
                   </div>
                 </>
               ) : session_role === "secretaria" &&
+              currentState === "Externo" ? (
+              <>
+              </>
+              ): session_role === "secretaria" &&
                 currentState !== "Tramitado" ? (
                 <>
                   <h2 className="text-lg font-semibold mb-4 dark:text-white">
