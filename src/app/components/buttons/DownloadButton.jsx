@@ -41,20 +41,9 @@ import { IoDocumentTextSharp } from "react-icons/io5";
 export const DownloadButton = ({ filename, type, title, icon }) => {
 	
     const handleDownload = async () => {
-		
-        // Code for download only. Commented out.
-            // const response = await fetch(`http://localhost:3000/api/file?filename=${filename}&type=${type}`);
-            // const blob = await response.blob();
-            // const url = window.URL.createObjectURL(blob);
-            // var link = document.createElement('a')
-            // link.href = url;
-            // link.download = `${filename}`
-            // link.click()
-            // link.remove();
-            // window.URL.revokeObjectURL(url);
         
         // Code for displaying on new tab.
-        const response = await fetch(`http://localhost:3000/api/file?filename=${filename}&type=${type}`);
+        const response = await fetch(`http://192.168.0.7:3000/api/file?filename=${filename}&type=${type}`);
         if (!response.ok) {
             Swal.fire({
                 icon: "error",
