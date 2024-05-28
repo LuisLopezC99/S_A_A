@@ -181,7 +181,7 @@ export const updateAgreement = async (agreement) => {
         description,
         report,
         reportCumplimiento,
-        asignedTo: user ? user.id : undefined, // Assigns the user ID to the agreement's assignedTo field
+        asignedTo: user ? user.id : null, // Assigns the user ID to the agreement's assignedTo field
         deadline,
         sessionId,
         agreementIdConsecutive,

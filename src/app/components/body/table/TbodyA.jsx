@@ -88,6 +88,7 @@ const TbodyA = ({ rows = [], role = "" }) => {
           agreementIdConsecutive,
           session,
         } = row;
+        console.log(users);
         const creationDateCast = castDateToCrDate(new Date(creationDate));
         const deadlineCast = castDateToCrDate(new Date(deadline));
         const deadlineInputCast = castDateToInputDate(new Date(deadline));

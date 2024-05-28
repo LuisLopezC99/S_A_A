@@ -82,7 +82,8 @@ export const PUT = async (request) => {
     try {
         const updatedAgreement = await request.json()
         const newUpdate = await updateAgreement(updatedAgreement)
-        newUpdate.asignedTo !== null ? await assignedEmail({
+        console.log(updatedAgreement)
+        updatedAgreement.asignedTo !== null ? await assignedEmail({
             ...newUpdate,
             agreementID: updatedAgreement.agreementID,
             typeFile: updatedAgreement.typeFile
