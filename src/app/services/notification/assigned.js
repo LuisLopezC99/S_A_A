@@ -59,6 +59,20 @@ export const assignedEmail = async (agreement) => {
     }
 
 }
+export const assignedAgreement = async (sendAgreement) => { 
+  console.log(sendAgreement);
+  const {topic, description, deadline, agreementID, emails, typeFile, report} = sendAgreement;
+  const filePath = path.join(`${process.env.FILES_LOCATION}Acuerdos`, report);
+  const name = "departamento";
+  try {
+    for (const email of emails) {
+      console.log(topic, description, deadline, name, email, false, report, filePath, agreementID);
+      await sendAssignedEmail(topic, description, deadline, name, email, false, report, filePath, agreementID);
+    }
+  } catch (error) {
+    throw new Error("Error al enviar el correo"); 
+  }
+}
 
 // Sends an email notification for an assigned agreement to the specified user.
 export const sendAssignedEmail = async (topic, description, deadline, name, email, isExternal = false, report = "", filePath = "", agreementID = {}) => {

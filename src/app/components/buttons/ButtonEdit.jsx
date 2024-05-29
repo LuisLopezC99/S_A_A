@@ -40,7 +40,7 @@ import EditAgreement from "../pop-up/EditAgreement";
 
 export const ButtonEdit = ({ title, children, data, session_role = "" }) => {
   const [openModal, setOpenModal] = useState(false);
-
+  console.log(session_role);
   const handleClick = () => {
     !openModal ? setOpenModal(true) : setOpenModal(false);
   };
@@ -62,10 +62,10 @@ export const ButtonEdit = ({ title, children, data, session_role = "" }) => {
         />
       ) : (
         <EditAgreement
-          isModalOpen={openModal}
+          isModalOpen = {openModal}
           handleModalState={handleClick}
           agreementData={data}
-          session_role={session_role}
+          session_role = {session_role}
         />
       )}
     </>

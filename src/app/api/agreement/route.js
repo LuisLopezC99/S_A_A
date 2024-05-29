@@ -37,8 +37,6 @@ import { NextResponse } from "next/server";
 import { readAgreement, createAgreement, updateAgreement, getLastAgreement, getTotalAgrements } from "@/app/services/agreement/crud";
 import { logUserAction } from "@/app/services/log/functions";
 import { completeAgreements } from "@/app/business/agreement/logic";
-import { getServerSession } from "next-auth/next"
-import { authOptions } from "../auth/[...nextauth]/route";
 import { assignedEmail } from "@/app/services/notification/assigned";
 
 // GET handler to fetch agreements based on query parameters.

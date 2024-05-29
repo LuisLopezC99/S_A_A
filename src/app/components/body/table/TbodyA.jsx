@@ -129,7 +129,6 @@ const TbodyA = ({ rows = [], role = "" }) => {
                 <td className="px-6 py-4 text-center">
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
 
-                    {role !== "departamento" && (
                       <ButtonEdit
                         title="agreement"
                         data={{
@@ -151,8 +150,7 @@ const TbodyA = ({ rows = [], role = "" }) => {
                       >
                         <MdEditSquare className="w-7 h-7 text-gray-500 dark:text-green-500" alt="AcuerdoEdit" />
                       </ButtonEdit>
-                    )}
-
+      
                     <DownloadButton
                       filename={reportCumplimiento}
                       type="Cumplidos"
