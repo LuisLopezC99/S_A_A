@@ -39,6 +39,7 @@ import { PDFDocument } from "pdf-lib";
 
 //Report function to generate a PDF document with the data of the report
 const Report = async ({ rows, header, title, state, type, filter, sesion }) => {
+  console.log(header);
   // Function to convert a date to a specific string format
   const castDateToCrDateString = (date) => {
     const dateCast = new Date(date);
@@ -176,7 +177,8 @@ const Report = async ({ rows, header, title, state, type, filter, sesion }) => {
     doc.autoTable({
       head: [
         header.filter((item) =>
-          title === "Sesiones" ? item !== "Session" : item !== "Acuerdo"
+          title === 'Sesiones'
+        ? item !== "Opciones de Sesión" : item !== 'Opciones de Acuerdo'
         ),
       ],
       body: modifiedRows,

@@ -373,7 +373,7 @@ const EditAgreement = ({
                       </div>
                     </>
                   ) : (
-                    <div className="mb-4">
+                    <div className="mb-6">
                       <label
                         className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                         htmlFor="file"
@@ -381,14 +381,15 @@ const EditAgreement = ({
                         Adjuntos
                       </label>
                       <input
-                        className="custom-input"
+                      
+                        className="custom-input h-32"
                         id="emails"
                         name="emails"
                         type="text"
                       />
                     </div>
                   )}
-                  <div>
+                  <div  className="mb-4 flex justify-start items-left">
                     <label
                       className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                       htmlFor="deadline"
@@ -397,13 +398,14 @@ const EditAgreement = ({
                     </label>
 
                     <input
-                      className="custom-input"
+                      className="custom-input "
                       id="deadline"
                       name="deadline"
                       type="date"
                       value={deadline}
                       onChange={handleInputChange}
                       required
+                      disabled={role === "alcaldia"}
                     />
                   </div>
                 </div>
