@@ -244,7 +244,7 @@ const EditAgreement = ({
           <div className="absolute inset-0 bg-gray-800 opacity-75"></div>
           <div className="bg-white p-4 rounded shadow-lg z-10 dark:bg-gray-700">
             <h2 className="text-2xl font-bold mb-4 dark:text-white">
-              {userSelected === "alcaldia"
+              {role === "alcaldia"
                 ? "Asignar Acuerdo"
                 : "Editar Acuerdo"}
             </h2>
@@ -265,6 +265,7 @@ const EditAgreement = ({
                     value={oficio}
                     readOnly={true}
                     required
+                    disabled={role === "alcaldia"}
                   />
                 </div>
 
@@ -283,6 +284,7 @@ const EditAgreement = ({
                     value={topic}
                     onChange={handleInputChange}
                     required
+                    disabled={role === "alcaldia"}
                   />
                 </div>
 
@@ -297,6 +299,7 @@ const EditAgreement = ({
                     className="custom-input h-32"
                     id="description"
                     name="description"
+                    disabled={role === "alcaldia"}
                   >
                     {description}
                   </textarea>

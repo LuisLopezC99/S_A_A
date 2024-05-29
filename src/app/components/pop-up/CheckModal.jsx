@@ -145,7 +145,7 @@ export const CheckModal = ({
                       className="block text-gray-700 text-sm  mb-2 dark:text-white"
                       htmlFor="file"
                     >
-                      Documento de cumplimiento:
+                      Documento de cumplimiento: Formato Cumplimiento_Oficio.pdf
                     </label>
 
                     <input
@@ -241,7 +241,7 @@ export const CheckModal = ({
                       className="block text-gray-700 text-sm  mb-2 dark:text-white"
                       htmlFor="file"
                     >
-                      Modificar Documento de Cumplimiento:
+                      Modificar Documento de Cumplimiento: Formato Cumplimiento_Oficio.pdf
                     </label>
                     Archvio actual: {reportCumplimiento}
                     <input
