@@ -47,9 +47,9 @@ export default async function Home() {
         </div>
       ) : session.user.role === "admin" ? ( // If user role is admin, redirect to /admin
         redirect("/admin")
-      ) : (
+      ) : session.user.role === "secretaria" || session.user.role === "alcaldia" ?(
         redirect("/home") // Otherwise, redirect to /home
-      )}
+      ) : redirect("/home/sessions")}
     </>
   );
 }

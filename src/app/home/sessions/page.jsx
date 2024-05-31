@@ -36,38 +36,45 @@
 import Table from "../../components/body/table/Table";
 import { Suspense } from "react";
 import Loading from "../../components/utils/Loading";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../../api/auth/[...nextauth]/route";
+import CreatePassword from "../../components/pop-up/CreatePassword";
 
 // Home page component
 export default async function Home({ searchParams }) {
+  const session = await getServerSession(authOptions); // Get the current session
   let url = "session"; // Define the URL for fetching session data
-  
   let currentPage = Number(searchParams?.page) || 1; // Current page number, defaulting to 1
   let itemsPerPage = Number(searchParams?.items) || 5; // Number of items per page, defaulting to 5
   let filterBox = searchParams?.filter || ""; // Filter box value
   let query = searchParams?.searchText || ""; // Search query
   return (
-    <div className="flex-grow">
-      <Suspense
-        key={currentPage + itemsPerPage + filterBox + query}
-        fallback={<Loading />} // Show loading component while data is loading
-      >
-        <Table
-          columns={[
-            "Consecutivo",
-            "Fecha De Sesión",
-            "Tipo de sesión",
-            "Link de Facebook",
-            "Opciones de Sesión",
-          ]}
-          title={`Sesiones`} // Title for the table
-          url={url} // URL to fetch data for the table
-          isFilter={false} // Disable filter option in the table
-          filterBox={filterBox} // Filter box value
-          querySearh={query} // Search query
-          currentPage={currentPage} // Current page number
-          itemsPerPage={itemsPerPage} // Items per page
-        />
-      </Suspense>
-    </div>
+    <>
+      <div className="flex-grow">
+        <Suspense
+          key={currentPage + itemsPerPage + filterBox + query}
+          fallback={<Loading />} // Show loading component while data is loading
+        >
+          <Table
+            columns={[
+              "Consecutivo",
+              "Fecha De Sesión",
+              "Tipo de sesión",
+              "Link de Facebook",
+              "Opciones de Sesión",
+            ]}
+            title={`Sesiones`} // Title for the table
+            url={url} // URL to fetch data for the table
+            isFilter={false} // Disable filter option in the table
+            filterBox={filterBox} // Filter box value
+            querySearh={query} // Search query
+            currentPage={currentPage} // Current page number
+            itemsPerPage={itemsPerPage} // Items per page
+            session_role={session.user.role} // User role
+          />
+        </Suspense>
+      </div>
+      {session.user.firstTime && <CreatePassword user={session.user} />}
+    </>
   );
 }

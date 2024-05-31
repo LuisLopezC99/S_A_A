@@ -48,9 +48,8 @@ import { IoDocumentTextSharp } from "react-icons/io5";
 import { usePathname } from "next/navigation";
 
 
-const TbodyA = ({ rows = [], role = "" }) => {
+const TbodyA = ({ rows = [], role = "secretaria" }) => {
   const pathname = usePathname()
-  const [modalVisible, setModalVisible] = useState(false);
   const [row, setRows] = useState(rows);
   const [oficio, setOficio] = useState("");
   const castDateToCrDate = (date) => {
@@ -88,7 +87,6 @@ const TbodyA = ({ rows = [], role = "" }) => {
           agreementIdConsecutive,
           session,
         } = row;
-        console.log(users);
         const creationDateCast = castDateToCrDate(new Date(creationDate));
         const deadlineCast = castDateToCrDate(new Date(deadline));
         const deadlineInputCast = castDateToInputDate(new Date(deadline));
@@ -128,7 +126,7 @@ const TbodyA = ({ rows = [], role = "" }) => {
                 </td>
                 <td className="px-6 py-4 text-center">
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-
+                    {(role === "secretaria" || role === "alcaldia") && (
                       <ButtonEdit
                         title="agreement"
                         data={{
@@ -150,7 +148,7 @@ const TbodyA = ({ rows = [], role = "" }) => {
                       >
                         <MdEditSquare className="w-7 h-7 text-gray-500 dark:text-green-500" alt="AcuerdoEdit" />
                       </ButtonEdit>
-      
+                    )}
                     <DownloadButton
                       filename={reportCumplimiento}
                       type="Cumplidos"
@@ -164,25 +162,28 @@ const TbodyA = ({ rows = [], role = "" }) => {
                       title="Abrir Acuerdo"
                       icon={<IoDocumentTextSharp className="w-7 h-7 text-gray-500 dark:text-green-500" />}
                     ></DownloadButton>
+                    {(role === "secretaria" || role === "alcaldia") && (
                       <CheckButton
-                        agreementId={id}
-                        data={{
-                          id,
-                          topic,
-                          asignedTo,
-                          creationDate,
-                          deadlineInputCast,
-                          sessionId,
-                          report,
-                          reportCumplimiento,
-                          description,
-                          state,
-                          agreementId,
-                          agreementIdConsecutive,
-                          users,
-                        }}
-                        session_role={role}
-                      ></CheckButton>
+                      agreementId={id}
+                      data={{
+                        id,
+                        topic,
+                        asignedTo,
+                        creationDate,
+                        deadlineInputCast,
+                        sessionId,
+                        report,
+                        reportCumplimiento,
+                        description,
+                        state,
+                        agreementId,
+                        agreementIdConsecutive,
+                        users,
+                      }}
+                      session_role={role}
+                    ></CheckButton>
+                    )}
+                    
                   </div>
                 </td>
               </tr>

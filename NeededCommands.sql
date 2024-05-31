@@ -24,6 +24,11 @@ INSERT INTO `s_a_a`.`tab_role`
 VALUES
 ('externo');
 
+INSERT INTO `s_a_a`.`tab_role`
+(`name`)
+VALUES
+('visor');
+
 -- Usuarios Necesarios
 
 INSERT INTO s_a_a.tab_user
@@ -50,7 +55,7 @@ enabled,
 FirstTime)
 VALUES
 ("Alcaldia",
-"andres62010@hotmail.es", -- Cambiar por el correo de la alcaldia
+"alcalde@munitibas.go.cr", -- Cambiar por el correo de la alcaldia
 "123",
 4,
 1,
@@ -80,7 +85,7 @@ enabled,
 FirstTime)
 VALUES
 ("Auditoria",
-"auditoria@auditoria.com", -- Cambiar por el correo del administrador
+"cjimenez@munitibas.go.cr", -- Cambiar por el correo del administrador
 "123",
 3,
 1,

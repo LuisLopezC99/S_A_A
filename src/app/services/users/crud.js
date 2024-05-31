@@ -217,7 +217,9 @@ export const updateUser = async (user) => {
                         // Connect user to a role based on role name (case-insensitive)
                         id: parseInt(/^admin$/i.test(user.role.name) ? 1 :
                             /^secretaria$/i.test(user.role.name) ? 2 :
-                                /^auditoria$/i.test(user.role.name) ? 3 : /^alcaldia$/i.test(user.role.name)? 4 : 5)
+                                /^auditoria$/i.test(user.role.name) ? 3 : 
+                                    /^alcaldia$/i.test(user.role.name)? 4 : 
+                                        /^externo$/i.test(user.role.name)? 5 : 6)
                     }
                 },
                 enabled: user.enabled, // Update user's enabled status

@@ -189,7 +189,7 @@ export default async function Table({
           </div>
         </div>
 
-        {isFilter || url === "session" ? (
+        {(isFilter || url === "session") && session_role === "secretaria" ? (
           <div>
             <div className="flex justify-end mt-2"> {/* Agregué mt-2 para mover el botón hacia abajo */}
               <AddButton
@@ -218,7 +218,7 @@ export default async function Table({
         <table className="w-full h-full text-sm text-left text-gray-500 dark:text-gray-400 dark:bg-gray-800 px-10">
           <Thead columns={columns} />
           {url === "session" ? (
-            <TbodyS rows={displayedRows} columns={columns} />
+            <TbodyS rows={displayedRows} role={session_role} />
           ) : isFilter ? (
             <TbodyA rows={displayedRows} role={session_role} />
           ) : (

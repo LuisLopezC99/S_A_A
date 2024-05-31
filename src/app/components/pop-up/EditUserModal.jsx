@@ -73,7 +73,7 @@ const EditUserModal = ({ isOpen, onClose, selectedUser, editUser }) => {
     if (name === 'role') {
       // Get the role name based on the value
       const roleName = value == 1 ? 'admin' : value == 2 ? 'secretaria' :
-        value == 3 ? 'auditoria' : value == 4 ? 'alcaldia' : 'externo'
+        value == 3 ? 'auditoria' : value == 4 ? 'alcaldia' : value == 5 ? 'externo' : 'visor';
 
       
 
@@ -257,6 +257,7 @@ const EditUserModal = ({ isOpen, onClose, selectedUser, editUser }) => {
                 <option value="3">Auditoria</option>
                 <option value="4">Alcaldía</option>
                 <option value="5">Externo</option>
+                <option value="6">Visor</option>
               </select>
             </div>
           </div>

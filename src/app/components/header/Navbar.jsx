@@ -48,7 +48,7 @@ export const Navbar = async () => {
     <nav className="bg-gray-300 border-gray-200 dark:border-gray-600 dark:bg-gray-900">
       <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
         <a
-          href={session.user.role === "admin" ? "/admin" : "/home"}
+          href={session.user.role === "admin" ? "/admin" : session.user.role === "secretaria" || session.user.role === "alcaldia" ? "/home" : "/home/sessions"}
           className="flex items-center pr-5 md:pr-15"
         >
           <Image
@@ -68,7 +68,7 @@ export const Navbar = async () => {
             </span>
           </div>
         </a>
-  
+
         <div
           id="mega-menu-full"
           className="items-center justify-end font-medium"
@@ -95,13 +95,22 @@ export const Navbar = async () => {
                   </Link>
                 </li>
               </>
-            ) : (
+            ) : session.user.role === "alcaldia" ? (
               <li className="mt-4 md:mt-0 flex items-center justify-center md:justify-start ">
                 <Link
                   href="/home"
                   className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-green-500 md:p-0 dark:text-white md:dark:hover:text-green-400 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   Acuerdos Asignados
+                </Link>
+              </li>
+            ) : (
+              <li className="mt-4 md:mt-0 flex items-center justify-center md:justify-start">
+                <Link
+                  href="/home/sessions"
+                  className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-green-500 md:p-0 dark:text-white md:dark:hover:text-green-400 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700"
+                >
+                  Sesiones
                 </Link>
               </li>
             )}
@@ -116,6 +125,6 @@ export const Navbar = async () => {
       </div>
     </nav>
   ) : null;
-  
+
 
 };

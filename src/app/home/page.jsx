@@ -53,8 +53,6 @@ export default async function Home({ searchParams }) {
   let filterBox = (searchParams?.filter) || ""; // Filter box value
   let query = (searchParams?.searchText) || ""; // Search query
 
-  
-
   return (
     <div className="flex-grow">
       <Suspense

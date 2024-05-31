@@ -229,6 +229,7 @@ const AddUserModal = ({ isOpen, onClose, addNewUser }) => {
                                 <option value="">Seleccionar Rol</option>
                                 <option value="1">Administrador</option>
                                 <option value="2">Secretaria</option>
+                                <option value="6">Visor</option>
                             </select>
                         </div>
                     </div>

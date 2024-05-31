@@ -46,7 +46,6 @@ const EditAgreement = ({
   session_role,
 }) => {
   const role = session_role;
-  const { data: session, status } = useSession();
   const [file, setFile] = useState(null);
   const report = agreementData.report;
   const reportCumplimiento = agreementData.reportCumplimiento;
@@ -114,10 +113,8 @@ const EditAgreement = ({
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-
-    
       const emails = role === "alcaldia" && formData.get("emails").split(" ");
-      const formattedEmails = emails.map(email => ({ email }));
+      //const formattedEmails = emails.map(email => ({ email }));
 
       const topic = formData.get("topic");
       const description = formData.get("description");
@@ -239,7 +236,7 @@ const EditAgreement = ({
 
   return (
     <div>
-      {isModalOpen && status === "authenticated" && (
+      {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="absolute inset-0 bg-gray-800 opacity-75"></div>
           <div className="bg-white p-4 rounded shadow-lg z-10 dark:bg-gray-700">
