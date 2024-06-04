@@ -70,10 +70,10 @@ const EditAgreement = ({
     assignedTo === "externo"
       ? "externo"
       : assignedTo === "Alcaldia"
-      ? "alcaldia"
-      : assignedTo === "Auditoria"
-      ? "auditoria"
-      : null
+        ? "alcaldia"
+        : assignedTo === "Auditoria"
+          ? "auditoria"
+          : null
   );
 
   useEffect(() => {
@@ -113,35 +113,35 @@ const EditAgreement = ({
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-      const emails = role === "alcaldia" && formData.get("emails").split(" ");
-      //const formattedEmails = emails.map(email => ({ email }));
+    const emails = role === "alcaldia" && formData.get("emails").split(" ");
+    //const formattedEmails = emails.map(email => ({ email }));
 
-      const topic = formData.get("topic");
-      const description = formData.get("description");
-      const { name } = formData.get("file")
-        ? formData.get("file")
-        : { name: report };
-      const simpleDate = formData.get("deadline");
-      const date = simpleDate + "T00:00:00.000Z";
-      const deadline = new Date(date);
-      
-      const asignedTo = role === "alcaldia" ? null
-        : userSelected === "externo"
+    const topic = formData.get("topic");
+    const description = formData.get("description");
+    const { name } = formData.get("file")
+      ? formData.get("file")
+      : { name: report };
+    const simpleDate = formData.get("deadline");
+    const date = simpleDate + "T00:00:00.000Z";
+    const deadline = new Date(date);
+
+    const asignedTo = role === "alcaldia" ? null
+      : userSelected === "externo"
         ? users.find((user) => user.role.name === "externo")?.name
         : userSelected === "alcaldia"
-        ? users.find((user) => user.role.name === "alcaldia")?.name
-        : userSelected === "auditoria"
-        ? users.find((user) => user.role.name === "auditoria")?.name
-        : null;
-      
-      const newState =
-        userSelected == "externo"
-          ? "Externo"
-          : ["Cumplido", "Vencido"].includes(state)
+          ? users.find((user) => user.role.name === "alcaldia")?.name
+          : userSelected === "auditoria"
+            ? users.find((user) => user.role.name === "auditoria")?.name
+            : null;
+
+    const newState =
+      userSelected == "externo"
+        ? "Externo"
+        : ["Cumplido", "Vencido"].includes(state)
           ? state
           : "Pendiente";
-      setState(newState);
-      if( role !== "alcaldia"){
+    setState(newState);
+    if (role !== "alcaldia") {
       const agreementData = {
         id,
         topic,
@@ -169,19 +169,19 @@ const EditAgreement = ({
       put.then((response) => {
         response
           ? Swal.fire({
-              icon: "success",
-              title: "Acuerdo actualizado",
-              text: "¡La solicitud ha sido exitosa!",
-            }).then(() => window.location.reload())
+            icon: "success",
+            title: "Acuerdo actualizado",
+            text: "¡La solicitud ha sido exitosa!",
+          }).then(() => window.location.reload())
           : (Swal.fire({
-              icon: "error",
-              title: "Error en el acuerdo",
-              text: "No se pudo procesar la actualización. Revise sus datos.",
-            }),
+            icon: "error",
+            title: "Error en el acuerdo",
+            text: "No se pudo procesar la actualización. Revise sus datos.",
+          }),
             window.location.reload());
       });
     }
-    else{
+    else {
       const agreementData2 = {
         id,
         topic,
@@ -196,20 +196,20 @@ const EditAgreement = ({
           year: agreementId.year,
         },
       };
-      const post =  postData("assings", agreementData2);
-      
+      const post = postData("assings", agreementData2);
+
       post.then((response) => {
         response
           ? Swal.fire({
-              icon: "success",
-              title: "Acuerdo enviado y asignado a los departamentos correspodientes",
-              text: "¡La solicitud ha sido exitosa!",
-            }).then(() => window.location.reload())
+            icon: "success",
+            title: "Acuerdo enviado y asignado a los departamentos correspodientes",
+            text: "¡La solicitud ha sido exitosa!",
+          }).then(() => window.location.reload())
           : (Swal.fire({
-              icon: "error",
-              title: "Error en el acuerdo",
-              text: "No se pudo enviar el acuerdo. Revise sus datos.",
-            }),
+            icon: "error",
+            title: "Error en el acuerdo",
+            text: "No se pudo enviar el acuerdo. Revise sus datos.",
+          }),
             window.location.reload());
       });
     }
@@ -227,10 +227,10 @@ const EditAgreement = ({
       event.target.value === "externo"
         ? "externo"
         : event.target.value === "alcaldia"
-        ? "alcaldia"
-        : event.target.value === "auditoria"
-        ? "auditoria"
-        : null
+          ? "alcaldia"
+          : event.target.value === "auditoria"
+            ? "auditoria"
+            : null
     );
   };
 
@@ -285,7 +285,7 @@ const EditAgreement = ({
                   />
                 </div>
 
-                <div className="mr-4">
+                <div className="mr-4 col-span-2">
                   <label
                     className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                     htmlFor="description"
@@ -293,13 +293,14 @@ const EditAgreement = ({
                     Descripción:
                   </label>
                   <textarea
-                    className="custom-input h-32"
+                    className="custom-input h-64"
                     id="description"
                     name="description"
+                    value={description}
+                    onChange={handleInputChange}
+                    required
                     disabled={role === "alcaldia"}
-                  >
-                    {description}
-                  </textarea>
+                  />
                 </div>
 
                 <div className="mb-4">
@@ -351,7 +352,7 @@ const EditAgreement = ({
                             onChange={handleRadioChange}
                           />
                           <label htmlFor="option3" className="ml-1">
-                            Auditoria
+                            Auditoría
                           </label>
                         </div>
                         <div>
@@ -370,32 +371,30 @@ const EditAgreement = ({
                       </div>
                     </>
                   ) : (
-                    <div className="mb-6">
+                    <div className="mb-6 flex items-center">
                       <label
-                        className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
-                        htmlFor="file"
+                        className="block text-gray-700 text-sm font-bold mr-2 dark:text-white"
+                        htmlFor="emails"
                       >
-                        Adjuntos
+                        Correo Electrónico:
                       </label>
                       <input
-                      
-                        className="custom-input h-32"
+                        className="custom-input w-96"
                         id="emails"
                         name="emails"
                         type="text"
                       />
                     </div>
                   )}
-                  <div  className="mb-4 flex justify-start items-left">
+                  <div className="mb-4 flex justify-start items-left">
                     <label
                       className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
                       htmlFor="deadline"
                     >
                       Fecha Límite:
                     </label>
-
                     <input
-                      className="custom-input "
+                      className="custom-input"
                       id="deadline"
                       name="deadline"
                       type="date"
