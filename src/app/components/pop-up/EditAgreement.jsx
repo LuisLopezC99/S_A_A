@@ -339,9 +339,9 @@ const EditAgreement = ({
                             Externo
                           </label>
                         </div>
-                      </div>
+                      
 
-                      <div className="flex items-center mb-3">
+                      <div className="flex items-center mb-1">
                         <div className="mx-5">
                           <input
                             type="radio"
@@ -368,6 +368,7 @@ const EditAgreement = ({
                             Ninguno
                           </label>
                         </div>
+                      </div>
                       </div>
                     </>
                   ) : (
