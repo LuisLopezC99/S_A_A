@@ -102,8 +102,8 @@ const EditAgreement = ({
       setAssignedTo(value);
     } else if (inputName == "deadline") {
       setDeadline(value);
-    } else {
-      // ...
+    } else if (inputName == "description") {
+      setDescription(value);
     }
   };
   const handleFileUpload = (event) => {
@@ -310,6 +310,7 @@ const EditAgreement = ({
                     value={description}
                     onChange={handleInputChange}
                     required
+                    
                   />
                 </div>
 
