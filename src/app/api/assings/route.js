@@ -37,7 +37,6 @@ import { assignedAgreement } from "@/app/services/notification/assigned";
 
 export const POST = async (request) => {
     try {
-        console.log(request);
         const sendAgreement = await request.json();
         console.log(sendAgreement);
         await assignedAgreement(sendAgreement);

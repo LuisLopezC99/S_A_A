@@ -70,7 +70,7 @@ export async function POST(request) {
           }
         </div>
         <button>
-        <a href="http://localhost:3000/">Ingresar a la página</a>
+        <a href="http://192.168.0.6:3000/">Ingresar a la página</a>
         </button>
       `
     });

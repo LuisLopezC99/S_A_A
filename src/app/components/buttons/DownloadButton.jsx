@@ -43,7 +43,7 @@ export const DownloadButton = ({ filename, type, title, icon }) => {
 
     const handleDownload = async () => {
         
-        const response = await fetch(`/api/file?filename=${filename}&type=${type}`);
+        const response = await fetch(`http://192.168.0.6:3000/api/file?filename=${filename}&type=${type}`);
         if (!response.ok) {
             Swal.fire({
                 icon: "error",

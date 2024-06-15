@@ -34,7 +34,7 @@
 
 export const getRequest = async (URL) => {
   try {
-      const response = await fetch(`http://192.168.100.112:3000/api/${URL}`, {
+      const response = await fetch(`http://192.168.0.6:3000/api/${URL}`, {
           method: "GET",
           next : {revalidate : 0}
       })
@@ -50,7 +50,7 @@ export const getRequest = async (URL) => {
 }
 export const postDataForm = async (URL, formData) => {
 try {
-  const response = await fetch(`http://192.168.100.112/api/${URL}`, {
+  const response = await fetch(`http://192.168.0.6:3000/api/${URL}`, {
     method: "POST",
     body: formData,
   });
@@ -68,7 +68,7 @@ export const postData = async (URL, formData) => {
   console.log(URL, formData);
   try {
       
-      const response = await fetch(`http://192.168.100.112:3000/api/${URL}`, {
+      const response = await fetch(`http://192.168.0.6:3000/api/${URL}`, {
           headers: {
           'Content-Type': 'application/json'
           },
@@ -93,7 +93,7 @@ export const postData = async (URL, formData) => {
 
 export const putData=async(URL,formData)=>{
   try{
-      const response = await fetch(`http://192.168.100.112:3000/api/${URL}`, {
+      const response = await fetch(`http://192.168.0.6:3000/api/${URL}`, {
           headers: {
           'Content-Type': 'application/json'
           },
@@ -109,9 +109,10 @@ export const putData=async(URL,formData)=>{
       return "Error"
   }
 }
+
 export const putDataFile = async (URL, formData) => {
   try {
-    const response = await fetch(`http://192.168.100.112:3000/api/${URL}`, {
+    const response = await fetch(`http://192.168.0.6:3000/api/${URL}`, {
       method: "PUT",
       body: formData,
     });

@@ -36,7 +36,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import { putData, getRequest, putDataFile, postData } from "@/app/requests/getRequests";
+import { putData, getRequest, putDataFile, postData, postDataForm } from "@/app/requests/getRequests";
 import { useSession } from "next-auth/react";
 
 const EditAgreement = ({
@@ -182,12 +182,14 @@ const EditAgreement = ({
       });
     }
     else {
+      const topic = formData.get("topic");
       const agreementData2 = {
         id,
-        topic,
+        topic: agreementData.topic,
         report: report,
-        deadline,
-        description,
+        reportMemo: name,
+        deadline: agreementData.deadlineInputCast,
+        description: agreementData.description,
         agreementIdConsecutive,
         emails,
         agreementID: {
@@ -196,6 +198,15 @@ const EditAgreement = ({
           year: agreementId.year,
         },
       };
+      console.log(agreementData2);
+      if(name != "") {
+      const formData3 = new FormData();
+      formData3.append("file", file);
+      formData3.append("type", "Memos");
+      formData3.append("NameFile", name);
+      postDataForm("file", formData3);
+    }
+      
       const post = postData("assings", agreementData2);
 
       post.then((response) => {
@@ -299,7 +310,6 @@ const EditAgreement = ({
                     value={description}
                     onChange={handleInputChange}
                     required
-                    disabled={role === "alcaldia"}
                   />
                 </div>
 
@@ -407,8 +417,6 @@ const EditAgreement = ({
                   </div>
                 </div>
               </div>
-              {session_role !== "alcaldia" && (
-                <>
                   <div className="mb-4">
                     <label
                       className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
@@ -425,9 +433,7 @@ const EditAgreement = ({
                       onChange={handleFileUpload}
                     />
                   </div>
-                </>
-              )}
-              Archivo actual: <br />
+              Acuerdo Actual: <br />
               {report}
               <div className="my-4">
                 <button
