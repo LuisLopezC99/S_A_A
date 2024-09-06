@@ -77,7 +77,7 @@ const sendEmail = async (topic, description, username, email) => {
   
 }
 
-// Schedule a cron job to run the getAgreements function every minute.
+// Schedule a cron job to run the getAgreements function every minute
 cron.schedule('* * * * *', () => {
   getAgreements();
 });
