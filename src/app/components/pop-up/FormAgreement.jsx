@@ -44,6 +44,7 @@ import {
 import Swal from "sweetalert2";
 import { set } from "react-hook-form";
 
+
 const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
 
   const [asignedto, setAssignedto] = useState('alcaldia');
@@ -51,7 +52,10 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
   const [lastOficio, setLastOficio] = useState(-1);
   const [users, setUsers] = useState([]);
   const [file, setFile] = useState(null);
-
+  const [isMonthAndyearEditable, setIsMonthAndyearEditable] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
   useEffect(() => {
     const fetchUsers = async () => {
       const response = await getRequest("users");
@@ -92,8 +96,8 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
       },
       agreementID: {
         consecutive: lastOficio,
-        month: creationDate.getMonth() + 1,
-        year: creationDate.getFullYear(),
+        month: isMonthAndyearEditable ? parseInt(selectedMonth, 10) : creationDate.getMonth() + 1,
+        year: isMonthAndyearEditable ? parseInt(selectedYear, 10) : creationDate.getFullYear(),
       },
       typeFile: "Acuerdos"
     };
@@ -152,9 +156,22 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
 
   const handleConsecutiveValue = (e) => {
     const actual = new Date();
+  
     setLastOficio(Number(e.target.value));
+    isMonthAndyearEditable ?
+    setOficio(`DSC-ACD-${e.target.value}-${selectedMonth}-${selectedYear}`) :
     setOficio(`DSC-ACD-${e.target.value}-${actual.getMonth() + 1}-${actual.getFullYear()}`);
+  }
 
+  const handleMonthAndyearEditable = (e) => {
+    const value = e.target.value;
+    setSelectedDate(value);
+    const [year, month] = value.split("-");
+    const parsedMonth = month.startsWith("0") ? month.substring(1) : month;
+    setSelectedMonth(parsedMonth);
+    setSelectedYear(year);
+
+    setOficio(`DSC-ACD-${lastOficio}-${parsedMonth}-${year}`)
   }
 
   const handleRadioChange = (e) => {
@@ -294,13 +311,14 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
                 </div>
               </div>
 
-              <div className="mb-4">
+              <div className="mb-4 flex items-center space-x-4">
                 <label
-                  className="block text-gray-700 text-sm font-bold mb-2 dark:text-white"
+                  className="text-gray-700 text-sm font-bold dark:text-white"
                   htmlFor="consecutive"
                 >
                   Consecutivo:
                 </label>
+
                 <input
                   className="custom-input"
                   id="consecutive"
@@ -310,7 +328,53 @@ const FormAgreement = ({ isModalOpen, handleModalState, sessionid }) => {
                   onChange={handleConsecutiveValue}
                   required
                 />
+
+                <button
+                  onClick={() => setIsMonthAndyearEditable(!isMonthAndyearEditable)}
+                  type="button"
+                  className="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded flex items-center space-x-2"
+                >
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M8 7V3m8 4V3m-9 8h10m-10 4h6m2 5H7a2 2 0 01-2-2V7a2 2 0 012-2h10a2 2 0 012 2v12a2 2 0 01-2 2z"
+                    />
+                  </svg>
+
+                </button>
               </div>
+
+              {
+                isMonthAndyearEditable && (
+
+                  <><div className="mb-4 flex items-center space-x-4">
+                    <label
+                      className="text-gray-700 text-sm font-bold dark:text-white"
+                      htmlFor="dateOficio"
+                    >
+                      Fecha del Oficio:
+                    </label>
+
+                    <input
+                      className="custom-input"
+                      id="dateOficio"
+                      name="dateOficio"
+                      type="month"
+                      value={selectedDate}
+                      onChange={handleMonthAndyearEditable}
+                       />
+                  </div></>
+                )
+              }
+
 
               <div className="mb-4">
                 <label
